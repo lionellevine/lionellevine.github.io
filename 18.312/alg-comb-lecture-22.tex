@@ -1,0 +1,400 @@
+%% LyX 1.6.8 created this file.  For more info, see http://www.lyx.org/.
+\documentclass[11pt,english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{float}
+\usepackage{amstext}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{bbm}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+%       Misc 
+\def\todo{\ttfamily\bfseries[TODO:] }
+\newcommand{\Mob}[0]{M\"{o}bius }
+
+\newcommand{\ind}{1\hspace{-2.5mm}{1}} 
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{ (\mbox{mod }{#1})} %congruences
+%\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+\makeatother
+
+\usepackage{babel}
+
+\begin{document}
+\lecture{22}{Lionel Levine}{May 3, 2011}{Lou Odette}
+
+
+\section*{This lecture:}
+\begin{itemize}
+\item Smith normal form of an integer matrix (linear algebra over $\mathbb{Z}$).
+\end{itemize}
+
+\section{Review of Abelian Groups (= $\mathbb{Z}$-modules)}
+
+Recall that given a ring $R$ with $1$, an $R$-module is an Abelian group
+written additively with a map $R\times M\rightarrow M$ ({}``scalar
+multiplication'') with $R$ the scalars and $M$ the vectors, satisfying\begin{eqnarray*}
+r\left(m_{1}+m_{2}\right) & = & rm_{1}+rm_{2}\\
+r\left(sm\right) & = & \left(rs\right)m\\
+1m & = & m\end{eqnarray*}
+which is analogous to a vector space over $R$, with the difference
+that we may lack multiplicative inverses in $R$, by contrast with a vector
+space over a field.
+
+If $G$ is an group, we have a map $\mathbb{Z}\times G\rightarrow G$\[
+\begin{array}{lc}
+\left(n,g\right)\mapsto\underbrace{g+\cdots+g}_{n\text{ times}} & \text{if }n>0\\
+\left(0,g\right)\mapsto0\\
+\left(n,g\right)\mapsto-\left(\underbrace{g+\cdots+g}_{n\text{ times}}\right) & \text{if }n<0\end{array}\]
+
+
+so we admit scalar multiplication by integers, but not anything else.  In particular, any abelian group has the structure of a $\Z$-module.
+
+Now, say $G$ is an Abelian group, finitely generated from generators
+$g_{1},\ldots,g_{n}$.  Then there is a surjective group homomorphism $f:\mathbb{Z}^{n}\rightarrow G$ taking basis elements to the generators \begin{eqnarray*}
+f\left(e_{i}\right) & = & g_{i}\\
+f\left(\sum_{i\in\left[n\right]}c_{i}e_{i}\right) & = & \sum_{i\in\left[n\right]}c_{i}g_{i}. \end{eqnarray*}
+
+
+Let $K$ be a kernel of $f$, the subgroup of $\mathbb{Z}^{n}$ s.t.\[
+K=\ker f=\left\{ \left.\sum_{i\in\left[n\right]}c_{i}g_{i}\right|\sum_{i\in\left[n\right]}c_{i}g_{i}=0\text{ in }G\right\} \]
+
+
+\begin{definition}
+
+A group $G$ is \emph{torsion-free} if\[
+\forall g\in G,\; g\neq0,\text{ and }\forall n\in\mathbb{Z},\; n\neq0\text{ we have }ng\neq0\]
+
+
+\end{definition}
+
+\begin{example}
+
+$\mathbb{Z}$ and $\mathbb{Z}^{n}$ are torsion free, but $\mathbb{Z}/n\mathbb{Z}$
+is not torsion free, since $ng=0$ for all $g \in \Z / n\Z$.
+
+\end{example}
+
+Note that if $G$ is torsion free then it is infinite or zero since
+with $g\in G$ and $g\neq0$, then $g,2g,3g,\ldots$ are distinct,
+since otherwise $ig=jg\Rightarrow\left(i-j\right)g=0$.
+
+By the \textbf{F}undamental \textbf{T}heorem of \textbf{F}initely
+\textbf{G}enerated \textbf{A}belian \textbf{G}roups (FTFGAG), any finitely generated abelian group $G$ has the form
+\begin{equation}
+G\simeq\mathbb{Z}^{r}\times\left(\mathbb{Z}/n_{1}\mathbb{Z}\right)\times\cdots\times\left(\mathbb{Z}/n_{k}\mathbb{Z}\right)\label{eq:FTFGAG}\end{equation}
+where $r\ge0$ is unique but the $n_{1},\cdots,n_{k}>1$ are not necessarily
+unique.
+
+\begin{example}
+
+$\mathbb{Z}_{6}\times\mathbb{Z}_{4}\simeq\mathbb{Z}_{2}\times\mathbb{Z}_{3}\times\mathbb{Z}_{4}\simeq\mathbb{Z}_{2}\times\mathbb{Z}_{12}$,
+since $\mathbb{Z}_{m}\times\mathbb{Z}_{n}=\mathbb{Z}_{nm}$, for $m\perp n$
+by the Chinese remainder theorem.
+
+\end{example}
+
+There are two ways to get uniqueness:
+\begin{enumerate}
+\item require that all the $n_{i}$ are prime powers\label{enu:unique_1}
+\item or require $n_{1}|n_{2}|n_{3}\cdots|n_{k}$. \label{enu:unique_2}
+\end{enumerate}
+We consider the second of these today.
+
+\begin{lemma}
+
+Any subgroup $K\subset\mathbb{Z}^{n}$ satisfies $K\simeq\mathbb{Z}^{r}$
+for some $r\le n$. 
+\end{lemma}
+
+Note that unlike subspaces of a vector space, is it possible to have $r=n$ and $K\neq\mathbb{Z}^{n}$.  For example, $2\mathbb{Z}^{n} \subsetneq \mathbb{Z}^{n}$ while is it still
+the case that $2\mathbb{Z}^{n}\simeq\mathbb{Z}^{n}$.  In this sense abelian groups are ``more interesting'' than vector spaces.
+
+Now, since $K\subset\mathbb{Z}^{n}\Rightarrow K\simeq\mathbb{Z}^{r}$
+for some $r\le n$, pick a basis $x_{1},\ldots,x_{r}\in K$ so that\[
+K=\left\{ \left.\sum_{i\in\left[r\right]}c_{i}x_{i}\right|c_{i}\in\mathbb{Z}\right\} \]
+and define\[
+L:\mathbb{Z}^{r}\rightarrow\mathbb{Z}^{n};\; e_{i}\mapsto x_{i}\]
+so that 
+\[
+G \simeq \mathbb{Z}^{n}/K=\mathbb{Z}^{n}/\text{Image}\left(L\right)=\mathbb{Z}^{n}/L\mathbb{Z}^{r}\]
+We can think of $L$ as an $r\times n$ matrix and each $x_{i}=\sum_{j\in\left[n\right]}a_{i,j}e_{i}$
+for $i\in\left[r\right]$, where the $a_{i,j}$ are the matrix entries
+of $L$.  We can extend $L$ to $\mathbb{Z}^{n}$, i.e. $L:\mathbb{Z}^{n}\rightarrow\mathbb{Z}^{n}$
+by setting $e_{i}\mapsto0$ for $i>r$ (add zero {}``columns''). 
+
+So far we have seen how defining an abelian group $G$ via generators and relations leads to an $n\times n$ matrix $L$ such that $G \simeq \Z^n / L\Z^n$, where $n$ is the number of generators.
+The question that Smith normal form address is: given a group in this form, $\Z^n / L \Z^n$, how do we express it in the factored form (\ref{eq:FTFGAG})?
+
+\begin{example}\label{ex:group}
+
+Let\[
+L=\left(\begin{array}{cc}
+2 & -1\\
+1 & 2\end{array}\right)\rightarrow G=\left\langle g_{1},g_{2}\right\rangle /\begin{array}{c}
+2g_{1}-g_{2}=0\\
+g_{1}+2g_{2}=0\end{array}\]
+and\[
+G=\mathbb{Z}^{2}/\left(\begin{array}{cc}
+2 & 1\\
+-1 & 2\end{array}\right)\mathbb{Z}^{2}\]
+
+
+%
+\begin{figure}[H]
+\begin{centering}
+\includegraphics[scale=0.8]{L22b}
+\par\end{centering}
+
+\caption{{\footnotesize This figure illustrates $G = \Z^2 / L\Z^2$, where $L\Z^2$ consists
+of the points $\left(2a+b,2b-a\right)$ for $a,b\in\mathbb{Z}$, as
+marked by the symbol $\circ$ on the grid. The remaining symbols represent
+elements in the respective equivalence classes.  The points enclosed
+by the box represent the members of all equivalence classes, illustrating
+that $\left|G\right|=5$.  So $G \simeq \Z/5\Z$.}}
+
+\end{figure}
+
+
+\end{example}
+
+Now, consider the kinds of changes to $L$ that don't change the isomorphism
+type of $G$. One approach is to change the generators.
+
+\begin{example}
+
+Write the group $G$ of example (\ref{ex:group}) using different
+generators\[
+G=\left\langle h_{1},h_{2}\right\rangle ;\; h_{1}=g_{1},\, h_{2}=3g_{1}+g_{2}\]
+In general, if $H\in GL_{n}\mathbb{\left(Z\right)}$, where $GL_{n}\mathbb{\left(Z\right)}$
+is the set of $n\times n$ matrices $U$ with $\det U=\pm1$, so the
+inverse also is an integer matrix, then since $U\mathbb{Z}^{n}=\mathbb{Z}^{n}$\[
+G\simeq\mathbb{Z}^{n}/L\mathbb{Z}^{n}=U\mathbb{Z}^{n}/L\mathbb{Z}^{n}\simeq\mathbb{Z}^{n}/U^{-1}L\mathbb{Z}^{n}\]
+In addition, if $V\in GL_{n}\left(\mathbb{Z}\right)$, since $V\mathbb{Z}^{n}=\mathbb{Z}^{n}$\begin{eqnarray*}
+\mathbb{Z}^{n}/U^{-1}L\mathbb{Z}^{n} & = & \mathbb{Z}^{n}/U^{-1}L\left(V\mathbb{Z}^{n}\right)\\
+ & = & \mathbb{Z}^{n}/\left(U^{-1}LV\right)\mathbb{Z}^{n}\end{eqnarray*}
+
+
+\end{example}
+
+\begin{example}
+
+Write the group $G$ of example (\ref{ex:group}) with different relations\[
+\begin{array}{c}
+2g_{1}-g_{2}=0\\
+g_{1}+2g_{2}=0\end{array}\rightarrow\begin{array}{c}
+2g_{1}-g_{2}=0\\
+3g_{1}-g_{2}=0\end{array}\]
+
+
+\end{example}
+
+\begin{definition}
+
+An $n\times n$ integer matrix $S$ is in \emph{Smith Normal Form}
+(SNF) if $S$ is a diagonal matrix and uniqueness condition (\ref{enu:unique_2})
+is satisfied with the diagonal elements $\left(S\right)_{i,i}\equiv d_{i}$,
+i.e. \[
+d_{1}|d_{2}|d_{3}\cdots|d_{n};\; d_{i}\ge0,\,\forall i\in\left[n\right]\]
+Note that some $d_{i}$ may be zero, since any integer divides zero. 
+
+\end{definition}
+
+\begin{theorem}
+
+An integer matrix $L=\left(a_{i,j}\right)_{i,j\in\left[n\right]}$
+can be written as\[
+L=USV\]
+where $S$ is in SNF and $U,V\in GL_{n}\mathbb{Z}$ (invertible over
+the integers). Moreover, the non-zero $d_{i}$ on the diagonal of
+$S$ are unique (note, $\gcd\left(\cdot\right)$ is non-negative by
+definition):\begin{eqnarray*}
+d_{1} & = & \gcd\left(a_{i,j}\right)\\
+d_{1}d_{2} & = & \gcd\left(a_{i,j}a_{k,l}-a_{i,l}a_{j,k}\right)\qquad\left(\text{i.e. the }2\times2\text{ determinants}\right)\\
+ & \vdots\\
+d_{1}\cdots d_{k} & = & \gcd\left(\text{all }k\times k\text{ minors of }L\right)\\
+ & \vdots\\
+d_{1}\cdots d_{n} & = & \left|\det L\right|\end{eqnarray*}
+with $\left|G\right|=\left|\det L\right|$. In terms of the group
+$G$, if $L$ has SNF $S$ then \begin{eqnarray*}
+G=\mathbb{Z}^{n}/L\mathbb{Z}^{n} & \simeq & \mathbb{Z}^{n}/S\mathbb{Z}^{n}\\
+ & \simeq & \left\langle g_{1},\cdots,g_{n}\right\rangle /\left(d_{i}g_{i}=0,\, i\in\left[n\right]\right)\\
+ & \simeq & \left\langle g_{1}\right\rangle /\left(d_{1}g_{1}\right)\times\cdots\times\left\langle g_{n}\right\rangle /\left(d_{n}g_{n}\right)\\
+ & \simeq & \mathbb{Z}/\left(d_{1}\mathbb{Z}\right)\times\cdots\times\mathbb{Z}/\left(d_{n}\mathbb{Z}\right)\end{eqnarray*}
+in particular
+\begin{itemize}
+\item the rank of $G$ is $\#\left\{ i|d_{i}=0\right\} $
+\item if $G$ is finite (all $d_{i}>0$) then $\left|G\right|=d_{1}\cdots d_{n}=\left|\det L\right|$
+\end{itemize}
+Note: row and column operations don't change the $gcd\left(\cdot\right)$
+result since, if $n_{1},\ldots,n_{k}\neq0$ (noting that if $\left(m,n\right)=1$
+then $\exists c,c'\in\mathbb{Z}$ s.t. $cm+c'n=1$) \[
+\gcd\left(n_{1},\ldots,n_{k}\right)=\min\left\{ \left.d>0\right|d=\sum_{i\in\left[n\right]}c_{i}n_{i}\text{ for some }c_{1},\cdots,c_{k}\in\mathbb{Z}\right\} \]
+so $L=USV$.
+
+\end{theorem}
+
+\begin{example}
+
+Consider\[
+L=\left(\begin{array}{ccc}
+1 & 3 & 1\\
+3 & 1 & 3\\
+1 & 3 & 5\end{array}\right)\rightarrow\mathbb{Z}^{3}/L\mathbb{Z}^{3}\simeq\mathbb{Z}_{4}\times\mathbb{Z}_{8}\]
+since\begin{eqnarray*}
+d_{1} & = & \gcd\left(a_{i,j}\right)=1\\
+d_{1}d_{2} & = & \gcd\left(-8,0,8,0,4,12,8,12,-4\right)=4\\
+d_{1}d_{2}d_{3} & = & \left|\det L\right|=32\end{eqnarray*}
+
+
+\end{example}
+
+
+\section{Commutative Monoids}
+
+\begin{definition}
+
+A monoid $M$ is a set with an associative operation\[
+\mu:M\times M\rightarrow M\]
+and an identity element $e\in M$\[
+\left(e,m\right)\mapsto m,\,\forall m\in M\]
+$M$ is commutative if $\mu\left(m_{1},m_{2}\right)=\mu\left(m_{2},m_{1}\right)$.
+
+\end{definition}
+
+We are interested in how to get a group from this object
+
+\begin{example}\label{monoid_example}
+
+Consider\begin{eqnarray*}
+m & = & \left\langle g\right\rangle /\left(10g=6g\right);\;\left(k+4\right)_{g}=kg,\,\forall g\ge6\\
+ & = & \left\{ e,g,2g,\ldots,9g\right\} \end{eqnarray*}
+and so, writing $\mu$ as addition \[
+8g+8g=16g=12g=8g\]
+
+
+\end{example}
+
+\begin{definition}
+
+An ideal of a monoid $M$ is a subset satisfying\[
+I\subseteq M\text{ s.t. }I+M\subseteq I\]
+i.e. $\forall x\in I,\,\forall m\in M$ we have $m+x\in I$.
+
+\end{definition}
+
+\begin{theorem}
+
+Let $M$ be a finite commutative monoid and let $J$ be the minimal
+ideal of $M$\[
+J=\bigcap_{\text{ideals }I}I\]
+Then $J$is an Abelian group.
+
+\end{theorem}
+
+In example (\ref{monoid_example}) \begin{eqnarray*}
+I & = & \left\{ 8g\right\} +M\\
+ & = & \left\{ \left.8g+m\right|m\in M\right\} \end{eqnarray*}
+e.g.\[
+\begin{array}{c}
+8g+g=9g\\
+8g+2g=6g\\
+8g+3g=7g\\
+8g+4g=8g\end{array}\rightarrow I=\left\{ 6g,7g,8g,9g\right\} \]
+and in the table below, the second last column is the identity, while
+the last column is cyclic of order $4$, with $9g$ the generator
+
+\begin{center}
+\begin{tabular}{|c||c|c|c|c|}
+\cline{2-5} 
+\multicolumn{1}{c|}{} & $6g$ & $7g$ & $8g$ & $9g$\tabularnewline
+\hline
+\hline 
+$6g$ & $8g$ & $9g$ & $6g$ & $7g$\tabularnewline
+\hline 
+$7g$ & $9g$ & $6g$ & $7g$ & $8g$\tabularnewline
+\hline 
+$8g$ & $6g$ & $7g$ & $8g$ & $9g$\tabularnewline
+\hline 
+$9g$ & $7g$ & $8g$ & $9g$ & $6g$\tabularnewline
+\hline
+\end{tabular}
+\par\end{center}
+\end{document}

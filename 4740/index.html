@@ -1,0 +1,439 @@
+<html  dir="ltr" lang="en" xml:lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Math 4740 - Stochastic Processes - Spring 2014 - Lionel Levine - Cornell University</title>
+
+<center>
+<h1>Math 4740: Stochastic Processes</h1>
+<h2>Spring 2014</h2>
+<h3>MWF 9:05-9:55 in 251 Malott Hall</p>
+</center><hr width="85%" />
+<h3>Personnel</h3>
+<ul>
+<li><b>Professor: </b><a href="http://www.math.cornell.edu/~levine">Lionel Levine</a>
+<ul>
+<li>Office hour: Mon 10-11, Thurs 3-4 in Malott 438</li>
+</ul>
+</li> <br>
+<li><b>Teaching Assistant: </b><a href="http://www.cam.cornell.edu/people/graduate-students.cfm?grad=885&year=2012">Vardan Verdiyan</a></li>
+<ul>
+<li>Office hour: Thurs 5-7 in Rhodes 657</li>
+</ul> <br>
+<li><b>Grader: </b><a href="http://www.cornell.edu/search/?tab=people&netid=tc395&q=tom%20chen">Tom Chen</a></li>
+<ul>
+<li>Study group session: Weds 3:30-4:30 in Malott 203</li>
+</ul>
+</ul>
+
+<p>Course home page (this page): <a href="http://www.math.cornell.edu/~levine/4740">http://www.math.cornell.edu/~levine/4740</a></p>
+
+<p>This page is under construction as we speak. </p>
+
+<p><a href="http://piazza.com/cornell/spring2014/math4740">Piazza page</a> for course discussions. Please go there now to take the poll about office hours. 
+
+<h3>Topics</h3>
+
+<!--
+<p>Section numbers on the right refer to the (online only) <a href="http://www.math.duke.edu/~rtd/EOSP/EOSP2E.pdf">2nd edition of Durrett</a>.</p>
+
+<table border="0">
+<tr>
+  <td>date</td>
+  <td>due</td>
+  <td>topic</td>
+  <td>reference</td>
+</tr>
+<tr></tr>
+<tr>
+  <td>Jan 21</td>
+  <td></td>
+  <td>Random walk, central limit theorem. Why randomness?</td>
+  <td>(Durrett 2nd ed.)</td>
+</tr>
+<tr>
+  <td>Jan 23</td>
+  <td></td>
+  <td>Markov property. Multi-step transition probabilities. Examples</td>
+  <td>1.1-1.2</td>
+</tr>
+<tr>
+  <td>Jan 25</td>
+  <td></td>
+  <td>Recurrence and transience</td>
+  <td>1.3, <a href="4740-worksheet-1-recurrence.pdf">worksheet 1</a></td>
+</tr>
+<tr>
+  <td>Jan 28</td>
+  <td></td>
+  <td>Strong Markov property. Expected number of visits E_x N(y)</td>
+  <td>1.3</td>
+</tr>
+<tr>
+  <td>Jan 30</td>
+  <td></td>
+  <td>Closed and irreducible sets. Criteria for recurrence</td>
+  <td>1.3</td>
+</tr>
+<tr>
+  <td>Feb 1</td>
+  <td><a href="4740-pset-1.pdf">pset 1</a></td>
+  <td>Coin flipping example. Intro to stationary distribution.</td>
+  <td>1.4, <a href="4740-worksheet-2-coins.pdf">worksheet 2</a>
+</tr>
+<tr>
+  <td>Feb 4</td>
+  <td></td>
+  <td>Stationary distribution: 2x2 case, and what can go wrong with convergence</td>
+  <td>1.4, Sage</td>
+</tr>
+<tr>
+  <td>Feb 6</td>
+  <td></td>
+  <td>Doubly stochastic chains. Detailed balance, random walk on a graph</td>
+  <td>1.6</td>
+</tr>
+<tr>
+  <td>Feb 8</td>
+  <td><a href="4740-pset-2.pdf">pset 2</a></td>
+  <td>Existence of stationary distribution; expected return time</td>
+  <td>1.5, <a href="4740-worksheet-3-knight.pdf">worksheet 3</a></td>
+</tr>
+<tr>
+  <td>Feb 11</td>
+  <td></td>
+  <td>Irreducibility, uniqueness of stationary distribution</td>
+  <td>1.5</td>
+</tr>
+<tr>
+  <td>Feb 13</td>
+  <td></td>
+  <td>Aperiodicity, convergence to equilibrium</td>
+  <td>1.5</td>
+</tr>
+<tr>
+  <td>Feb 15</td>
+  <td><a href="4740-pset-3.pdf">pset 3</a></td>
+  <td>English language as a Markov chain</td>
+  <td><a href="4740-worksheet-4-English.pdf">worksheet 4</a></td>
+</tr>
+<tr>
+  <td>Feb 18</td>
+  <td></td>
+  <td>Proof of the convergence theorem</td>
+  <td>1.7</td>
+</tr>
+<tr>
+  <td>Feb 20</td>
+  <td></td>
+  <td>Ergodic theorem. Exit distributions</td>
+  <td>1.7(Thm 1.23), 1.8</td>
+</tr>
+<tr>
+  <td>Feb 22</td>
+  <td><a href="4740-pset-4.pdf">pset 4</a></td>
+  <td>Exit times</td>
+  <td>1.9, <a href="4740-worksheet-5-coins.pdf">worksheet 5</a></td>
+</tr>
+<tr>
+  <td>Feb 25</td>
+  <td></td>
+  <td>Infinite state space</td>
+  <td>1.10</td>
+</tr>
+<tr>
+  <td>Feb 27</td>
+  <td></td>
+  <td>Branching processes</td>
+  <td>1.10(Ex 1.52)</td>
+</tr>
+<tr>
+  <td>Mar 1</td>
+  <td></td>
+  <td>***Prelim*** covering finite Markov chains (all topics through Feb 22)</td>
+  <td>1.1-1.9</td>
+</tr>
+<tr>
+  <td>Mar 4</td>
+  <td></td>
+  <td>Pagerank</td>
+  <td><a href="pagerank.html">papers</a></td>
+</tr>
+<tr>
+  <td>Mar 6</td>
+  <td></td>
+  <td>Markov chain Monte Carlo (MCMC)</td>
+  <td><a href="http://pages.uoregon.edu/dlevin/MARKOV/markovmixing.pdf">MCMT</a> chapter 3</td>
+</tr>
+<tr>
+  <td>Mar 8</td>
+  <td><a href="4740-pset-5.pdf">pset 5</a></td>
+  <td>Exponential distribution, lack of memory</td>
+  <td>2.1</td>
+</tr>
+<tr>
+  <td>Mar 11</td>
+  <td></td>
+  <td>Poisson distribution, Poisson process</td>
+  <td>2.2</td>
+</tr>
+<tr>
+  <td>Mar 13</td>
+  <td></td>
+  <td>Poisson approximation to the binomial</td>
+  <td>2.2</td>
+</tr>
+<tr>
+  <td>Mar 15</td>
+  <td><a href="4740-pset-6.pdf">pset 6</a></td>
+  <td>Compound Poisson processes</td>
+  <td>2.3, <a href="4740-worksheet-6-poisson.pdf">worksheet 6</a></td>
+</tr>
+<tr>
+  <td>Mar 18-22</td>
+  <td></td>
+  <td>***spring break***</td>
+  <td></td>
+</tr>
+<tr>
+  <td>Mar 25</td>
+  <td></td>
+  <td>Sums with a random number of terms</td>
+  <td>2.3</td>
+</tr>
+<tr>
+  <td>Mar 27</td>
+  <td></td>
+  <td>Thinning and conditioning</td>
+  <td>2.4</td>
+</tr>
+<tr>
+  <td>Mar 29</td>
+  <td><a href="4740-pset-7.pdf">pset 7</a></td>
+  <td>Higher dimensional Poisson processes</td>
+  <td><a href="point.html">references</a></td>
+</tr>
+<tr>
+  <td>Apr 1</td>
+  <td></td>
+  <td>Point processes. Intro to continuous time Markov chains</td>
+  <td>4.1</td>
+</tr>
+<tr>
+  <td>Apr 3</td>
+  <td></td>
+  <td>Yule process. Constructing a chain from its jump rates</td>
+  <td>4.1</td>
+</tr>
+<tr>
+  <td>Apr 5</td>
+  <td><a href="4740-pset-8.pdf">pset 8</a></td>
+  <td>Kolmogorov differential equation</td>
+  <td>4.2, <a href="4740-worksheet-7-continuous-time.pdf">worksheet 7</a></td>
+</tr>
+<tr>
+  <td>Apr 8</td>
+  <td></td>
+  <td>Stationary distribution solves pi Q = 0</td>
+  <td>4.3</td>
+</tr>
+<tr>
+  <td>Apr 10</td>
+  <td></td>
+  <td>Detailed balance, continuous time random walk</td>
+  <td>4.3, <a href="4740-worksheet-8-queue.pdf">worksheet 8</a></td>
+</tr>
+<tr>
+  <td>Apr 12</td>
+  <td><a href="project.html">project</a></td>
+  <td>Convergence theorem. Hitting and exit distributions</td>
+  <td>4.4</td>
+</tr>
+<tr>
+  <td>Apr 15</td>
+  <td></td>
+  <td>Conditional expectation</td>
+  <td>5.1</td>
+</tr>
+<tr>
+  <td>Apr 17</td>
+  <td></td>
+  <td>Martingales</td>
+  <td>5.2</td>
+</tr>
+<tr>
+  <td>Apr 19</td>
+  <td><a href="4740-pset-9.pdf">pset 9</a></td>
+  <td>You can't beat an unfavorable game</td>
+  <td>5.3</td>
+</tr>
+<tr>
+  <td>Apr 22</td>
+  <td></td>
+  <td>Optional stopping</td>
+  <td>5.3,<a href="4740-worksheet-9-ruin.pdf">worksheet 9</a></td>
+</tr>
+<tr>
+  <td>Apr 24</td>
+  <td></td>
+  <td>Applications of optional stopping. Uncorrelated increments</td>
+  <td>5.4,<a href="4740-worksheet-10-exittime.pdf">worksheet 10</a></td>
+</tr>
+<tr>
+  <td>Apr 26</td>
+  <td><a href="project.html">project</a></td>
+  <td>Martingale convergence theorem</td>
+  <td>5.5</td>
+</tr>
+<tr>
+  <td>Apr 29</td>
+  <td></td>
+  <td>Martingales in prediction markets</td>
+  <td><a href="aldous-prediction-markets.pdf">paper</a></td>
+</tr>
+<tr>
+  <td>May 1</td>
+  <td></td>
+  <td>Brownian motion: definition, construction, reflection principle</td>
+  <td><b>1st ed.</b> 6.1-6.3</td>
+</tr>
+<tr>
+  <td>May 3</td>
+  <td><a href="4740-pset-10.pdf">pset 10</a></td>
+  <td>Brownian motion: distribution of the maximum, dimension of the zero set</td>
+  <td><a href="http://research.microsoft.com/en-us/um/people/peres/brbook.pdf">BM book</a></td>
+</tr>
+</table>
+-->
+
+<ul>
+<li>Markov chains: strong Markov property, transience and recurrence, irreducibility, periodicity, stationary distributions and convergence.</li>
+<li>Poisson process: exponential waiting times, memorylessness, thinning and superposition.</li>
+<li>Martingales: gambling and prediction interpretations. Stopping times, optional stopping theorems and applications. Harmonic functions.</li>
+<li>Continuous time Markov chains, and introduction to Brownian motion.</li><br>
+<li><i>Extra topics as time permits and according to student interest</i>: random walks and electrical networks, percolation, Ising model, random graphs, pagerank, Kelly criterion, prediction markets, mixing times, Markov Chain Monte Carlo 
+(MCMC) and 
+Metropolis-Hastings algorithm.</li>
+</ul>
+<p>Prerequisite: An introductory probability course such as MATH 4710, BTRY 4080, ORIE 3600, ECON 3190. General proficiency in calculus and linear algebra. You will get more out of this class if you like and appreciate proofs. If unsure about your preparation, please discuss it with me.</p>
+
+<h3>Textbook</h3>
+
+<p><i>Introduction to Stochastic Processes</i>, by Lawler.</p>
+
+<h3>Other sources</h3>
+
+<p>Lawler's book gets right to the point. If you like to see more examples worked out in detail, take a look at these books which cover roughly the same material:</p>
+
+<ul> 
+<li><i>Introduction to Probability Models</i>, by Ross</li>
+<li><i>Introduction to Stochastic Modeling</i>, by Taylor and Karlin</li>
+</ul>
+
+<p>For the extra topics, we may dip into a couple more advanced books:
+
+<ul>
+<li><i><a href="http://pages.uoregon.edu/dlevin/MARKOV/markovmixing.pdf">Markov Chains and Mixing Times</a></i>, by Levin, Peres and Wilmer</li>
+<li><i><a href="http://mypage.iu.edu/~rdlyons/prbtree/prbtree.html">Probability on Trees and Networks</a></i>, by Lyons (with Peres)</li>
+</ul>
+
+<!--<p>Various other common textbooks are also on reserve.  The list of reserve books can be seen <a href="http://www.library.cornell.edu/course_help/search/MATH%204740">here</a> (if the library has fixed it correctly).</p>-->
+
+<h3>Problem Sets</h3>
+
+<!--
+<p><a href="4740-pset-1.pdf">Problem Set 1</a>, due <b>Friday, February 1</b>.</p>
+
+<p><a href="4740-pset-2.pdf">Problem Set 2</a>, due <b>Friday, February 8</b>. <a href="4740-pset-2-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-3.pdf">Problem Set 3</a>, due <b>Friday, February 15</b>. <a href="4740-pset-3-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-4.pdf">Problem Set 4</a>, due <b>Friday, February 22</b>. <a href="4740-pset-4-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-5.pdf">Problem Set 5</a>, due <b>Friday, March 8</b>. <a href="4740-pset-5-solutions.pdf">Solutions</a></p> 
+
+<p><a href="4740-pset-6.pdf">Problem Set 6</a>, due <b>Friday, March 15</b>. <a href="4740-pset-6-solutions.pdf">Solutions</a></p> 
+
+<p><a href="4740-pset-7.pdf">Problem Set 7</a>, due <b>Friday, March 29</b>. <a href="4740-pset-7-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-8.pdf">Problem Set 8</a>, due <b>Friday, April 5</b>. <a href="4740-pset-8-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-9.pdf">Problem Set 9</a>, due <b>Friday, April 19</b>. <a href="4740-pset-9-solutions.pdf">Solutions</a></p>
+
+<p><a href="4740-pset-10.pdf">Problem Set 10</a>, due <b>Friday, May 3</b>. <a href="4740-pset-10-solutions.pdf">Solutions</a></p>
+-->
+ 
+<p>Approximately weekly. Usually you will get the problem set on Friday and it is due at the beginning of class the following Friday. The first problem set will be posted by this Friday and due on Friday Jan 31.</p>
+
+<p>Please check out the <a href="guidelines.html">problem set guidelines</a> for how to write a good solution.</p>
+
+<p>You are encouraged to type your problem sets using <a href="http://www.latex-project.org/">LaTeX</a> (or LyX). LaTeX is very versatile and widely used for writing technical documents of all kinds. It will serve you well if you go on in
+math or another technical field. Besides, you will need it for your <a href="project.html">project</a>! <em>Neatly</em> handwritten problem sets are also acceptable.</p>
+
+<!--
+<p><b><font color="red">New</font></b>: Here is a <a href="4740-pset-6-solutions.tex">sample LaTeX file</a> and the <a href="4740-pset-6-solutions.pdf">pdf output it generates</a>. </p>
+-->
+
+<p>Here is a <a href="http://www.youtube.com/watch?v=W_yPJsF1X18&list=SPDD406480D35CE390">video tutorial</a> to get you started with LaTeX. Another good resource is the <a href="http://en.wikibooks.org/wiki/LaTeX">LaTeX wikibook</a>.  The <a 
+href="http://www.math.cornell.edu/twiki/bin/view/MSC">Cornell math support center</a> can help you get LaTeX up and running. (Ask for a math major tutor!)</p>
+
+<p>Two times during the semester, you may have an automatic 72-hour extension on a problem set. Just hand it in at the beginning of the next class with a note saying you are using an extension. Otherwise, late homework will not be accepted except in an 
+emergency (in which case you must inform me as soon as possible). Note: the problem set is due at the beginning of class. Handing it in after class starts will use up one of your extensions.
+</p>
+
+<a name="groupwork"></a>
+<p><b>Group work policy:</b>  Working together with other students to solve the problems is strongly encouraged! You must list the group members at the top of your problem set and write the solutions entirely in your own words. Examples:
+<UL>
+<LI>Figuring out the solution together on a blackboard and consulting the blackboard while you write up your solution: kosher</LI>
+<LI>Giving your written solution to another student to copy with trivial wording changes: not kosher</LI>
+</UL>
+
+<h3>Exams</h3>
+<p> Two in-class prelims on <b>Friday, March 7</b> and <b>Friday, May 2</b>.  The exams are closed book.</p>
+<p>If a conflict prevents you from completing the exams on these dates, please let me know immediately.</p>
+
+<!-- <p><a href="4740-prelim-practice.pdf">Practice problems</a> for the prelim.</p>
+
+<p><a href="4740-prelim-solutions.pdf">Solutions</a> to the prelim. The mean was 42 out of 60 and the standard deviation was 9. Approximate grade ranges: A (47-57), B (31-46), C (22-30).</p>
+-->
+
+<h3>Course Project</h3>
+<p>The course project allows you to explore a topic of your choice in depth. You will choose a peer-reviewed journal article that uses stochastic processes to model some real world phenomenon, and write a critical summary of the article analyzing the 
+strengths and weaknesses of the model it proposes.</p>
+
+<p>Check out the <a href="project.html">project guidelines</a> for details.</p>
+
+<ul>
+<li>First draft due by the beginning of class on <b>Friday, April 18</b>. </li>
+<li>Final version due by the beginning of class on <b>Friday, May 7</b>.</li>
+</ul>
+
+<h3>Grading</h3>
+<ul>
+<li>Problem Sets: 40%. All problem sets count equally, none are dropped.</li>
+<li>Two Prelims: 20% each</li>
+<li>Course Project: 20%</li>
+</ul>
+<p><u><i>Graduate students</i></u>: If you are taking the course for credit, you will need to complete all the regular coursework (homework, exams and project), and will be assigned a grade like any other student.  If you are taking the course S/U, you still 
+need to do the coursework; I will compute a letter grade as usual and then assign you an S if the letter grade is at least C-.  If you are not interested in doing the coursework, you are welcome to audit the course instead.</p>
+
+<h3>Laptop-free zone</h3>
+Recent experiments show that even though people feel like they are accomplishing more when they multitask, they actually accomplish less.  Higher level mathematics really demands your full attention. 
+It's hard enough to learn stochastic processes without the temptation of facebook and <a 
+href="http://xkcd.com">xkcd</a> (yes, the lure of xkcd is strong. very strong.)
+So please keep laptops, ipads, phones and other gizmos in your bag during class.  If you must use a device during class (for example, to take notes on your tablet or laptop), you may do so in the back row where it does not distract anyone.
+
+<h3>Students with disabilities</h3>
+<p>The Cornell disability policy is as follows.  If you have a disability‐related need for reasonable academic adjustments in this course, provide me with an accommodation letter from <a href="http://sds.cornell.edu/">Student Disability Services</a>.  Students are 
+expected to give two weeks notice of the need for accommodations.  If you need immediate accommodations, please arrange to meet with me within the first two class meetings.</p>
+
+<h3>Academic integrity</h3>
+<p>Please read carefully the <a href="index.html#groupwork">group work policy</a> for problem sets. I, your classmates, and the entire Cornell community expect you to complete this course based on your own work, to abide by relevant rules for coursework and exams, and to 
+clearly 
+attribute any use 
+of the work of others. The <a 
+href="http://cuinfo.cornell.edu/Academic/AIC.html">Cornell Academic Integrity Policy</a> spells out the nasty details of what happens otherwise.</p>
+
+<hr />
+<h3><a href="http://www.math.cornell.edu/~levine">Back to Lionel Levine's home page</tt></a></h3>
+<br>
+</body>
+</html>

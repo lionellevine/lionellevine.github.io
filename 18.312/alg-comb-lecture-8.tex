@@ -1,0 +1,293 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics}
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\mf}[1]{\mathfrak{#1}}
+\newcommand{\It}[1]{\textit{#1}}
+\newcommand{\Bf}[1]{\textbf{#1}}
+\newcommand{\ms}{\medskip}
+\newcommand{\no}{\noindent}
+\newcommand{\msno}{\ms \no}
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+\newcommand{\brak}[1]{\left\langle #1 \right\rangle}
+\newcommand{\imply}{\Longrightarrow}
+\newcommand{\wed}{\wedge}
+\newcommand{\keyword}[1]{\Bf{\It{#1}}}
+
+
+\begin{document}
+\lecture{8}{Lionel Levine}{March 1, 2011}{Christopher Policastro}
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture
+
+\Bf{Remark}: In the last lecture, someone asked whether all posets could be constructed from a point using the operations of disjoint union, ordinal sum, cartesian product and exponentiation. This is not possible in general. Consider the poset $\Bf{N}:=\{a,b,c,d\}$ with Hasse diagram:
+\begin{figure}[h]
+\centering
+\includegraphics[scale=.19]{4set.pdf}
+\end{figure}
+
+We can see that this poset is not representable as $P+Q$, $P \oplus Q$, $P \times Q$, or $P^Q$ for any posets $P$ and $Q$.
+
+The class of posets that can be constructed using disjoint union and ordinal sum are called $\keyword{series parallel}$ posets. In exercise 3.13 of Stanley, it is shown that a poset is series parallel iff its Hasse diagram does not contain $\Bf{N}$ as a subdiagram.
+
+\section*{Lattices}
+Recall from last lecture the definition of a lattice:
+\begin{definition}
+    A poset $L$ is a \keyword{lattice} if every pair of elements $x,y$ has
+    \begin{itemize}
+        \item[(i)] a \keyword{least upper bound} $x \vee y$ (called \keyword{join}), and
+        \item[(ii)] a \keyword{greatest lower bound} $x \wedge y$ (called \keyword{meet});
+    \end{itemize}
+    that is
+    \begin{align*}
+        z \geq x \vee y &\iff z \geq x \text{ and } z \geq y \\
+        z \leq x \wedge y &\iff z \leq x \text{ and } z \leq y .
+    \end{align*}
+\end{definition}
+For a later result, we will need the following definition.
+\begin{definition}
+An element $z$ of a lattice $L$ is called \keyword{join irreducible} if $z \neq z_1 \vee z_2$ for $z_1, z_2 <z$.
+\end{definition}
+Observe that the meet and join operations are associative; we note that for meet
+\begin{align*}
+w \leq (x \wed y) \wed z &\Leftrightarrow w \leq z, x \wed y \Leftrightarrow w \leq x,y,z \\&\Leftrightarrow w \leq x, y \wed z \Leftrightarrow w \leq x \wed (y \wed z)
+\end{align*}
+and similarly for join
+\begin{align*}
+w \geq (x \vee y) \vee z &\Leftrightarrow w \geq z, x \vee y \Leftrightarrow w \geq x,y,z \\&\Leftrightarrow w \geq x, y \vee z \Leftrightarrow w \geq x \vee (y \vee z).
+\end{align*}
+Moreover observe that if $L$ is finite, then $L$ has a unique \keyword{minimal element} $\hat{0} := \bigwedge_{x \in L} x$ and unique \keyword{maximal element} $\hat{1}:=\bigvee_{x \in L}$. By definition $$\hat{0} \vee x=x, \; \; \; \hat{0} \wed x =\hat{0},$$ and $$\hat{1} \vee x=\hat{1}, \; \; \;  \hat{1} \wed x =x.$$
+
+We might want to show that a poset is a lattice, but only know about one operation. The following lemma tells us that sometimes this is enough.
+\begin{lemma} \label{meetlemma}
+If $P$ is a finite poset such that
+\begin{enumerate}
+\item[(i)] Every $x,y \in P$ have a greatest lower bound.
+\item[(ii)] $P$ has a unique maximal element $\hat{1}$.
+\end{enumerate}
+then $P$ is a lattice.
+\end{lemma}
+\begin{proof}
+Consider $x,y \in P$. Let $S=\{z \in P: z \geq x, y \}$. Note that $S \neq \emptyset$ since $\hat{1} \in S$. Take $x \vee y:= \bigwedge_{z \in S} z$. We see that $$z \geq x,y \; \; \; \forall z \in S \Longrightarrow x \vee y \geq x,y,$$ and $$w \geq x,y \Longrightarrow w \in S \Longrightarrow w \geq \bigwedge_{z \in S}z=x \vee y.$$ This shows that $P$ admits a join operation.
+\end{proof}
+
+Notice that by an analogous argument, the same conclusion would follow from the existence of least upper bounds and a unique minimal element. However the meet operation can oftentimes be more natural than the join operation. We will see this in Example \ref{partition}.
+
+\subsection*{Examples of Lattices}
+\begin{example}[$\Bf{n}$]
+Recall that $\Bf{n}$ (handwritten $\underline{n}$) is the set $[n]$ with the usual order relations. We see that $i \wed j =\operatorname{min}(i,j)$ and $i \vee j=\operatorname{max}(i,j)$.
+\end{example}
+
+\begin{example}[Boolean algebras]
+Recall that $B_n=\mathcal{P}([n])$. It is a lattice with meet $S \wedge T=S \cap T$, and join $S \vee T=S \cup T$. This example reinforces our notation.
+\end{example}
+
+\begin{example}[Partitions] \label{partition}
+Let $\pi_n=\{\text{partitions of } [n]\}$ ordered by refinement. Given partitions $\sigma=(\sigma_1,\ldots,\sigma_k)$ and $\tau=(\tau_1,\ldots,\tau_l)$ define $\sigma \wed \tau$ as $$(\text{nonempty intersections } \sigma_i \cap \tau_j : 1 \leq i \leq k, 1 \leq j \leq l).$$ Since $[n]$ is the unique maximal element of $\pi_n$, Lemma \ref{meetlemma} implies that $\pi_n$ is a lattice. Showing that $\pi_n$ is a lattice without Lemma \ref{meetlemma} would be more difficult because the join of two partitions has a messy formula.
+\end{example}
+
+\begin{example}[Vector Spaces] \label{vspace}
+Let $V$ be a vector space, and $L$ be the set of linear subspaces ordered by inclusion. $L$ is lattice with meet $S \wed T=S \cap T$, and join $S \vee T=S + T=\{v + w : v \in S, w \in T \}$.
+\end{example}
+
+\begin{example}[Groups] \label{group}
+Let $G$ be a group, and $L$ be the set of subgroups ordered by inclusion. $L$ is a lattice with meet $H \wed K=H \cap K$, and join $H \vee K=\left\langle H,K \right\rangle$.
+\end{example}
+
+Note that Examples \ref{vspace} and \ref{group} are two cases of lattice constructions common to any algebraic object.
+
+\begin{example}[Order-preserving maps]
+Let $P$ be a poset, and $L$ be a lattice. Recall that $L^P=\{\text{order preserving maps } P \rightarrow L \}$. $L^P$ is a lattice with join $$(f \wed g): P \ni x \mapsto f(x) \wed g(x) \in L,$$ and meet $$(f \vee g): P \ni x \mapsto f(x) \vee g(x) \in L.$$
+\end{example}
+
+\subsection*{Distributive Lattices}
+In this lecture, we will focus on lattices with a certain property that makes them similar to Boolean algebras. The structure of these lattices is sufficiently nice to allow for a classification theorem (cf. Theorem \ref{birkoff}).
+\begin{definition} \label{distributive}
+A lattice $L$ is \keyword{distributive} if the meet and join operations distribute over each other i.e. for $x,y,z \in L$
+\begin{itemize}
+\item[(i)] $(x \vee y) \wed z= (x \wed z) \vee (y \wed z)$
+\item[(ii)] $(x \wed y) \vee z= (x \vee z) \wed (y \vee z)$.
+\end{itemize}
+\end{definition}
+Notice that a Boolean algebra is distributive since union and intersection distribute over each other.
+\begin{definition}
+Given a poset $P$, an \keyword{order ideal} of $P$ is a subset $I \subset P$ such that for all $x \in I$, if $y \leq x$, then $y \in I$.
+\end{definition}
+Consider for instance the following order ideal of $B_3$ expressed in terms of it Hasse diagram:
+\begin{figure}[h]
+  \centering
+  \includegraphics[scale=.19]{B3.pdf}
+  \caption{Order ideal of $B_3$}
+\end{figure}
+
+We will denote the set of order ideals as $J(P)$. Note that $J(P)$ is a poset under inclusion. We will call an order ideal $I \subset P$ \keyword{principal} if it is of the form $I=\left\langle x \right\rangle:=\{y \in P: y \leq_P x\}$ for some $x \in P$.
+
+\begin{example}[Boolean algebras]
+Let $+_n \Bf{1}=\Bf{1}+ \ldots +\Bf{1}$ be the disjoint union of $n$ copies of $\Bf{1}$. Since $+_n \Bf{1}$ has no order relations, this means that every subset is an order ideal. So $J(+_n \Bf{1})=B_n$.
+\end{example}
+
+\begin{example}[$\Bf{n}$]
+Note that every order ideal of $\Bf{n}$ is of the form $\left\langle b \right\rangle$ for some $b \in \Bf{n}$. Since $a \leq b$ iff $\left\langle a \right\rangle \subset \left\langle b \right\rangle$, this means that $J(\Bf{n}) \simeq \Bf{n+1}$.
+\end{example}
+
+\begin{example}[$\Bf{N}$]
+Consider $\Bf{N}=\{a,b,c,d\}$ defined at the beginning of lecture. We have $$J(\Bf{N})=\{\emptyset,\{a\},\{b\},\{a,b,c\},\{b,d\},\{a,b,d\},\{a,b,c,d\},\{a,b\}\}.$$ This gives the following Hasse diagram:
+\begin{figure}
+  \centering
+  \includegraphics[scale=.23]{letterset.pdf}
+  \caption{$J(\Bf{N})$}
+\end{figure}
+\end{example}
+
+Note that if $I_1,I_2 \subset P$ are order ideals, then $I_1 \cap I_2$ and $I_1 \cup I_2$ are order ideals. Since unions and intersections distribute over each other, this means that $J(P)$ is a distributive lattice for any poset $P$. The following result tells us that if a distributive lattice is finite, then it must be of this form.
+
+\begin{theorem}[Birkoff's Theorem]\footnote{This result is sometimes called the fundamental theorem of finite distributive lattices.} \label{birkoff}
+Let $L$ be a finite distributive lattice. There exists a poset $P$ unique up to isomorphism such that $L \simeq J(P)$.
+\end{theorem}
+
+\begin{proof}[Uniqueness]
+Given $J(P)$ we want to recover $P$. The subset of principal order ideals is a copy of $P$ sitting inside $J(P)$. However, we want to describe this subset intrinsically without reference to $P$.
+
+\underline{\Bf{Fact}} 1. Let $S \subset J(P)$ be the subset of join irreducible elements. $S \simeq P$:
+
+Let $T \subset J(P)$ be the subset of principal order ideals. Note that $T \simeq P$, because $\brak{x} \subset \brak{y}$ iff $x \leq_P y$. So it is enough to show that $S=T$.
+
+($T \subset S$): Suppose that $\brak{x}=I_1 \cup I_2$ for $I_1,I_2 \in J(P)$. This means that either $x \in I_1$ or $x \in I_2$. So $\brak{x} \subset I_1$ or $\brak{x} \subset I_2$, implying $\brak{x}=I_1$ or $\brak{x}=I_2$.
+
+($S \subset T$): Assume that $I \in J(P)$ is not principal. So we can find distinct maximal elements $x$ and $y$ in $I$. Note that $I - \{x\}$ and $I - \{y\}$ are order ideals. Since $$I=(I - \{x\}) \cup (I - \{y\})$$ this implies that $I$ is not join irreducible. \hfill \scriptsize $\Box$ \normalsize
+
+We can now show uniqueness. Suppose that $J(P) \simeq L \simeq J(Q)$ for posets $P$ and $Q$. This implies that the join irreducible elements of $J(P)$ and $J(Q)$ are isomorphic. So by Fact 1, we conclude that $P \simeq Q$.
+\end{proof}
+
+\begin{proof}[Existence]
+From the proof of uniqueness, we have to show that $L=J(P)$ for $P$ the join irreducible elements of $L$.
+
+\underline{\Bf{Fact}} 2. For $y \in L$ there exist $y_1, \ldots, y_n \in P$ such that $y=y_1 \vee \ldots \vee y_n$. For $n$ minimal, this expression is unique up to permutation:
+
+An element $y \in L$ is either join irreducible, or expressible as $y=y_1 \vee y_2$ for $y_1,y_2 < y$. Since $L$ is finite, we see by induction that an element $y \in L$ can be written as $y=y_1 \vee \ldots \vee y_n$ for $y_i \in P$.
+
+Choose $n$ minimal with this property. Suppose that $y_1 \vee \ldots \vee y_n=y=z_1 \vee \ldots \vee z_n$  for $z_j, y_i \in P$. Note that $y \wed z_i=z_i$ because $z_i \leq z_1 \vee \ldots \vee z_n=y$. By distributivity $$z_i = z_i \wed y = \bigvee_{j=1}^n z_i \wed y_j.$$ Since $z_i \in P$, there exists some $y_j$ such that $z_i=z_i \wed y_j$. So $z_i \leq y_j$.
+
+Suppose that $z_i, z_j \leq y_k$ for $i \neq j$. Since join is commutative and associative, we can assume w.l.o.g that $i=1$ and $j=2$. Replace $z_1 \vee z_2$ by $y_k$ in $z_1 \vee \ldots \vee z_n$. So $y=y_k \vee (z_3 \vee \ldots \vee z_n)$ contradicting minimality of $n$. Therefore $\sigma \in S_n$.
+
+Switching the roles of $y_i$ and $z_j$, we obtain $\tau \in S_n$ such that $y_{\tau(i)} \leq z_{\sigma(i)} \leq y_i$. By minimality of $n$, we see that $y_{\tau(i)} = y_i$. This gives the result. \hfill \scriptsize $\Box$ \normalsize
+
+Define a map $f: J(P) \ni I \mapsto \bigvee_{x \in I}x \in L$. By Fact 2, $f$ is surjective.
+
+Define a map $g: L \ni y \mapsto \bigcup_{y_i} \brak{y_i} \in J(P)$ where $y=y_1 \vee \ldots \vee y_n$ as in Fact 2. Since union commutes, this map is well-defined by Fact 2. An order ideal $I \subset P$ can be expressed as $I=\bigcup_i \brak{y_i}$ for $\{y_1, \ldots y_n\} \subset P$ the maximal elements of $I$. Note that $$g(y_1 \vee \ldots \vee y_n)=\bigcup_i \brak{y_i}=I$$ because $n$ is minimal by maximality of the $y_i$. Therefore $gf$ is the identity on $J(P)$. This implies that $f$ is injective.
+
+($f$ order-preserving): Suppose that $I \subset I'$ for $I,I' \in J(P)$. We have
+\begin{align*}
+f(I') &=\bigvee_{y \in I'} y = ( \bigvee_{y \in I} y ) \vee (\bigvee_{y \in I' - I} y) \\&=f(I) \vee z
+\end{align*}
+for some $z \in L$. This implies that $f(I') \geq f(I)$.
+
+($g$ order-preserving): Suppose that for $I,I' \in J(P)$, we have $\bigvee_{x \in I} x \leq \bigvee_{y \in I'} y$. We want to show that $I \subset I'$. Note
+\begin{align*}
+\bigvee_{x \in I} x \leq \bigvee_{y \in I'} y &\imply x \leq \bigvee_{y \in I'}y \; \; \; \; \; \; \forall x \in I \\ &\imply x=x \wed x=(\bigvee_{y \in I'} y) \wed x  \\ &\imply x=\bigvee_{y \in I'}(y \wed x)
+\end{align*}
+by distributivity. Since $x$ is join irreducible, this implies that $x=y \wed x$ for some $y \in I'$. So $x \leq y$ for some $y \in I'$. This means that $x \in I'$ because $I'$ is an order ideal. Hence $I \subset I'$.
+
+Therefore $J(P) \stackrel{\sim}{\longrightarrow} L$.
+\end{proof}
+
+Note that we did not make full use of distributivity; we only needed to know that $(x \vee y) \wed z= (x \wed z) \vee (y \wed z)$ for $x,y,z \in L$. Hence property $(i)$ of Definition \ref{distributive} implies property $(ii)$. This is a convenient fact for showing that a lattice is distributive, because only property $(i)$ of Definition \ref{distributive} needs to be checked.
+
+We will end this lecture with a proposition that gives us another way of thinking about order ideals that will be useful when we try to compare posets.
+
+\begin{definition}
+Given a poset $P$, define $P^*$ to be the set $P$ with reversed order relations i.e. $x \leq_P y$ iff $x \geq_{P^*} y$.
+\end{definition}
+
+\begin{proposition}
+$J(P) \simeq (\Bf{2}^P)^*$.
+\end{proposition}
+
+\begin{proof}
+Given a map $f \in \Bf{2}^P$, let $\varphi(f)=f^{-1}(1) \subset P$. Since $f$ is order-preserving, this implies that $\varphi(f) \in J(P)$. So we obtain a map $\varphi: \Bf{2}^P \rightarrow J(P)$.
+
+Suppose that $g \leq_{\Bf{2}^P} h$. If $h(x)=1$ for some $x \in P$, then $$g \leq_{\Bf{2}^P} h \Longrightarrow g(x) \leq_P h(x) \Longrightarrow g(x)=1.$$ So if $x \in \varphi(h)$ then $x \in \varphi(g)$, or equivalently $\varphi(h) \leq_{J(P)} \varphi(g)$. Therefore $\varphi$ is order-reversing.
+
+Given an order ideal $I \subset P$, define a map $\psi(I):P \rightarrow \Bf{2}$ by $$\psi(I)(x):=\begin{cases} 2 & \text{if } x \notin I \\ 1 & \text{if } x \in I \end{cases}.$$ Suppose that $x \leq_P y$. There exist three cases: $$x,y \in I \imply \psi(I)(x) = 1 = \psi(I)(y),$$
+$$x,y \notin I \imply \psi(I)(x) = 2 = \psi(I)(y),$$ $$x \in I, y \notin I \imply \psi(I)(x)=1 <_{\Bf{2}} 2=\psi(I)(y).$$ So $\psi(I)(x)$ is order-preserving, and we obtain a map $\psi: J(P) \rightarrow \Bf{2}^P$.
+
+Suppose that $I \leq_{J(P)} I'$. For $x \in P$ there exist three cases: $$x \in I, x \in I' \imply \psi(I)(x)=1=\psi(I')(x),$$ $$x \notin I, x \in I' \imply \psi(I)(x)=2 \geq_{\Bf{2}} 1=\psi(I')(x),$$ $$x \notin I, x \notin I' \imply \psi(I)(x)=2=\psi(I')(x).$$ So $\psi(I)(x) \geq_{\Bf{2}} \psi(I')(x)$. Since $x$ was arbitrary, this implies that $\psi(I) \geq_{\Bf{2}^P} \psi(I')$. Therefore $\psi$ is order-reversing.
+
+We claim that $\varphi$ and $\psi$ are inverses. Consider $f \in \Bf{2}^P$. By definition for $x \in P$,
+\begin{align*}
+[\psi \varphi(f)](x)&=[\psi(f^{-1}(1))](p) \\ &=\begin{cases} 2 &\text{if } x \notin f^{-1}(1) \\ 1 &\text{if } x \in f^{-1}(1) \end{cases} \\ &=\begin{cases} 2 &\text{if } f(x)=2 \\ 1 &\text{if } f(x)=1 \end{cases}=f(x)
+\end{align*}
+Therefore $\psi \varphi(f)=f$. Conversely, consider $I \in J(P)$. By definition $$\varphi \psi(I)=\psi(I)^{-1}(1)=I.$$ Therefore $\varphi \psi(I)=I$. \end{proof}
+
+\end{document}

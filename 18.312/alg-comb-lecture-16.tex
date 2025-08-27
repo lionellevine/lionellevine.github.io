@@ -1,0 +1,157 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{16}{Lionel Levine}{Feb 1, 2011}{Whan Ghang} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Matchings and Hall's Marriage Theorem}
+
+\begin{theorem}[Hall]
+    Let $G = (V,E)$ be a finite bipartite graph where $V = X \cup Y$ with $X \cap Y = \emptyset$ and $|X|=|Y|$.
+    Suppose that for all subsets $A \subset X$ we have $|\Gamma(A)| \ge |A|$ (recall that $\Gamma(A) = \{y\in Y \;|\; (x,y)\in E \mbox{ for some }x\in A\}$).
+    Then $G$ has a perfect matching (or complete matching).
+
+    (Alternatively, we can remove the condition that $|X| = |Y|$ and change the conclusion to say that $G$ has a matching which involves
+    every vertex of $X$.)
+\end{theorem}
+
+\begin{proof}
+    Given a partial matching $M$ with $m$ edges, we will produce a partial matching $M'$ with $m+1$ edges.
+    It is enough to find a path $x_0y_1x_1\ldots y_{k}x_{k}y_{k+1}$ with $x_{0} \not\in H$, $y_{k+1} \not\in M$, and $(y_{i} , x_{i}) \in M$
+    for $i = 1,2,\ldots,k$. Given such a path, the set of edges $M' = \big(M \setminus \{(y_{i} , x_{i})\}_{i=1}^{k}\big)\cup \{(x_{i} , y_{i+1})\}_{i=0}^{k}$
+    is a matching where $|M'| = |M|+1$.
+    \begin{center}\includegraphics{alg-comb-lecture-16-d1.pdf}\end{center}
+    To construct the path, suppose that there exists some $x_0 \in X$ which is unmatched in $M$. The condition $|\Gamma(\{x_0\})| \ge 1$
+    implies that there exists $y_1 \in Y$ such that $(x_{0} , y_{1}) \in E$. If $y_{1}$ is unmatched in $M$, then we
+    have a path $x_{0}y_{1}$ with the desired properties.
+    Otherwise, there exists $x_1 \in X\setminus\{x_0\}$ such that $(y_{1},x_{1}) \in M$;
+    the condition $|\Gamma(\{x_0,x_1\})| \ge 2$ implies that there exists $y_{2} \ne y_{1}$ such that $(x_{r(2)},y_{2}) \in E$ where $r(2)$ is either $0$ or $1$.
+    In general, given $\{x_{0} , x_{1} , \ldots , x_{i-1}\}$
+    we can find some $y_{i} \not\in \{y_{1},\ldots,y_{i-1}\}$ such that $(y_{i},x_{r(i)}) \in E$ for some $r(i) \in \{0,1,\ldots,i-1\}$.
+    This process of finding new $y_{i}$ must terminate since $Y$ is finite. We have constructed a set $\{x_{0},y_{1},x_{1},\ldots,y_{l-1},x_{l-1},y_{l}\}$
+    such that $(y_{i},x_{i})\in M$ for all $M$, $x_{0} \not\in M$, and $y_{l} \not\in M$ by construction. However, $x_{i},y_{i+1}$ may not be an edge for some $i$.
+    To this end we take the subset $y_{l},x_{r(l)},y_{r(l)},x_{r^2(l)},y_{r^2(l)},\ldots$ which must terminate with the last two terms $y_{1},x_{0}$ since
+    $r(1) = 0$ and $r^n(k) > r^{n+1}(k)$ for all $n$. In the above diagram, the desired path is $y_{5}x_{3}y_{3}x_{1}y_{1}x_{0}$.
+\end{proof}
+
+\begin{theorem}[K\H{o}nig]
+    Given a rectangular $0-1$ matrix $M = (a_{ij})$ where $1 \le i \le m$ and $1 \le j \le n$, define
+    a ``line'' of $M$ to be a row or column of $M$. Then the minimum number of lines containing all $1$s of $M$ is equal 
+    to the maximum number of $1$s in $M$ such that no two lie on the same line.
+\end{theorem}
+
+\begin{proof}
+    Define a bipartite graph $G=(V,E)$ where $V = X \cup Y$, $X$ is the set of rows of $M$, $Y$ is the set of columns of $M$,
+    and $(r_{i},c_{j}) \in E$ if and only if $a_{ij} = 1$ (where $r_{i}$ and $c_{j}$ are arbitrary elements of $X$ and $Y$, respectively).
+    This allows us to restate K\H{o}nig's Theorem as follows. A \textbf{vertex cover} of $G$ is a set $C \subset V$ such that every edge $e\in E$
+    contains some element of $C$. Then \[\min\{|C| \;:\; \mbox{vertex covers }C\} = \max\{|M| \;:\; \mbox{matchings }M\}.\]
+    Given any vertex cover $C$ and any matching $M$, we have $|M| \le |C|$ since $C$ contains at least one vertex from each edge of $M$.
+    Now it suffices to show that, given a minimal vertex cover $C$, we want to show that there exists a matching $M$ such that $|M| = |C|$.
+    Consider the graph $G' = (V,E')$ obtained by removing all the edges within $C$; $E' = E-(E\cap (C \times C))$.
+    Then $G'$ is bipartite with parts $C$ and $V-C$ (no edges between $C$ by construction, no edges between $V-C$ since $C$ is a vertex cover).\par
+    We check Hall's condition for $G'$. Suppose there exists $A \subset C$ such that $|\Gamma(A)| < |A|$. The set $(C-A) \cup \Gamma(A)$
+    constitutes a vertex cover of $G$ (thus contradicting the minimality of vertex cover $C$) unless there are edges in $A$ that were removed by constructing $G'$ from $G$.
+    We will consider this case next lecture.
+\end{proof}
+
+\begin{definition}
+    A \textbf{permutation matrix} $P$ is a matrix whose entries are \[p_{ij} = \begin{cases}1&\text{if }j = \sigma(i)\\ 0&\text{else} \end{cases}\] for some $\sigma \in S_n$.
+\end{definition}
+
+\begin{theorem}[Birkhoff]
+    Let $k.n\in \N$ and let $M = (a_{ij})_{i,j=1}^n$ be an $n \times n$ matrix where its entries $a_{ij}$ are nonnegative integers satisfying 
+    \[\sum_{i=1}^na_{ij} = \sum_{j=1}^na_{ij} = k.\]
+    Then there exist permutation matrices $p_{1},\ldots,p_{k}$ such that $M = p_{1}+\ldots+p_{k}$.
+\end{theorem}
+
+\begin{proof}
+    We proceed by induction on $k$. Consider the graph $G = (V,E)$ with $V = \{1,\ldots,n\}\cup\{1',\ldots,n'\}$
+    where $i$ represents the $(i,j') \in E$ if and only if $a_{ij} \ge 1$. For all subsets $A \subset [n]$ we 
+    have \[\sum_{j=1}^n \sum_{i\in A} a_{ij} = \sum_{i\in A} \sum_{j=1}^n a_{ij} = \sum_{i\in A} k = k|A|\]
+    and also for some fixed $j$ we have \[s_j:=\sum_{i\in A} a_{ij} \le \sum_{i=1}^n a_{ij} = k\] so at least $|A|$ of the $s_j$ are greater than $0$.
+    Since $j \in \Gamma(A)$ if and only if $\sum_{i \in A} a_{ij} > 0$, so $|\Gamma(A)| \ge |A|$.
+    By Hall's Theorem, $G$ has a perfect matching; therefore, there exists $\sigma \in S_n$ such that $(i,\sigma(i)') \in E$ for all $i=1,2,\ldots,n$.
+    So the permutation matrix $P$ corresponding to this permutation $\sigma$ satisfies $p_{ij} \le a_{ij}$ for all $i,j$.
+    Now consider the matrix $M-P = (b_{ij})$; \[\sum_{i=1}^n b_{ij} = \sum_{i=1}^n a_{ij} - \sum_{i=1}^n p_{ij} = k-1.\]
+    By the induction hypothesis, we can write $M-P$ as the sum of permutation matrices; hence $M$ is the sum of permutation matrices.
+\end{proof}
+
+\ignore{This sentence won't appear in the latex output.}
+
+\end{document}

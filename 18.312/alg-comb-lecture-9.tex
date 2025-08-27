@@ -1,0 +1,258 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+%\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\usepackage{tikz} % For drawing pictures. Used: environment "tikzpicture"
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+%\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+%\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{example}[theorem]{Example}
+
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+\newcommand{\cm}{\mathbf{m}} % chains
+\newcommand{\cn}{\mathbf{n}}
+\newcommand{\inter}[1]{\textrm{Int}({#1})} % Int(P)
+
+
+
+\begin{document}
+\lecture{9}{Lionel Levine}{March 3, 2011}{Damien Jiang} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Order-preserving maps from posets to chains}
+
+\subsection{Order-preserving maps from $\mathbf{n}$ to $\mathbf{m}$}
+
+We begin with a question.
+
+\begin{question} How many order-preserving maps are there from the $n$-chain $\mathbf{n}$ to the $m$-chain $\mathbf{m}$, $m, n \in \N$? (Equivalently, what is $\mathbf{m}^{\mathbf{n}}$?)\end{question}
+
+In an order-preserving map $f$ from $\mathbf{n}$ to $\mathbf{m}$, intervals of $\mathbf{n}$ are mapped to elements of $\mathbf{m}$. Let $a_i$ be the number of $j \in \mathbf{n}$ with $f(j) = i$, $i \in \mathbf{m}.$ The set of $\{a_i\}$ uniquely determine $f$ since $f$ preserve order. So we have reduced the question to the following equivalent problem:
+
+\begin{question} How many solutions in non-negative integers $a_1, a_2, \ldots, a_m$ are there of the equation $a_1+a_2+\ldots+a_m = n$? \end{question}
+
+A solution to this equation is known as a \textit{composition} of $n$ rather than a partition, since the order of the $a_i$ matters. So we would like to know: how many compositions $\alpha(n,m)$ of $n$ are there into $m$ (nonnegative) parts?
+
+We have $\alpha(n,m) = [x^n] (1+x^2+x^3+ \ldots)^m = \binomial{n+m-1}{m-1}.$ But this means $\alpha(n,m+1) = \binomial{n+m}{m} = \binomial{n+m}{n} = \alpha(m,n+1)$---a coincidence? No, since we can use a standard bijection here often known as ``Stars and Bars'' or ``Balls and Walls.'' Each composition of $n$ into $m$ parts is equivalent to placing $n$ stars in a line, and separating them with $m-1$ bars. Hence the number of compositions of $n$ into $m$ parts is $\binomial{n+m-1}{m-1}.$ We can also get an immediate bijection between $\alpha(m,n+1)$ and $\alpha(n,m+1)$ by swapping the stars and bars.
+
+This leads us to ask the following:
+
+\begin{question} Are $\mathbf{(m+1)}^{\mathbf{n}}$ and $\mathbf{(n+1)}^{\mathbf{m}}$ isomorphic as posets? \end{question}
+
+We already showed that the number of maps $\alpha(n,m+1)$ from $\mathbf{n}$ to $\mathbf{m+1}$ is equal to the number of maps $\alpha(m,n+1)$ from $\mathbf{m}$ to $\mathbf{n+1}$. But it is also true that $\mathbf{(m+1)}^{\mathbf{n}} \simeq \mathbf{(n+1)}^{\mathbf{m}}$, because
+$$\mathbf{(m+1)}^{\mathbf{n}} \simeq \left(\mathbf{2}^{\mathbf{m}}\right)^{\mathbf{n}} \simeq \mathbf{2}^{\mathbf{m} \times \mathbf{n}} \simeq \left(\mathbf{2}^{\mathbf{n}}\right)^{\mathbf{m}} \simeq \mathbf{(n+1)}^{\mathbf{m}}.$$ Moreover, all of these are isomorphic to $J(\mathbf{m} \times \mathbf{n}).$
+
+\subsection{Order-preserving maps from $P$ to $\mathbf{m}$}
+
+Now we consider the more general case of order-preserving maps from a finite poset $P$ to $\mathbf{m}.$ 
+
+\begin{lemma} $\#$\{Order-preserving maps $f: P \rightarrow \mathbf{m}$\} = $\#$\{Multichains $\hat{0} = I_0 \le \ldots \le I_m = \hat{1}$ in $J(P)$\}. \end{lemma}
+\begin{proof} Given $f: P \rightarrow \cm$, define $I_i = f^{-1}(\{1,2,\ldots,i\}).$ This is an order ideal of $P$, since if $x \in I_i$ and $y \le x$, then $f(x) \le i \implies f(y) \le f(x) \le i \implies y \in I_i$. This provides the desired bijection. \end{proof}
+
+\begin{lemma} $\#$\{Surjective, order-preserving maps $f: P \rightarrow \mathbf{m}$\} = $\#$\{Chains $\hat{0} = I_0 < \ldots < I_m = \hat{1}$ in $J(P)$\}. \end{lemma}
+\begin{proof} Again consider $I_i$ as defined above; we only need to show that the inequalities are now strict. But now since $f$ is surjective, there exists $x$ with $f(x) = i+1$, so $x \in I_{i+1}$ but $x \notin I_i$. Hence $I_{i+1} > I_i.$ \end{proof}
+
+\clearpage
+
+\section{Linear extensions}
+
+\begin{definition} Let $P$ be a poset with $|P| = n.$ A linear extension of $P$ is an order-preserving bijection from $P$ to $\cn$. \end{definition}
+
+Alternatively, a linear extension of $P$ is a labeling of the elements of $P$ with a distinct inger from $1$ through $n$, such that $a$'s label is smaller than that of $b$ if $a \le b$. For example, consider the following Hasse diagram of a linear extension of $P = \mathbf{3} \times \mathbf{3}$:
+
+\begin{figure}[h]
+    \caption{Example: A linear extension of $\mathbf{3} \times \mathbf{3}$}
+    \begin{center}
+    \begin{tikzpicture}
+        \tikzstyle{every node} = [rectangle]
+        \node (9) at (0,0) {9};
+        \node (8) at (1,-1) {8};
+        \node (7) at (-1,-1) {7};
+        \node (6) at (2, -2) {6};
+        \node (5) at (0, -2) {5};
+        \node (4) at (-2, -2) {4};
+        \node (3) at (-1, -3) {3};
+        \node (2) at (1, -3) {2};
+        \node (1) at (0, -4) {1};
+        \foreach \from/\to in {9/8, 9/7, 7/4, 7/5, 8/5, 8/6, 4/3, 5/3, 5/2, 6/2, 3/1, 2/1}
+            \draw[->] (\from) -- (\to);
+    \end{tikzpicture}
+    \end{center}
+\end{figure}
+
+Define $e(P) = \#\{\textrm{linear extensions of}\ P\}$. Then from the section before, we have
+\begin{align*}
+e(P) & = \#\{\textrm{linear extensions of}\ P\} & \\
+ & = \#\{\textrm{surjective, order-preserving maps from}\ P \rightarrow \cn\} & \\
+ & = \#\{\textrm{bijective, order-preserving maps from}\ P \rightarrow \cn\} & (\textrm{since } |P| = n) \\
+ & = \#\{\textrm{chains } \hat{0} = I_0 < \ldots < I_m = \hat{1} \textrm{ in } J(P)\} & (\textrm{by Lemma 5})\\
+ & = \#\{\textrm{maximal chains in } J(P)\}. & (\textrm{since rank}(J(P)) = n)
+\end{align*}
+
+Next are a few examples.
+
+\begin{example} $\#\{$maximal chains in $\cm \times \cn\}$. \end{example}
+
+We have 
+\begin{align*}
+\cm \times \cn & = \mathbf{2}^{\mathbf{m-1}} \times \mathbf{2}^{\mathbf{n-1}} = \mathbf{2}^{\mathbf{m-1}+\mathbf{n-1}} \\
+\implies \cm \times \cn & = J( (\mathbf{m-1}) + (\mathbf{n-1}) ),
+\end{align*}
+so
+\begin{align*}
+\#\{\textrm{maximal chains in } \cm \times \cn\} & = \#\{\textrm{linear extensions of } (\mathbf{m-1}) + (\mathbf{n-1}) \} \\
+ & = e( (\mathbf{m-1}) + (\mathbf{n-1}) ) \\
+ & = \binomial{m+n-2}{m-1}.
+\end{align*}
+
+\begin{example} $\#\{$maximal chains in boolean algebra $B_n\}$. \end{example}
+
+Since $B_n = J(\underbrace{1+1+\ldots+1}_{n})$, the number of maximal chains in $B_n$ is $e(1+1+\ldots+1) = n!.$
+
+\section{Incidence algebras}
+
+\subsection{Definitions}
+
+Let $P$ be a finite poset and $K$ a finite field. We will usually take $K = \C.$
+
+\begin{definition} $\inter{P} = \{$intervals $[x,y] \subseteq P$, $x \le y \}.$ (The empty set is not an interval.) \end{definition}
+
+\begin{definition} The incidence algebra $I(P)$ of a poset $P$ is the vector space of all functions $f: \inter{P} \rightarrow K.$ \end{definition}
+
+$I(P)$ has multiplication $(fg)[x,y] = \sum_{x \le z \le y} f([x,z])g([z,y])$. 
+$\\$
+
+An equivalent (really the dual) definition of $I(P)$ is the following:
+
+\begin{definition} $I(P)$ is the set of formal linear combinations of intervals $\sum_{[x,y] \in \inter{P}} f([x,y])[x,y]$. \end{definition}
+
+ with multiplication 
+\begin{equation}
+[x,y] [z,w] = 
+\begin{cases}
+[x,w], & y = z \\
+0, & \textrm{otherwise.}
+\end{cases}
+\end{equation}
+
+We can check that 
+\begin{align*}
+ & \left(\sum_{[x,y] \in \inter{P}} f([x,y])[x,y]\right)\left(\sum_{[z,w] \in \inter{P}} g([z,w])[z,w] \right) \\
+ & = \sum_{[x,y], [z,w] \in \inter{P}} f([x,y])g([z,w])\underbrace{[x,y][z,w]}_{0\ \textrm{unless } y=z} \\
+ & = \sum_{x \le y \le w} f([x,y])g([y,w])[x,w] \\
+ & = \sum_{[x,w] \in \inter{P}} f([x,y])g([y,z])[x,w].
+\end{align*}
+$\\$
+
+Another equivalent definition involves matrices. Let the elements of $P$ be $\{x_1, \ldots, x_n\}$. Then:
+
+\begin{definition} $I(P) = \{ n \times n \textrm{ matrices } A \mid a_{ij} \in K, a_{ij} = 0 \textrm{ unless } x_i \le x_j\}.$\end{definition}
+
+So each interval $[x_i, x_j]$ with $x_i \le x_j$ is represented as the matrix $e_{ij}$ with just one nonzero entry $a_{ij}$.
+
+\begin{example} $P = \cn$. Then $I(P)$ is the set of upper triangular $n\times n$ matrices.\end{example}
+\begin{example} $P = B_2.$ Then $I(P)$ looks like $\begin{pmatrix} * & * & * & * \\ 0 & * & 0 & * \\ 0 & 0 & * & * \\ 0 & 0 & 0 & * \end{pmatrix}$, where * denotes a nonzero element of $K$.\end{example}
+
+\subsection{$\zeta$ and 1; more chain-counting}
+
+Two important elements of $I(P)$ are the zeta element $\zeta$ and the identity, $1$. 
+
+\begin{definition} $\zeta([x,y]) = 1 \forall [x,y] \in \inter{P}.$ \end{definition}
+
+\begin{example} $$\zeta^2([x,y]) = \sum_{x \le z \le y} \zeta([x,z]) \zeta([z,y]) = \#\{[x,y] \in \inter{P}\}.$$ \end{example}
+
+\begin{example} $$\zeta^k([x,y]) = \sum_{x = z_0 \le \ldots \le z_k = y} \prod_{i=1}^{k} \zeta([z_{i-1}, z_i]) = \sum_{x = z_0 \le \ldots \le z_k = y} 1$$, so $\zeta^k([x,y]) = \#\{\textit{multichains } x = z_0 \le z_1 \le \ldots \le z_k = y.\}$ \end{example}
+
+\begin{definition} $1([x,y]) = \delta_{xy} = \begin{cases} 1, & x=y, \\ 0, &\textrm{otherwise}. \end{cases}$ \end{definition}
+
+Now consider $(\zeta-1) \in I(P)$; we have $(\zeta-1)([x,y]) = \begin{cases} 0, & x=y, \\ 1, x \neq y.\end{cases}$. So $$(\zeta-1)^k([x,y]) = \sum_{x = z_0 \le \ldots \le z_k = y} (\zeta-1)([z_{i-1}, z_i])$$ which counts precisely the number of chains $x = z_0 < z_1 < \ldots < z_k = y$.
+
+Using this result, we have the following:
+
+\begin{lemma} $(2-\zeta)$ is invertible in $I(P)$, and $(2-\zeta)^{-1}([x,y]) = \#\{\textrm{chains from } x \textrm{ to } y, \textrm{ regardless of length.} \}$ \end{lemma}
+
+\begin{proof}
+We use the matrix definition of $I(P)$; we have $f([x,x]) \neq 0 \forall x \in P \Leftrightarrow f \textrm{ is invertible}$. So since $(2-\zeta)([x,y]) = \begin{cases} 1, & x=y, \\ -1, & x<y \end{cases}$, $2-\zeta$ is invertible. Now let $r = \textrm{rank } P$; since $(\zeta-1)^k$ counts the number of chains of length $k+1$, we must have $(\zeta-1)^{r} = 0$. But 
+$$\left(1+(\zeta-1)+(\zeta-1)^2 + \ldots + (\zeta-1)^{r-1}\right)(1-(1-\zeta)) = 1 - (\zeta-1)^r = 1,$$
+so the inverse of $2-\zeta$ is $1+(\zeta-1)+(\zeta-1)^2+ \ldots + (\zeta-1)^{r-1}$, which (when applied to the interval $[x,y]$) is the total number of chains of any length from $x$ to $y$. $\blacksquare$
+\end{proof}
+
+\subsection{For next time...}
+
+\textbf{Claim.} $f^{-1}([x,y])$ depends only on the poset structure of $[x,y]$.
+
+\begin{definition} The M\"{o}bius element $\mu \in I(P)$ is defined by $\mu = \zeta^{-1}.$ \end{definition}
+
+\end{document}

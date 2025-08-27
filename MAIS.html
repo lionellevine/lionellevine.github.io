@@ -1,0 +1,200 @@
+<head>
+<title> 
+Math for AI Safety - Fall 2024 - Lionel Levine - Cornell University - MATH 7710 
+</title>
+<meta name="description" content="AI holds great promise and, many believe, great peril. What can mathematicians contribute to ensuring that promise is fulfilled, and peril avoided? Topics may include: predictive coding, good regulator theorems, Markov decision processes, power-seeking theorems, signaling games, evolution of cooperation, open-source game theory, multi-agent learning, opponent shaping, logical uncertainty, usable information under computational constraints, proper scoring rules, forecast aggregation, Bayesian truth serum, coherence theorems, multi-objective optimization.">
+</head>
+
+<div style="width: 720px; margin: auto; background: #FFFFFF; padding: 10px; display: flex; justify-content: space-between;">
+  <span>MATH 7710 - Topics in Probability: Math for AI Safety</span>
+  <span>Cornell University - Fall 2024</span>
+</div>
+
+<body bgcolor="#FFFFFF" style="text-align: center">
+<div style="width: 700px;
+  margin: auto;
+  text-align: left;
+  background: #FFFFE8;
+  border: 1px gray solid;
+  padding: 10px;">
+
+<center>
+<table border="0" cellpadding="0" style="width: 85%;">
+  <tr>
+    <td valign="top" style="width: 50%;">
+      <br>
+      <h1>Math for AI Safety</h1>
+      Instructor: <a href="/">Lionel Levine</a>
+      <br><br>
+      Mondays and Wednesdays<br>
+      11:40am - 12:55pm ET<br>
+      starting August 26, 2024<br><br>
+      Classroom: Malott 205 <br><br>
+      Office Hour: Monday 3-4 in Malott 438 <br><br>
+      <a href="MAIS.html">/MAIS</a><br><br>
+    </td>
+    <td valign="top" style="width: 50%; text-align: right;">
+      <figure style="margin: 0; padding: 0;">
+        <a href="MAIS/DALLE-MAIS-2024.webp.html">
+          <img src="MAIS/DALLE-MAIS-2024.webp.html" alt="DALL-E visualization of the course" style="height: 300px; width: 300px;">
+        </a>
+        <figcaption style="text-align: center;"><i>What DALL-E thinks this course will look like</i></figcaption>
+      </figure>
+    </td>
+  </tr>
+</table>
+</center>
+
+
+<hr>
+
+<h3>Course Description</h3>
+AI holds great promise and, <a href="https://www.safe.ai/work/statement-on-ai-risk">many believe</a>, great peril. What can mathematicians contribute to ensuring that promise is fulfilled, and peril avoided?<br><br>
+
+Topics may include: predictive coding, good regulator theorems, Markov decision processes, power-seeking theorems, signaling games, evolution of cooperation, open-source game theory, multi-agent learning, opponent shaping, logical uncertainty, usable information under computational constraints, proper scoring rules, forecast aggregation, Bayesian truth serum, coherence theorems, multi-objective optimization.<br><br>
+
+<h3>Related courses</h3>
+
+This course is loosely modeled on the <a href="https://alignment-w2024.notion.site/">AI Alignment course taught by Roger Grosse</a> at the University of Toronto.<br><br>
+
+<h3>Useful background</h3> 
+Machine learning, game theory, and stochastic processes (at the level of MATH 4740).<br><br>
+
+
+<h3>Books</h3>
+<ul>
+<li><i><a href="https://bayes.cs.ucla.edu/jp_home.html">Causality</a></i>, 2nd edition (2009) by Judea Pearl<br><br>
+</li><li>
+<i><a href="https://www.bishopbook.com/">Deep Learning</a></i>, by Christopher Bishop with Hugh Bishop<br><br>
+</li><li>
+<i><a href="https://www.aisafetybook.com/">Introduction to AI Safety, Ethics, and Society</a></i>, by Dan Hendrycks<br> 
+</li>
+</ul>
+
+<h3>Papers</h3>
+
+My plan is to cover bits and pieces of some of the <a href="https://causalincentives.com/">Causal Incentives Working Group</a> papers, starting with <a href="https://arxiv.org/abs/2102.01685">Agent Incentives</a> and <a href="https://arxiv.org/abs/2208.08345">Discovering agents</a>.
+
+<h3>Seminar</h3>
+
+Starting in November, we'll devote each class to one of the following papers: 45 minute student presentation followed by 30 minute class discussion of the paper. The presentation can be slides (encouraged!) or blackboard. You should aim to state precisely the paper's main result and put it in context: what hole in human knowledge does this paper fill? The 30-minute follow-up discussion will poke at the paper to examine its strengths and weaknesses, and identify open questions and research directions that build on the paper.
+
+<ul>
+<li> Causal Incentives
+  <ul>
+  </li><li><a href="https://arxiv.org/abs/2206.15475">Causal machine learning: survey and open problems</a> (Kaddour, Lynch, et al 2022)
+  </li><li><a href="https://arxiv.org/abs/1906.08663">Modeling AGI safety frameworks with causal influence diagrams</a> (Everitt, Kumar, Kraknova, and Legg, 2019)
+  <li><a href="https://arxiv.org/abs/2301.02324">Causality in games</a> (Hammond et al, 2023)
+  </li><li><a href="https://arxiv.org/abs/2402.10877">Robust agents learn causal world models</a> (Richens and Everitt, 2024)<br>
+  </li><li><a href="https://arxiv.org/abs/2402.07221">Intention and instrumental goals</a> (Ward et al, 2024)<br>
+  </li></ul></li>
+
+<br><li> Anthropic's interpretability papers (2021-2024)
+  <ul>
+  <li><a href="https://transformer-circuits.pub/2021/framework/index.html">A mathematical framework for transformer circuits</a><br>
+  </li><li><a href="https://transformer-circuits.pub/2022/toy_model/index.html">Toy models of superposition</a><br>
+  </li><li><a href="https://transformer-circuits.pub/2023/monosemantic-features">Towards monosemanticity</a> (sparse autoencoders)<br>
+  </li><li><a href="https://transformer-circuits.pub/2024/scaling-monosemanticity/">Scaling monosemanticity</a> (more sparse autoencoders)<br>
+  </li></ul></li>
+
+<br><li> Probing and steering language models
+  <ul>
+    <li><a href="https://arxiv.org/abs/2212.03827">Discovering latent knowledge in language models without supervision</a> (Burns et al, 2022)<br>
+    </li><li><a href="https://arxiv.org/abs/2301.02324">Representation engineering</a> (Zou et al, 2023)<br>
+    </li><li><a href="https://arxiv.org/pdf/2404.15255">Activation patching</a> (Heimersheim and Nanda, 2024)<br>
+  </li></ul></li>
+
+<br><li> Hidden incentives
+  <ul>
+    <li><a href="https://arxiv.org/abs/2009.09153">Hidden incentives for auto-induced distributional shift</a> (Krueger, Maharaj, and Leike, 2020)
+    </li><li><a href="https://arxiv.org/abs/2204.11966">Estimating and penalizing induced preference shifts in recommender systems</a> (Carroll et al, 2022)
+    </li></ul></li>
+
+<br><li> Coooperation and bounded agents
+  <ul> 
+    <li><a href="https://arxiv.org/abs/2208.07006">Open-source game theory</a> (Critch, Dennis, and Russell, 2022). See also:<br>
+      <ul><li><a href="https://arxiv.org/abs/1401.5577">Robust Cooperation in the Prisoner's Dilemma</a> (Barasz et al, 2014)<br>
+      </li><li><a href="https://arxiv.org/abs/1602.04184">Parametric bounded Lob's theorem and robust cooperation of bounded agents</a> (Critch, 2016)<br>
+      </li></ul>
+  </li><li> <a href="https://arxiv.org/abs/1609.03543">Logical induction</a> (Garrabrant et al, 2016)<br>
+  </li></ul></li>
+</ul>
+
+<h3>Class notes</h3>
+
+I'll ask for a volunteer to take notes each class! <b>Instructions for notetakers</b>: Use this <a href="MAIS/Math-for-AI-Safety_2024-09-09_Topic-goes-here.tex">LaTeX template</a>, update the date and topic in the filename and in the header, and <a href="mailto:levine@math.cornell.edu">email me</a> the .tex and .pdf of your notes so I can post them here. If anything in the lecture was confusing, you're encouraged to send me a draft of the notes and ask me questions! Notes are due 1 week after the lecture. <br><br>
+
+2024 Aug 26 & 28: Math for AI Safety <a href="math-for-AI-safety__lionel-levine__cornell-oliver-club-talk__2024-08-29.pdf">slides</a><br><br>
+
+2024 Sep 4: <a href="MAIS/Math-for-AI-Safety_2024-09-04_Conditional-independence">Conditional Independence</a><br> 
+2024 Sep 9: <a href="MAIS/Math-for-AI-Safety_2024-09-09_d-separation-theorem.pdf">d-separation theorem</a><br>
+2024 Sep 11: <a href="MAIS/Math-for-AI-Safety_2024-09-11_G-Markov-distributions.pdf">G-Markov distributions</a><br>
+2024 Sep 16: Causal models: P(A|B) versus P(A|do(B))<br>
+2024 Sep 18: Causal models: counterfactuals<br><br>
+2024 Sep 23: Experiments with OpenAI's reasoning model <a href="https://openai.com/index/introducing-openai-o1-preview/">o1</a>. Speculations on long chain of thought leading to a trapped prior.<br><br>
+2024 Sep 25: Influence diagrams, value of information, response incentive, and value of control as defined in the <a href="https://arxiv.org/abs/2102.01685">Agent Incentives</a> paper by Everitt et al. <br><br>
+
+2024 Sep 30 & Oct 2: Using causal models to reason about hidden incentives. Examples: 
+<ul><li><a href="https://arxiv.org/abs/2310.13548">sycophancy</a> incentive in RLHF
+</li><li><a href="https://arxiv.org/abs/2009.09153">opinion shaping</a> incentive in content recommendation
+</li><li><a href="https://arxiv.org/abs/2404.00859">non-myopic</a> incentive in language models
+</li></ul>
+
+2024 Oct 7: Causal games and mechanised causal diagrams, as defined in the papers <a href="https://arxiv.org/abs/2208.08345">Discovering agents</a> (Kenton et al, 2022) and <a href="https://arxiv.org/abs/2301.02324">Causality in games</a> (Hammond et al, 2023).<br><br>
+
+2024 Oct 16: Overview of the research papers we'll cover in November, so you can make an informed choice of which paper to present!<br><br>
+
+2024 Oct 21: von Neumann-Morgenstern coherence theorem: Non-EU-maximizing agents are exploitable<br><br>
+
+2024 Oct 23: Dutch book theorems: Agents with incoherent beliefs are exploitable. How to quantify the incoherence of a set of beliefs. How to aggregate multiple weak predictions into one strong prediction<br><br>
+
+2024 Oct 28 & 30: Prepare for your seminar presentation (Lionel in Cambridge, UK this week)<br><br>
+
+2024 Nov 4: Common knowledge, Aumann agreement theorem, bounded rationality<br><br>
+
+2024 Nov 6: Overview of optional student research projects!<br>
+
+<h3>Seminar (student presentations of research papers)</h3>
+
+2024 Nov 11: <a href="https://arxiv.org/abs/2210.12283">Guiding formal theorem provers with informal proofs</a> (Presenter: Baran Zadeo&#287;lu)<br>
+2024 Nov 13: <a href="https://transformer-circuits.pub/2022/toy_model/index.html">Toy models of superposition</a> (Presenter: Jacob Ornelas)<br>
+2024 Nov 18: <a href="https://arxiv.org/abs/2303.00055">Learning time-scales in two-layer neural networks</a> (Presenter: Haoxuan Fu)<br>
+2024 Nov 20: <a href="https://arxiv.org/abs/2306.09194">Undetectable watermarks for language models</a> (Presenter: Elijah Blum)<br>
+2024 Nov 25: <a href="https://arxiv.org/abs/2206.15475">Open problems in causal machine learning</a> (Presenter: Suvadip Sana)<br>
+2024 Dec 2: <a href="https://arxiv.org/abs/2009.09153">Hidden incentives for auto-induced distributional shift</a> (Presenter: Arkar Oak Soe)<br>
+2024 Dec 4: <a href="https://arxiv.org/abs/2208.07006">Open-source game theory</a> (Presenter: Matthew Haulmark or Lionel)<br><br>
+
+Presenter: Set the stage for your talk by crafting 1-3 warmup questions for us to think about beforehand. <a href="mailto:levine@math.cornell.edu">Email me</a> the questions at least 72 hours before your presentation and I'll pass them on for everyone to think about. The warmup questions should be about background knowledge or context that's useful for understanding the paper you're presenting.<br><br>
+
+Audience: You'll get the most out of the seminar if you look at the relevant paper beforehand and come with questions about it!<br><br>
+
+2024 Dec 9 (last class): Student research projects, or debug Lionel's research program
+
+<h3>Questions</h3>
+<a 
+href="mailto:levine@math.cornell.edu">Email 
+me</a> with questions about the course, or to request a particular topic! <br>
+</div></body>
+
+<br>
+<a href="/"><-- Back to Lionel Levine's Home 
+Page </a> <br><br>
+
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=4026183;
+var sc_invisible=1;
+var sc_partition=31;
+var sc_click_stat=1;
+var sc_security="295555b3";
+</script>
+    
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
+class="statcounter"><a title="site stats"
+href="http://www.statcounter.com/free_web_stats.html" target="_blank"><img
+class="statcounter" src="http://c.statcounter.com/4026183/0/295555b3/1/"
+alt="site stats" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+</body>

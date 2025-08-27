@@ -1,0 +1,125 @@
+\documentclass[11pt]{article}
+\usepackage{amsmath,verbatim,amssymb,titletoc,enumerate}
+\usepackage{bbm}
+\usepackage{hyperref}
+\hypersetup{colorlinks}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{\href{/MAIS}{Math for AI Safety}: #1 $\cdot$ \arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf \href{/MAIS/}{Math for AI Safety}} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { \sf {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { \sf {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{#3}{Notes by #4}{#1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\indep}{\perp \!\!\! \perp} % independence
+\newcommand{\given}{\,|\,} % notation for conditional independence: $X \indep Y \given Z$ 
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+\newcommand{\blue}[1]{\textcolor{blue}{#1}} 
+\newcommand{\red}[1]{\textcolor{red}{#1}}
+\newcommand{\define}[1]{\emph{\textbf{#1}}}
+
+
+\begin{document}
+\lecture{Lecture Topic Goes Here} % Replace by the topic of the class you're taking notes for!
+{\href{/}{Lionel Levine}} % Instructor's name
+{September 9, 2024} % Date of the class you're taking notes for
+{Your Name Here} % Notetaker's name
+
+
+\section{Brownian motion appears everywhere}
+
+Brownian motion appears everywhere, even in this template:
+
+\begin{theorem}
+Let $B$ be a standard Brownian motion, and let $a >0$. Then
+	\[ (B_t)_{t \geq 0} \stackrel{d}{=} (a^{-1/2} B_{at})_{t \geq 0} \]
+\end{theorem}
+
+\begin{proof}
+They're both mean zero Gaussian processes with continuous sample paths and covariance $E[B_s B_t] = \min(s,t)$.
+\end{proof}
+
+\red{Wait, why does that prove it?}
+
+\begin{lemma}
+The law of a Gaussian process with continuous sample paths is determined by its means and covariances.
+\end{lemma}
+
+\begin{example}
+If $X,Y$ are independent $N(0,1)$ then so are $\frac{X+Y}{\sqrt{2}}$, $\frac{X-Y}{\sqrt{2}}$.
+\end{example}
+
+\blue{Remind me what a Gaussian process is?}
+
+\begin{definition}
+Let $I$ be an arbitrary index set. A stochastic process $(X_i)_{i \in I}$ is a \define{Gaussian process} if every finite linear combination  
+	\[ a_1 X_{i_1} + \ldots + a_n X_{i_n} \] 
+has a normal distribution for all $a_1, \ldots, a_n \in \R$ and all $i_1, \ldots, i_n \in I$.
+\end{definition}
+
+\section{Insert your notes here!}
+
+\ignore{This sentence won't appear in the pdf output.} % neither will anything preceded by a percent sign
+
+% Now remove the stuff about Brownian motion, and replace it with your notes.  Go to it, notetaker!
+
+\end{document}

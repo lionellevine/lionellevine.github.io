@@ -1,0 +1,365 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{11}{Lionel Levine}{March 15, 2011}{Ben Bond} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\textbf{Today}: Mobius Algebras, $\mu(\prod_n)$.
+
+\textbf{Test:} The average was 17. If you got $<15$, you have the option to hand in up to 3 problems from the practice midterm, (problems 1,7, and 11) for one point each. This will raise your score, but no higher than 15. This is due by Tuesday March 29.
+
+\section{Simplicial Complexes}
+
+Recall last time we proved a formula for the Mobi\"{u}s function for a finite poset $P$. Let $\hat{P}=1\oplus P\oplus 1=P\cup \{\hat{0},\hat{1}\}$. We showed 
+$$\mu_{\hat{P}}(\hat{0},\hat{1})=-c_1+c_2 \ldots (-1)^r c_r$$
+where $c_i=\#\{\hat{0}=x_0<x_1 <\ldots <x_i=\hat{1}\}$, i.e. the number of strict chains in $\hat{P}$ with minimal element $\hat{0}$, maximal element $\hat{1}$. 
+
+There is something topological in disguise here, we make the following definition:
+
+\begin{definition} A \emph{simplicial complex} $\Delta$ on a finite set $V$ is a collection of subsets $\Delta \subseteq 2^V$ ($2^V$ is the power set of $V$), satisfying:
+\begin{enumerate}
+\item $\{x\} \in \Delta$ for all $x \in V$,
+\item If $F\in \Delta$, and $G\subseteq F$, then $G\in \Delta$. 
+\end{enumerate}
+\end{definition}
+
+\begin{remark} $2^V$ is a Boolean algebra, and $\Delta$ is an order ideal that contains all sets $\{x\}$
+You should think of $\Delta$ as a set of (generalized) triangles glued together, as seen in the next example. 
+\end{remark}
+
+\begin{example}
+Let $V=\{a,b,c,d,e\}$, and $\Delta=\{a,b,c,d,e,ab,ac,bc,bd,cd,ce,de,abc,cde\}$ (here abc denotes the set $\{a,b,c\}$)
+Think of each set as a simplex of dimension one less than the cardinality, i.e. $\Delta$ corresponds to the diagram below:
+\begin{center}
+\includegraphics{diagram1}
+
+The simplicial complex $\Delta$ of Example 3
+\end{center}
+\end{example}
+
+The sets in $\Delta$ are described by faces in the diagram. The triangles $abc$, $cde$ are shaded because the sets $\{a,b,c\}, \{c,d,e\}\in \Delta$, but the set $\{b,d,e\}\notin \Delta$, so it does not appear as a shaded triangle in the diagram.  The two-element sets correspond to lines, and one element sets correspond to points. If there had been a 4 element set, it would be drawn as a tetrahedron, etc.
+
+In topology, we might have some complicated manifold, but by triangulating it, we get a simplicial complex, and may use combinatorics to better describe it. 
+
+To relate simplicial complexes to posets, we make the following definition:
+\begin{definition}
+Given a poset $P$, the \emph{order complex} of $P$ is the simplicial complex $\Delta(P)=\{F\subseteq P \: | \: F\mbox{ \emph{totally ordered}}\}$ i.e. $\Delta(P)$ is all chains in $P$. 
+\end{definition}
+\begin{example}
+Let $P=B_2$. $P$ has Hasse diagram:
+\begin{center}
+\includegraphics{diagram2}
+
+The Hasse diagram of $B_2$
+\end{center}
+
+We see that the maximal chains are $a<b<d$ and $a<c<d$, so $\Delta(P)$ contains the sets $\{a,b,d\}$ and $\{a,c,d\}$. The simplicial complex is drawn below. (the two triangles have been colored differently to emphasize that there are two distinct triangles)
+
+\begin{center}
+\includegraphics{diagram3}
+
+The Order Complex of $B_2$
+\end{center}
+\end{example}
+
+\begin{definition}
+The elements $F\in \Delta$ are called \emph{faces}. The dimension of a face is defined as:
+$$\operatorname{dim} F:=|F|-1$$
+\end{definition}
+
+\begin{remark}
+The definition of dimension corresponds with what we would expect geometrically. For example, a triangle is defined by its three vertices, and has dimension 2.
+\end{remark}
+
+We now introduce the simplest topological invariant:
+
+\begin{definition}
+The \emph{Euler Characteristic} of a simplicial complex $\Delta$ is:
+$$\chi(\Delta)=f_0-f_1+\ldots +(-1)^d f_d$$
+Where $f_i$ is the number of faces of dimension $i$, and $d=\operatorname{dim} \Delta:=\max \{\operatorname{dim}_{F\in \Delta} F\}$.
+\end{definition}
+
+Topologically equivalent simplicial complexes give the same value of $\chi(\Delta)$. Notice that the formula for $\chi(\Delta)$ is similar to $\mu_{\hat{P}}$, seen above. In fact,
+
+\begin{proposition}
+We have
+$$\mu_{\hat{P}}(\hat{0},\hat{1})=\chi(\Delta(P))-1$$
+\end{proposition}
+
+\begin{remark}
+$\chi(\Delta(P))-1$ is known as the reduced Euler characteristic.
+\end{remark}
+
+\begin{proof}
+Notice that $c_k$ is the number of chains with $k+1$ elements. Since the minimal and maximal elements are $\hat{0}$ and $\hat{1}$, this corresponds to finding elements of $\Delta(P)$ with $k-1$ elements, i.e. dimension $k-2$. The number of these is the coefficient $f_{k-2}$. Thus we have a correspondence between the $f$ values and $c$ values, except for there is no $f$ value corresponding to $c_1$. Since $c_1=1$, we must subtract 1 from $\chi(\Delta(P))$ to make the two equal.
+\end{proof}
+
+\section{Mobi\"{u}s Algebras}
+
+\begin{definition}
+Let $L$ be a lattice, $K$ a field. The \emph{Mobi\"{u}s Algebra} $A(L)$ is defined as,
+$$A(L)=\{\mbox{formal sums } \sum_{x \in L} a_xx \: | \: a_x \in K\}$$
+with multiplication $x\cdot y=x \wedge y$ 
+\end{definition}
+
+Notice that unlike the incidence algebra, the Mobi\"{u}s Algebra is commutative.
+
+\begin{definition}\label{delta def}
+We define:
+$$\delta_x=\sum_{y \le x} \mu(y,x)x$$
+\end{definition}
+
+By Mobi\"{u}s inversion, we have 
+$$x=\sum_{y\le x} \delta_y$$
+Since $\{x\}_{x\in L}$ form a basis for $A(L)$, and each $x$ may be written as a linear combination of elements $\delta_x$, we see that $\{\delta_x\}_{x\in L}$, span $A(L)$. Since $\#\{\delta_x\}_{x\in L}=\#\{x\}_{x\in L}$, this means $\{\delta_x\}_{x\in L}$ form a basis of $A(L)$. 
+
+We now take a quick aside to define direct sums of $K$-algebras.
+
+\begin{definition}
+Let $A,B$ be $K$-algebras. Their direct sum is,
+$$A\oplus B=\{\mbox{formal sums } a+b \: | \: a\in A, b \in B\}$$
+Multiplication is given by $(a+b)(a'+b')=aa'+bb'$
+\end{definition}
+
+\begin{remark}
+Notice $A,B\subset A\oplus B$, by letting $a$ or $b$ be 0 in the definition of $A\oplus B$. Also, multiplication can be thought of as letting multiplication from $A$ and $B$ carry over to $A\oplus B$, and defining $ab=0$ for $a\in A, b\in B$.
+\end{remark}
+
+We now define a map from $A(L)$ to a direct sum of copies of the field $K$.
+
+\begin{definition}
+In the space $\bigoplus_{x\in L} K$, let $e_x$ denote the identity element of the field in the sum corresponding to index $x$. Then we define 
+$$\theta: A(L) \rightarrow \bigoplus_{x\in L} K$$
+such that $\theta(\delta_x)=e_x$.
+\end{definition}
+
+The best way to think about $\bigoplus_{x\in L} K$ is as a vector space with basis $\{e_x\}_{x\in L}$. An arbitrary element is $\sum_{x \in L} c_x e_x$, for $c_x\in K$. As an algebra, we have multiplication of basis elements $e_xe_y=0$ for $x\ne y$, and $e_xe_x=e_x$. Multiplication of general vectors follows from this definition, for $c_x, d_x \in K$,
+
+$$\left(\sum_{x\in L} c_xe_x\right)\left(\sum_{x\in L} d_xe_x\right)=\sum_{x\in L} c_xd_xe_x.$$
+
+\begin{proposition}\label{iso}
+The map $\theta$ is an isomporphism of $K$ algebras.
+\end{proposition}
+
+\begin{proof}
+Since $\{\delta_x\}_{x\in L}$ form a basis of $A(L)$, and $\{e_x\}_{x\in L}$ form a basis of $\bigoplus_{x\in L} K$, and $\theta$ is a linear map giving a bijective correspondence between basis elements, we see $\theta$ is an isomorphism of vector spaces. To extend this to an isomorphism of algebras, we need to check that $\theta(xy)=\theta(x)\theta(y)$ for $x,y\in A(L)$ (although $\theta$ is defined in terms of $\delta_x$, it is easiest to check multiplication in the basis $\{x\}_{x\in L}$). Using the formula for $x$ given after Definition \ref{delta def}, we get:
+$$\theta(xy)=\theta(x\wedge y)=\theta\left(\sum_{z\le x\wedge y} \delta_z \right)=\sum_{z\le x\wedge y} \theta(\delta_z)=\sum_{z\le x\wedge y} e_z$$
+The last two equalities come from linearity of $\theta$ and the definition of $\theta$.
+We now evalutate $\theta(x)\theta(y)$. This gives:
+$$\theta(x)\theta(y)=\left(\sum_{u\le x} e_u\right)\left(\sum_{w\le y} e_w\right)=\left(\sum_{\substack{u\le x\\ w\le w}} e_ue_w\right)$$
+Notice $e_ue_w=0$ unless $u=w$. This means the only remaining terms are $e_u$ for $u\le x,y$, i.e., $u\le x\wedge y$, which gives
+$$\theta(x)\theta(y)=\sum_{u\le x \wedge y} e_u$$
+This is equal to $\theta(xy)$ as calculated above, thus $\theta(xy)=\theta(x)\theta(y)$, and $\theta$ is an isomorphism of algebras. 
+\end{proof}
+
+
+
+
+This may seem a little disappointing. We would hope that the Mobi\"us algebra would describe the combinatorial properties of the lattice, but from Proposition \ref{iso} we see that any two lattices with the same cardinality have isomorphic Mobi\"us algebras.  However, the Mobi\"us algebra has some useful applications as wee will see shortly.
+
+\section{Atoms and Coatoms}
+
+\begin{definition}
+An \emph{atom} of a lattice $L$ is a minimal element of $L-\{\hat{0}\}$. Dually, a \emph{coatom} is a maximal element of $L-\{\hat{1}\}$. 
+\end{definition}
+
+\begin{example}
+In $L=B_3$, we have:
+
+\begin{center}
+\includegraphics{diagram4}
+\end{center}
+\end{example}
+
+\begin{lemma}\label{coatom lma}
+Let $X\subset L$ be a subset satisfying
+\begin{enumerate}
+\item $\hat{1} \notin X$
+\item $X$ contains all coatoms of $L$
+\end{enumerate}
+Then $$\mu_{L}(\hat{0},\hat{1})=\sum_{k\ge1} (-1)^kN_k$$
+where $N_k=\#\{S\subset X \: | \: \#S=k \mbox{ and } \bigwedge_{y \in S}y=\hat{0}\}$.
+\end{lemma}
+
+\begin{proof} 
+Consider $\prod_{x\in X} (\hat{1}-x)$. By expanding the sum (notice that $\hat{1}$ is the identity element, $\hat{1}\wedge x=x$), we get:
+$$\prod_{x\in X} (\hat{1}-x)=\sum_{S\subseteq X} (-1)^{\#S}\bigwedge_{y\in S} y$$
+Write this in terms of the basis $\{x\}_{x\in L}$ to get 
+$$\sum_{S\subseteq X} (-1)^{\#S}\bigwedge_{y\in S} y=\sum_{x\in L} c_xx$$
+When we evaluate the coefficient $c_{\hat{0}}$ of $\hat{0}$, we find,
+$$c_{\hat{0}}=\sum_{\substack{S\subseteq X\\ \bigwedge_{y\in S=\hat{0}}}} (-1)^{\#S}$$ 
+Applying the definition of $N_k$ given in the statement of the theorem, we find $c_{\hat{0}}=\sum_{k\ge 1} (-1)^k N_k$.
+Notice that $k$ cannot be 0, because the meet over the empty set is $\hat{1}$ by definition. 
+
+We now evaluate  $\prod_{x\in X} (\hat{1}-x)$ in a different way to obtain an alternate expression for $c_{\hat{0}}$. Using the relation between the bases $\{x\}$ and $\{\delta_x\}$, we may write:
+\begin{equation}
+\hat{1}-x=\sum_{y\le \hat{1}}\delta_y-\sum_{y\le x}\delta_y=\sum_{y \not\le x} \delta_y.
+\end{equation}
+Notice that by the isomorphism $\theta$ with $\bigoplus_{x \in L} K$, $\delta_y\delta_z=0$ for $y\ne z$, and $\delta_y\delta_y=\delta_y$. Thus when we substitute equation (1) into $\prod_{x\in X} (\hat{1}-x)$ we get:
+$$\prod_{x\in X} (\hat{1}-x)=\sum_{y\in Y}\delta_y$$
+where $Y=\{y\in L | y\not\le x, \:\: \forall \: x\in X\}$. Notice that $X$ contains all coatoms by assumption, and the only element of $L$ greater than all coatoms is $\hat{1}$. Since $\hat{1}\notin X$, $\hat{1}$ is the only element of $Y$. Thus $\prod_{x\in X} (\hat{1}-x)=\delta_{\hat{1}}$. 
+Recall that $\delta_{\hat{1}}=\sum_{y\le\hat{1}} \mu_{L}(y,\hat{1})y$. By comparing the coefficient of $c_{\hat{0}}$ for this description of $\prod_{x\in X} (\hat{1}-x)$, and the one that was obtained earlier, we find that
+$$\mu_L(\hat{0},\hat{1})=\sum_{k\ge 1} (-1)^kN_k,$$
+as desired. 
+\end{proof}
+
+The use of this formula is not immediately clear, however, we present the following corollary:
+
+\begin{corollary}
+If $\hat{0}$ is not a meet of coatoms of $L$, then $\mu_L(\hat{0},\hat{1})=0$. Dually, if $\hat{1}$ is not a join of atoms, then $\mu_L(\hat{0},\hat{1})=0$.
+\end{corollary}
+
+\begin{example}
+A simple example of such a lattice is a chain. There is only one atom and one coatom, so $\hat{1}$ is not a join of atoms, and $\hat{0}$ is not the meet of coatoms.
+\end{example}
+
+\begin{proof}
+To prove (1), let $X=\{\mbox{coatoms}\}$, and apply Lemma \ref{coatom lma}. Then $N_k=0$ for all $k$. This follows from the definition of $N_k$ and the assumption that $\hat{0}$ is not a meet of coatoms. Thus by Lemma \ref{coatom lma}, $\mu_L(\hat{0},\hat{1})=0$.
+
+To prove (2), notice that the atoms of $L$ are in bijective correspondence with the coatoms of $L^*$, and that $\zeta_L(x,y)=\zeta_{L^*}(y,x)$, i.e. $\zeta_{L^*}=(\zeta_L)^T$. Since the operations transpose and matrix inverse commute, we find:
+$$\mu_{L^*}=(\zeta_{L^*})^{-1}=((\zeta_L)^T)^{-1}=(\zeta_L^{-1})^T=\mu_L^T$$
+Thus $\mu_L(\hat{0},\hat{1})=\mu_{L^*}(\hat{1},\hat{0})$, so by part (1), $\mu_{L^*}(\hat{1},\hat{0})=0$
+\end{proof}
+
+\begin{example}
+\end{example}
+Let $L$ be a finite distributive lattice.  By Birkhoff's theorem, $L=J(P)$ for some poset $P$. We wish to compute $\mu_L$.  Notice that each lattice for which we have found $\mu$, it is distributive, so all our previous examples will be a corollary of this example.  Let $[I,I']$ be an interval in $J(P)$, i.e. $I\subseteq I'$ are order ideals of $P$. We compute $\mu_L(I,I')$. Notice that $[I,I']$ is an interval of a distributive lattice, hence a distributive lattice, so $[I,I']=J(Q)$ for some $Q$. We claim that $Q=I'-I$. To see this notice we may make a map from $[I,I']$ to $J(I'-I)$ by sending an element $I''\in [I,I']$ to $I''-I\in J(Q)$. We can see that $I''-I$ is indeed an order ideal of $Q$, because it is closed under going down the lattice. To see the inverse map is well defined, say $H\subset Q$ is an order ideal, so $H\cup I$ is also an order ideal (of $P$) containing $I$, hence $H\cup I\in [I,I']$.
+
+Now look at atoms of $[I,I']$. They must all be of the form $I\cup \{x\}$, where $x$ covers an element of $I$. For example, in the Hasse diagram of $P$ below, we see that $I\cup \{x\}$ and $I\cup \{x'\}$ both cover $I$ (which is the $\hat{0}$ element of $[I,I']$), so they are atoms). However, $I\cup \{y\}$ is not an order ideal, so is not an atom.  Any order ideal containing $y$ must also contain $x$ and $x'$, hence cannot be an atom. 
+
+\begin{center}
+\includegraphics[scale=.9]{diagram5}
+
+Example of a Hasse diagram of $P$
+\end{center}
+
+
+From this we see that the join of all atoms is $I\cup M$, where $M=\{x\in P \: | \: x \mbox{ covers some element of } I \}$. When is the maximal element $I'$ a join of atoms? When $I'=I\cup M$.  For example, this is not true in the above diagram, because $I'=I\cup\{x,x',y\}$ is not a join of atoms. 
+
+We claim that $I'=I\cup M$ if and only if $Q$ is an antichain. To see this, notice that if any two elements were comparable, then the larger would not be contained in an ideal that is a join of atoms. 
+
+In the case that $Q$ is an antichain, we get $[I,I']=J(Q)=B_n$, where $n=|Q|=|I'|-|I|$. This means $[I,I']$ is a boolean algebra, so we may explicitly write down $\mu(I,I')$ (it was computed in lecture 10). Thus we have proved the following theorem:
+
+\begin{theorem}\label{mu thm}
+Let $L=J(P)$ be a finite distributive lattice, and $I\subset I' \in L$. Then:
+\begin{displaymath}
+  \mu_L(I,I') = \left\{
+     \begin{array}{lr}
+       0 & [I,I'] \ncong B_n\\
+       (-1)^n & [I,I'] \cong B_n
+      \end{array}
+   \right.
+\end{displaymath} 
+\end{theorem}
+
+\section{Computing $\mu(\prod_n)$}
+
+Recall $\prod_n$ is the poset of partitions of $n$, ordered by refinement. We would like to compute $\mu_{\prod_n}(\sigma,\tau)$. 
+
+\begin{example}
+We first draw the Hasse diagram of $\prod_3$. The notation $(12|3)$ means a partition into a block contain 1,2, and a block containing 3. 
+\begin{center}
+\includegraphics{diagram6}
+
+Hasse Diagram of $\prod_3$
+\end{center}
+
+Notice that $(12|3)\vee((13|2)\wedge(23|1))=(12|3)\vee(1|2|3|)=(12|3)$ and that $((12|3)\vee(13|2)\wedge((12|3)\vee (23|1))=(123)\wedge(123)=(123)$, so this lattice is not distributive. Thus we cannot apply Theorem \ref{mu thm}.
+\end{example}
+
+To calculate $\mu_{\prod_n}(\sigma,\tau)$, notice that $\sigma \le \tau$ means every block of $\sigma$ is contained in a block of $\tau$, and every block of $\tau$ is a disjoint union of blocks of $\sigma$. Write $\tau=(\tau_1, \ldots, \tau_k)$, and say that $\tau_i=\bigcup_{j\in B_i} \sigma_j$. The $B_i$ index which $\sigma_j$ the block $\tau_i$ is composed of. Let $\lambda_i=|B_i|$.  If $\pi\in [\sigma,\tau]$, then $\pi$ satisfies:
+\begin{enumerate}
+\item $\sigma\le \pi$, so each block of $\pi$ is a union of blocks of $\sigma$.
+\item $\pi \le \tau$, so each block of $\pi$ is contained in a block of $\tau$.
+\end{enumerate}
+
+We claim that:
+$$[\sigma,\tau]\cong \prod_{\lambda_1}\times \prod_{\lambda_2}\times \ldots \times \prod_{\lambda_k}$$
+
+\begin{proof}
+Choosing $\pi\in [\sigma,\tau]$ is equivalent to choosing a partition of $B_i$ for $i=1\ldots k$. Since $|B_i|=\lambda_i$, this is just a partition of $\lambda_i$.
+\end{proof}
+
+Using the formula for $\mu$ of a product poset, we find:
+$$\mu_{\prod_n}(\sigma,\tau)=m_{\lambda_1}m_{\lambda_2} \ldots m_{\lambda_k}$$
+where $m_{l}=\mu(\prod_l)$. This is new notation, defined by $\mu(\prod_l)=\mu_{\prod_l}(\hat{0},\hat{1})$. It is motivated by the fact that each interval in a lattice is a lattice, so we may think of $\mu$ as a function on lattices. 
+
+This example will be finished next class.  
+
+\end{document}

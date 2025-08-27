@@ -1,0 +1,239 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{4}{Lionel Levine}{Feb 10, 2011}{Minseon Shin} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Stirling Numbers}
+
+In the previous lecture, the ``signless Stirling number of the first kind'' 
+$c(n,k)$ was defined to be the number of permutations $\pi\in S_n$
+with exactly $k$ cycles. $c(n,k)$ satisfies the linear recurrence 
+$c(n,k) = (n-1)c(n-1,k)+c(n-1,k-1)$.
+\begin{lemma}
+	\[ \sum_{k=1}^nc(n,k)x^k =  x(x+1)\cdots(x+n-1). \]
+\end{lemma}
+\begin{proof}
+    Induction on $n$. Check that $c(1,1)x=x$. Then
+    \begin{align*}
+        x(x+1)\cdots(x+n-1) &= \sum_{k=1}^{n-1}c(n-1,k)x^k(x+n-1)\\
+        &= \sum_{k=1}^{n-1}c(n-1,k)x^{k+1} + \sum_{k=1}^{n-1}c(n-1,k)(n-1)x^k\\
+        &= \sum_{k=1}^{n-1}(c(n-1,k)+(n-1)c(n-1,k))x^{k+1}\\
+        &= \sum_{k=1}^n c(n,k)x^k.
+    \end{align*}
+\end{proof}
+
+\begin{corollary}
+\[\#\{\pi\in S_n\;|\;\pi\text{ has an even number of cycles}\} = \#\{\pi\in S_n\;|\;\pi\text{ has an odd number of cycles}\}.\]
+\end{corollary}
+\begin{proof}
+Plugging in $x=-1$ into Lemma 1, we obtain $\sum_{k=1}^n c(n,k)(-1)^k = 0$; 
+on the LHS, the sum of terms with positive coefficient is equal to the number of permutations
+with an even number of cycles, and the sum of terms with negative coefficient is equal to the 
+number of permutations with an odd number of cycles.
+\end{proof}
+
+$(-1)^{n-(\#\text{ of cycles in }\pi)} = \text{sgn }\pi$ and the set $\{\pi\in S_n\;|\;\text{sgn }\pi = 1\}$ is called the \textit{alternating group} $A_n$.
+By Corollary 2, $|A_n|=n!/2$.
+
+\begin{corollary}
+The total number of cycles in all permutations in $S_n$ is equal to $n!\left(\frac{1}{1}+\frac{1}{2}+\ldots+\frac{1}{n}\right)$.
+\end{corollary}
+\begin{proof}
+    The total number of cycles in all permutations in $S_n$ is equal to $\sum_{k=1}^n k\cdot c(n,k)$, which is equal 
+    to $C_n'(1)$, where $C_n(x) = \sum_{k=1}^n c(n,k)x^k$. By Lemma 1, $C_n(x) = x(x+1)\cdots(x+n-1)$ so 
+    $C_n'(x)$ can also be written $C_n'(x) = C_n(x)\left(\frac{1}{x}+\ldots+\frac{1}{x+n-1}\right)$, which
+    evaluated at $x=1$ is $n!\left(\frac{1}{1}+\frac{1}{2}+\ldots+\frac{1}{n}\right)$.
+\end{proof}
+
+From Corollary 3 it follows that the average number of cycles in all permutations in $S_n$ is 
+$\frac{1}{1}+\frac{1}{2}+\ldots+\frac{1}{n}\approx \ln n$.
+
+\begin{corollary}
+    If $p$ is prime, then $c(p,k)$ is divisible by $p$ for $1<k<p$.
+\end{corollary}
+\begin{proof}
+    The polynomial $x(x+1)\cdots(x+n-1)$, considered modulo $p$, has $\{0,1,\ldots,p-1\}$ as roots.
+    By Fermat's little theorem, $x^p-x$ has these same roots; therefore, their coefficients must be 
+    equal modulo $p$, from which it follows that $[x^k](x(x+1)\cdots(x+n-1)) = [x^k](x^p-x)$
+    for all $k$.
+\end{proof}
+
+\begin{definition}
+    $S(n,k)$, the Stirling number of the second kind, is defined to be the number 
+    of partitions of $[n]$ into exactly $k$ nonempty subsets.
+\end{definition}
+
+We have $S(n,1)=1$, $S(n,2)=\frac{2^n-2}{2}$, $S(n,n-1)=\binom{n}{2}$, and $S(n,n)=1$.
+
+\begin{lemma}
+    $S(n,k)$ satisfies the recurrence
+    \[S(n,k) = kS(n-1,k)+S(n-1,k-1).\]
+\end{lemma}
+\begin{proof}
+    Given a partition of $[n-1]$, there are 2 ways to construct a partition 
+    of $[n]$ with $k$ subsets: either by adding $n$ into a part of a partition of $[n-1]$ with $k$ subsets
+    or by adding the set $\{n\}$ as a new part into a partition of $[n-1]$ with $k-1$ subsets. 
+\end{proof}
+
+If $f:[n]\to[k]$ is a surjective function, then the preimages $f^{-1}(1),\ldots,f^{-1}(k)$ partition $[n]$.
+There are $k!$ bijective mappings from parts of a partition with $k$ parts to $[k]$. 
+Thus $k!S(n,k)$ equals the number of surjective functions $f:[n]\to[k]$.
+
+Using inclusion-exclusion, we find another formula for $S(n,k)$:
+let $S$ be the set of all mappings $f:[n]\to [k]$, and $E_i=\{f\;|\;i\not\in\text{im}(f)\}$.
+Then $S(n,k) = \left|S-\cup_{i}E_i\right| / k!$. If $I\subset [n]$ with $|I|=r$, then
+$\left|\cap_i E_i\right| = (k-r)^n$, so (using the notation in Lecture 2) \[n_r=\sum_{I\subset [n],|I|=r} (k-r)^n = \binom{k}{r}(k-r)^n\]
+and \[S(n,k) = \frac{1}{k!}\sum_{i=0}^n\binom{k}{i}(k-i)^n(-1)^i.\]
+Convention: for all $k\not\in[n]$ we let $S(n,k) = 0$.
+
+\begin{lemma}
+\[\sum_{k=1}^nS(n,k)\cdot x(x-1)\cdots(x-k+1) = x^n.\]
+\end{lemma}
+\begin{proof}
+    It suffices to check the identity for all $x\in \N$.
+    \begin{align*}
+        x^n &= \#\{\text{all maps }f:[n]\to[x]\}\\
+        &= \sum_{k=1}^n \#\{\text{all maps }f:[n]\to[x] \text{ such that }|\text{im}(f)|=k\}\\
+        &= \sum_{k=1}^n \binom{x}{k}\#\{\text{surjective maps }f:[n]\to[k]\}\\
+        &= \sum_{k=1}^n \binom{x}{k}k!S(n,k)\\
+        &= \sum_{k=1}^n x(x-1)\cdots(x-k+1)S(n,k).
+    \end{align*}
+\end{proof}
+
+\begin{theorem}
+    Let $s(n,k) = (-1)^{n-k}c(n,k)$ and $\delta_{mn} = \begin{cases}1&\text{if }m=n\\0&\text{else}\end{cases}$. Then
+    \[\sum_{k=n}^{m}S(m,k)s(k,n) = \delta_{mn}.\]
+\end{theorem}
+
+\begin{proof} 
+    We prove an alternative formulation of Theorem 8.
+    Define the $n \times n$ matrices $M=\{s(j,i)\}$ and $N=\{S(j,i)\}$. 
+    Since $s(j,i)=S(j,i)=0$ if $j<i$, $M$ and $N$ are upper-triangular.
+    Our goal is to prove that 
+    \[
+    M\times N = 
+    \begin{bmatrix}
+        s(1,1)&s(2,1)&\cdots&s(n,1)\\
+        &s(2,2)&\cdots&s(n,2)\\
+        &&\ddots&\vdots\\
+        &&&s(n,n)
+    \end{bmatrix}\times
+    \begin{bmatrix}
+        S(1,1)&S(2,1)&\cdots&S(n,1)\\
+        &S(2,2)&\cdots&S(n,2)\\
+        &&\ddots&\vdots\\
+        &&&S(n,n)
+    \end{bmatrix}
+    =I_n.
+    \]
+    We prove that $M$ and $N$ are change-of-basis matrices between two particular bases $\boldsymbol{E},\boldsymbol{F}$
+    of the vector space $V_n=\{\text{polynomials in }x\text{ of degree at most }n\text{ with constant term }0\}$, where
+    \begin{align*}
+        \boldsymbol{E} &= (e_1, e_2, \ldots, e_n)\text{ with } e_i = x^i\\
+        \boldsymbol{F} &= (f_1, f_2, \ldots, f_n)\text{ with } f_i = x(x-1)\cdots(x-i+1).
+    \end{align*}
+    In Lemma 1 we substitute $-x$ for $x$ and multiply both sides 
+    of the equation by $(-1)^n$ to obtain
+    \[f_i = \sum_{k=1}^ie_ks(i,k)\text{ for all }i\quad\implies\quad\boldsymbol{F} = \boldsymbol{E}M\]
+    thus $M$ is the change-of-basis matrix from $\boldsymbol{E}$ to $\boldsymbol{F}$.
+    By Lemma 7, we have
+    \[e_i = \sum_{k=1}^if_kS(i,k)\text{ for all }i\quad\implies\quad\boldsymbol{E} = \boldsymbol{F}N\]
+    so $N$ is the change-of-basis matrix from $\boldsymbol{F}$ to $\boldsymbol{E}$. This concludes the proof.
+\end{proof}
+
+\section{Linear Recurrences}
+Linear operators such as the derivative operator $\frac{d}{dt}$ on the set of differentiable functions $\{f:\R\to\R\}$
+have discrete analogues. Let $V$ be the set of sequences $s$ of all real numbers. Then 
+the \textit{identity} $I:V\to V$ maps $I(s_0,s_1,s_2,\ldots) = (s_0,s_1,s_2,\ldots)$; 
+the \textit{shift operator} $E:V\to V$ maps $E(s_0,s_1,s_2,\ldots) = (s_1,s_2,s_3,\ldots)$; 
+the \textit{difference operator} is $D=E-I$ (``discrete derivative'').
+
+The Fibonacci sequence $F(n)$ is defined by $F_1=F_2=1$ and $F_{n+2} = F_{n+1}+F_n$ for $n\ge 1$.
+$F_n$ is equal to the number of domino tiliings of a $2\times (n-1)$ rectangle
+and also to the number of sequences $(a_1,\ldots,a_{n-2})\in \{0,1\}^{n-2}$ with no two consecutive zeros.
+The sequence $F$ satisfies $(E^2-E-I)F= (E-\phi)(E-\overline{\phi})F = 0$ where $\phi = \frac{1+\sqrt{5}}{2}$.
+The solutions to $(E-\phi)s=0$ include $\{c\phi^n\}$ and the solutions to $(E-\overline{\phi})s=0$ include $\{c\overline{\phi}^n\}$;
+since the linear operators $E$ and $I$ commute, the solutions to $(E^2-E-I)F=0$ include all linear combinations 
+$c_1\phi^n+c_2\overline{\phi}^n$. The space of all solutions is a 2-dimensional vector space because there
+are 2 degrees of freedom in choosing the first 2 terms of the sequence. Thus $c_1\phi^n+c_2\overline{\phi}^n$
+constitute all the solutions to $(E^2-E-I)F=0$.
+
+
+\end{document}

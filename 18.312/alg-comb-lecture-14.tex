@@ -1,0 +1,246 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+\newcommand{\Q}{\mathbb Q} % rationals
+\newcommand{\dd}{\underline{d}}
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+\newcommand{\qbinom}[2] {{#1 \brack #2}_q}
+\newcommand{\und}[1]{\underline{#1}}
+
+\begin{document}
+\lecture{14}{Lionel Levine}{March 31, 2011}{Leon Zhou} 
+
+\section{$q$-binomial coefficients}
+
+\subsection{Connection to partitions}
+Let $a_l = \# \{\text{partitions } \lambda \text{ of } l \big| \text{the Young diagram of } \lambda \text{ fits in a box of dimensions } 
+k~\times~{(n-k)} \}$.
+\begin{theorem}
+$$\qbinom{n}{k} = \sum_{l=0}^{k(n-k)} a_l q^l$$  
+\end{theorem}
+
+\begin{proof}
+ Fix a flag $E_0 \subset E_1 \subset \ldots \subset E_n$ of $\F_q^n$. Given a $k$-subspace $V$, let $d_i = \dim(V \cap E_i)$, and write $\dd = (d_0, d_1, \ldots d_n)$.
+
+Now, given $\dd$, let $f(\dd) = \#(k \text{-subspaces } V \subset \F_q^n | \dim V \cap E_i = d_i, i \in \{0,\ldots n\} \}$.
+\begin{lemma}
+ $f(\dd) = q^{m_1 - 1} q^{m_2 - 2} \ldots q^{m_k-k}$, where $m_i = \min \{j | d_j = i \}$
+\end{lemma}
+
+Recall from last time: $\# \{ \text{lines } \{0\} \in L \subset V | L \not \subset H \} = [n]_q - [n-1]_q = q^{n-1}$, where $H$ is a hyperplane in $\F_q^n$.
+
+We want to count the number of ways to choose a $k$-subspace $V$.
+
+Define $V_i = V \cap E_{m_i}$, where $\dim V_i = i$. Choosing $V$ is the same as choosing the sequence $(V_i)_{0\le i \le k}$, since the intersections of $V$ with our flag define $V$.
+
+To choose $V_1 = V \cap E_{m_1}$ is to choose a line in $E_{m_1}$ that is not contained in $E_{m_1-1}$. As we recalled, there are $q^{m_1-1}$ ways to do this.
+
+To choose $V_2 = V \cap E_{m_2}$ is to choose a line in $E_{m_2}/V_1$ that is not contained in $E_{m_2-1}/V_1$. There are $q^{m_2-2}$ ways to do this.
+
+In general, to choose $V_j = V \cap E_{m_j}/V_{j-1}$ is to choose a line in $E_{m_j}/V_{j-1}$ that is not contained in $E_{m_j-1}/V_{j-1}$, and there are $q^{m_j-j}$ ways to do this.
+
+---
+
+So $\qbinom{n}{k}$ is the number of $k$-subspaces of $\F_q^n$. But this is equal to 
+$$
+\sum_{\dd} {f(\dd)}
+$$
+where the sum ranges over all sequences $\dd = (d_0, \ldots d_n)$ with $0 = d_0 \le \dots \le d_n = k$ and $d_{i+1} - d_i \le 1$ for all $i$.
+
+Given a sequence $\dd$, we form a southwest lattice path, where step $i$ is
+\begin{itemize}
+ \item S, if $d_{i+1} = d_i$, and
+ \item W, if $d_{i+1} = d_i+1$.
+\end{itemize}
+starting at $(k,0)$ and ending at $(0, k-n)$.
+
+This draws a Young diagram for a partition we can call $\lambda$; then $|\lambda|$ is the number of boxes above the lattice path, which is equal to $$c_1 + c_2 + \ldots + c_k$$ where $c_j$ is the height of column $j$.
+
+Note that $c_i = m_i - i$, since all but $c_i$ of the steps before column $i$ are westward.
+
+So $$\qbinom{n}{k} = \sum_{\und{d}} f(\und{d}) = \sum_{\lambda \text{ in box}} q^{|\lambda|} = \sum_{l=0}^{k(n-k)} a_l q^l$$\\
+
+
+\subsection{The $q$-Binomial Theorem}
+So there's this Binomial Theorem $\displaystyle (x+y)^n = \sum_{k=0}^n {{n \choose k} x^k y^{n-k}}$ and we might ask whether we can come up with an analagous formula in $q$-binomial coefficients.
+
+As it turns out, we can. Consider the algebra $A = \Q[q]<x,y> / (yx-qxy)$, the polynomials in three variables $q,x,y$ over $\Q$ in which $q$ commutes with everything but $yx = qxy$. Say we try to do some binomial expansion:
+
+\begin{align*}
+(x+y)^3 &= (x+y)(x+y)(x+y)\\
+&= xxx + xxy + xyx + yxx + xyy + yxy + yyx + yyy\\
+&= xxx + xxy + qxxy + qx(qxy) + xyy + qxyy + q(qxy)y + yyy\\
+&= x^3 + x^2y + qx^2y + q^2x^2y + xy^2 + qxy^2 + q^2xy^2 + y^3\\
+&= x^3 + (1+q+q^2)x^2y + (1+q+q^2)xy^2 + y^3\\
+&= \sum_{k=0}^3 \qbinom{n}{k} x^k y^{n-k}
+\end{align*}
+
+As it turns out, this is true in general (see homework \#5).
+
+\subsection{Counting irreducible monic polynomials}
+\begin{question}
+How many irreducible monic polynomials $f(x) = a_0 + a_1 x + \ldots + a_n x^n$ of degree $n$ are there in $\F_q[x]$?
+\end{question}
+Say we make a list $f_1(x), f_2(x) \ldots$ of all the monic irreducible polynomials in $\F_q[x]$, and let $d_i = \deg(f_i(x))$. By unique factorization, any monic polynomial $f(x) \in \F_q[x]$ can be written uniquely as a product $\displaystyle\prod_{i\ge 1} f_i(x)^{a_i}$ (where all but finitely many $a_i$ are 0).
+
+This leads to a bijection between the set of monic polynomials of degree $n$ and the set of sequences $$(a_1, a_2, \ldots) \text{ such that } a_1 d_1 + a_2 d_2 + \ldots = n$$
+In other words, partitions of $n$ into piles of size $d_i$.
+
+We can write a generating function for these partitions: $$\frac{1}{(1-x^{d_1})(1-x^{d_2})\ldots}$$
+Then, since the number of monic polynomials in $\F_q[x]$ of degree $n$ in just $q^n$, our bijection tells us that we have
+$$\frac{1}{(1-x^{d_1})(1-x^{d_2})\ldots} = \sum_{n=0}^\infty q^n x^n = \frac{1}{1-qx}$$
+%
+Taking the log of both sides:
+\begin{align*}
+\log \frac{1}{1-x^{d_1}} + \log \frac{1}{1-x^{d_2}} + \ldots &= \log \frac{1}{1-qx} \\
+&= \sum_{n\ge 1} \frac{(qx)^n}{n}
+\end{align*}
+We can rewrite the left hand side as $$\sum_{d=1}^\infty N_d \log \frac{1}{1-x^d}$$ where $N_d$ is the number of irreducible monic polynomials of degree $d$ over $\F_q$, since there are $N_d$ terms in the left hand sum for which $d_i = d$. And
+$$\sum_{d=1}^\infty N_d \log \frac{1}{1-x^d} = \sum_{d=1}^\infty N_d \sum_{j \ge 1} \frac{x^{dj}}{j} = \sum_{n\ge 1} \sum_{d|n} \frac{N_d}{n/d}x^n$$
+where the second equality is obtained by substituting $n$ for $dj$.
+
+Equating coefficients:
+\begin{align*}
+\sum_{n\ge 1} \sum_{d|n} \frac{N_d}{n/d}x^n &= \sum_{n\ge 1} \frac{(qx)^n}{n} \\
+\Longrightarrow \frac{q^n}{n} &= \frac{1}{n} \sum_{d|n} {d N_d} \\
+q^n &= \sum_{d|n} dN_d \\
+\stackrel{\text{M\"{o}bius Inversion}}{\Longrightarrow} nN_n &= 
+\sum_{d|n}q^d \mu(\frac{n}{d}) \\
+N_n &= \frac{1}{n} \sum_{d|n} \mu\left(\frac{n}{d}\right) q^d.
+\end{align*}
+Hey, this expression on the right is equal to the number of rotation classes of primitive necklaces of length $n$, using $q$ colors of beads!
+
+\begin{example}
+If $p$ is a prime, then $N_p = \frac{1}{p}(q^p -q)$.
+\end{example}
+
+\section{Hyperplane Arrangements}
+\subsection{Definitions}
+\begin{definition}
+	Given a vector space $V$ with $\dim V = l$, a \und{hyperplane arrangement} is a finite set of hyperplanes
+	$$ A = \{ H_1, \ldots, H_n | H_i \text{ is an } (l-1) \text{-dimentional subspace of } V \}$$
+	$A$ is \und{defined over $\Z$} if $H_i = \{ x \in V | \sum c_{ij} x_i = b_i; b_i, c_{ij} \in \Z \}$-- that is, if the equations defining the $H_i$ have integer coefficients.
+\end{definition}
+
+Note that we implicitly take a basis for $V$ in this definition.
+\begin{definition}
+	The \und{intersection poset} of $A$ is the set of subspaces $$L(A) = \left\{\bigcap_{i \in I} H_i \mid I \subseteq [n]\right\}$$ ordered by inclusion.
+\end{definition}
+
+Note that $\emptyset$ is not actually a subspace of $V$, so $L(A)$ may not have a minimal element. It does have a maximal element, $V$.
+
+\begin{definition}
+	$A$ is \und{central} if every $H_i$ passes through the origin; i.e., if $b_i=0$ in every defining equation.
+\end{definition}
+
+On the other hand, if $A$ is central, then it does have a minimal element, $\bigcap_{i=1}^n H_i$, which contains $0$ and is thus nonempty. In this case $L(A)$ is actually a lattice, where $H_i \wedge H_j = H_i \cap H_j$.
+
+\subsection{Connection to finite fields}
+Given a hyperplane arrangement which is defined over $\Z$, we can take the defining equations $\sum c_{ij} x_i = b_i \modulo q$ to get a hyperplane arrangement over $\F_q$.
+\begin{question}
+	How many points of $\F_q^l$ are in the complement of the arrangement? i.e., what is $\#\left(\F_q^l - \bigcup_{i=1}^n H_i \right)$?
+\end{question}
+
+We can use the Principle of Inclusion-Exclusion:
+$$ q^l - \sum_{i=1}^n q^{l-1} + \sum_{i,j, H_i \cap H_j \neq 0} q^{l-2} - \ldots$$
+That doesn't seem to be very productive. In general, when we see complicated subscripts on sums like we have here, that's a sign that we should try something else, like M\"{o}bius Inversion.\\
+--------------------
+
+Let $\chi(A,q) = \#(\F_q^l - \bigcup_{i=1}^n H_i )$ be the size of the complement of $A$.
+\begin{lemma}
+	$$\chi(A,q) = \sum_{X\in L(A)} \mu(X, \hat{1}) q^{\dim X}$$
+\end{lemma}
+	Recall that $\hat{1} = V = \F_q^l$. 
+	
+\begin{proof}
+	For $Y \in L(A)$, let $f(Y) = \# \{ v \in \F_q^l \mid v \in Y \text{ and } v \notin Z \text{ for } Z < Y \}$. 
+	
+	Then $\chi(A,q) = f(\hat{1})$, and $$\sum_{Z \leq Y}f(Z) = \# Y = q^{\dim Y}$$
+	Define $g(Y) := q^{\dim Y}$.
+	
+	Invert: $$f(Y) = \sum_{Z \leq Y} \mu(Z,Y) q^{\dim Y}$$
+	
+	Let $Y = \hat{1}$; then we are done.
+\end{proof}
+
+The polynomial $\chi(A,q)$ is called the \und{characteristic polynomial} of $A$.
+\begin{example}
+	The \und{Braid arrangement} is $B_n := \{ H_{ij} | 1 \le i < j \le n \}, H_{ij} = \{ x_i = x_j \}$ in $\F_q^n$.
+\end{example}
+\begin{align*}
+\chi(B_n,q) &= \# \{ v \in \F_q^n | \text{all the coordinates } v_i, \ldots v_n \text{ are distinct} \} \\
+&= {q \choose n} n! = q(q-1)(q-2)\ldots (q-n+1)
+\end{align*}
+\end{proof}
+
+\end{document}

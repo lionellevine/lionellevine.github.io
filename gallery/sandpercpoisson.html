@@ -1,0 +1,97 @@
+<title> Sandpile Percolation </title>
+
+<h2>Sandpile Percolation</h2>
+
+Let each site in the infinite square grid independently start with a random number of sand grains with distribution Poisson(lambda).
+Any site with four or more grains then topples, sending one grain to each of its neighbors.  For which lambda does every site 
+topple infinitely often?
+<br> <br>
+ 
+The following experiments were done in a 400x400 grid.  Grains which exit the grid are removed from the 
+system.  Sites are colored white if they never topple, gray if they topple, with darker shades of gray 
+indicating a greater number of topplings.  <br> <br>
+
+Two phase transitions are conjectured, one at lambda=2 for the appearence of an infinite cluster of toppled sites, and one at 
+lambda=17/8 for every site to topple infinitely often. <br> <br>
+
+<font color="red"><b>Update 2010</b></font>: The latter critical point is <a href="http://math.mit.edu/~levine/driving.pdf">close but not exactly equal</a> to 17/8.  This suggests that 
+sandpiles have many critical states of which the stationary state (which is still believed to have density 17/8) is only one.  <br><br>
+
+Self-organized criticality (SOC) is the idea that many physical systems -- especially those with driving and dissipation operating at widely separated time scales -- naturally drive themselves to 
+a critical state.  For example, a physical pile of sand has a critical slope at which its avalanches obey a power-law distribution.  If the slope starts out smaller than critical, then adding 
+sand to the pile will gradually increase the slope.  If the slope starts larger than critical, then adding sand to the pile causes very large avalanches, decreasing the slope toward the critical 
+value.  This mechanism helps explain why we see so many critical systems in nature.  <br><br>
+
+However, our finding that sandpiles have many critical states shows that the predictive power of SOC is incomplete: it predicts that the system will end up in a critical state, but not which one.  
+A new challenge in this area is to distinguish between the critical states and better understand the continued evolution of SOC systems after they reach criticality.
+ 
+<br><br>
+
+<table> <tr> <td> <img src="sandpercpoisson10000.png"> &nbsp; </td> <td> <img src="sandpercpoisson12500.png"> 
+</td> </tr> <tr> <td> lambda=1 </td> <td> lambda=1.25 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson15000.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson17500.png"> </td> </tr>
+<tr> <td> lambda=1.5 </td> <td> lambda=1.75 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson19000.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson20000.png"> </td> </tr>
+<tr> <td> lambda=1.9 </td> <td> lambda=2 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson21000.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson21100.png"> </td> </tr>
+<tr> <td> lambda=2.1 </td> <td> lambda=2.11 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson21200.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson21300.png"> </td> </tr>
+<tr> <td> lambda=2.12 </td> <td> lambda=2.13 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson21400.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson21500.png"> </td> </tr>
+<tr> <td> lambda=2.14 </td> <td> lambda=2.15 </td> </tr> </table> <br>
+
+<table> <tr> <td> <img src="sandpercpoisson22000.png"> &nbsp; </td>
+<td> <img src="sandpercpoisson23000.png"> </td> </tr>
+<tr> <td> lambda=2.2 </td> <td> lambda=2.3 </td> </tr> </table> <br>
+
+<h3> References: </h3>
+
+<UL> 
+
+<LI> Anne Fey, Ronald Meester, and Frank Redig<br>
+<a href="http://projecteuclid.org/DPubS?service=UI&version=1.0&verb=Display&handle=euclid.aop/1241099924">Stabilizability and percolation in the infinite volume sandpile model</a> <br>
+<i>Annals of Probability 37 (2009) no. 2, 654--675</i> <br><br>
+
+<LI> Anne Fey, Lionel Levine, and David B. Wilson<br>
+<a href="http://math.mit.edu/~levine/driving.pdf">Driving sandpiles to criticality and beyond</a> <br>
+<i>Physical Review Letters 104 (2010), 145703</i> <br><br>
+ 
+<LI> Anne Fey, Lionel Levine, and David B. Wilson <br>
+<a href="http://math.mit.edu/~levine/soc.pdf">The approach to criticality in sandpiles</a> <br>
+<i>Physical Reivew E 82 (2010), 031121</i> <br><br>
+
+</UL>
+
+<hr>
+
+<a href="http://math.mit.edu/~levine/gallery"> <-- Back to Lionel 
+Levine's Gallery
+</a> <br><br>
+
+<!-- Start of StatCounter Code -->
+<script type="text/javascript">
+var sc_project=4026183;
+var sc_invisible=1;
+var sc_partition=31;   
+var sc_click_stat=1;
+var sc_security="295555b3";
+</script>
+
+<script type="text/javascript"
+src="http://www.statcounter.com/counter/counter.js"></script><noscript><div
+class="statcounter"><a title="site stats"
+href="http://www.statcounter.com/free_web_stats.html" target="_blank"><img
+class="statcounter" src="http://c.statcounter.com/4026183/0/295555b3/1/"
+alt="site stats" ></a></div></noscript>
+<!-- End of StatCounter Code -->
+

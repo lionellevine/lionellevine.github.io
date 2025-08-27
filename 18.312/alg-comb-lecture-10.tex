@@ -1,0 +1,507 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{10}{Lionel Levine}{March 8, 2011}{Alex Zhai} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Review of incidence algebras}
+
+Recall that for a poset $P$ and field $K$, we have defined the
+incidence algebra $I(P)$ to be the set of functions mapping intervals
+of $P$ to $K$. To simplify notation, for $\alpha \in I(P)$ and $x, y
+\in P$ with $x \le y$, we will write $\alpha(x, y)$ for $\alpha([x,
+  y])$. For $\alpha, \beta \in I(P)$, we defined the product $\alpha
+\beta$ by
+
+\[ (\alpha \beta)(x, y) = \sum_{x \le z \le y} \alpha(x, z) \beta(z, y). \]
+
+This can be interpreted as a matrix multiplication. Associate to each
+$\alpha \in I(P)$ a $|P| \times |P|$ matrix $M(\alpha)$ with rows and
+columns indexed by elements of $P$, in which the $xy$ entry is
+$\alpha(x, y)$ if $x \le y$ and $0$ otherwise. Then, it is a routine
+exercise to verify that $M(\alpha)M(\beta) = M(\alpha \beta)$.
+
+From the matrix perspective, it is clear that the multiplication we
+have defined is associative with identity element $1(x, y) =
+\delta_{xy}$. Thus, the incidence algebra $I(P)$ has the structure of
+a $K$-algebra, justifying its appellation. Furthermore, we may
+naturally say that $\beta = \alpha^{-1}$ if $\alpha \beta = 1$ (or,
+equivalently, $\beta \alpha = 1$). In more explicit terms, this
+condition is
+
+\[ \sum_{x \le z \le y} \alpha(x, z) \beta(z, y) = \delta_{xy} \]
+
+for all $x, y \in P$ with $x \le y$. Rearranging the equation yields
+
+\[ \beta(x, y) = \frac{1}{\alpha(x, x)} \left( \delta_{xy} - \sum_{x < z \le y} \alpha(x, z) \beta(z, y) \right), \]
+
+which provides us a way of solving for the inverse of $\alpha$ so long
+as $\alpha(x, x) \ne 0$ for all $x \in P$. In particular, since
+$\beta(x, y)$ can be expressed in terms of $\beta(z, y)$ for $z > x$,
+we may start by solving for $\beta(y, y)$ and inductively solve for
+values $\beta(z, y)$ with $z < y$ until we reach $\beta(x, y)$. Note
+that $\beta(x, y)$ only depends on the values of $\alpha(x', y')$ for
+$x', y' \in [x, y]$.
+
+\begin{exercise}
+We have shown that $\alpha(x, x) \ne 0$ is a sufficient condition for
+$\alpha$ to have an inverse. Observe that it is also necesary.
+\end{exercise}
+
+\section{Mobius inversion for posets}
+
+We now shift our attention to two particular elements of
+$I(P)$. Consider the element $\zeta \in I(P)$ given by $\zeta(x, y) =
+1$ if $x \le y$ and $\zeta(x, y) = 0$ otherwise. Since $\zeta(x, x)
+\ne 0$ for all $x \in P$, $\zeta$ has an inverse, which will be
+denoted by $\mu$. As will be seen later, the suggestive naming of
+these elements is meant to draw a connection to the zeta and Mobius
+functions we have studied before in the context of Dirichlet series.
+
+The first hint towards this connection is the Mobius inversion formula
+for posets.
+
+\begin{theorem}[Mobius inversion formula (posets)] \label{mobius inversion}
+  Let $P$ be a poset and $K$ a field, and let $f$ and $g$ be functions
+  from $P$ to $K$. If $f$ satisfies
+
+  \[ f(x) = \sum_{y \le x} g(y) \]
+
+  for all $x \in P$, then $g$ is given by
+
+  \[ g(x) = \sum_{y \le x} f(y) \mu(y, x). \]
+
+  Conversely, if the second equation holds, then so does the first.
+\end{theorem}
+\begin{proof}
+  It is possible to verify this directly by substituting the equation
+  for $f$ into the equation for $g$ that is to be proven. However, it
+  is perhaps more insightful to take a different approach.
+
+  Just as we interpreted elements of $I(P)$ as $|P| \times |P|$
+  matrices, for a function $f : P \to K$, we may associate to $f$ a
+  row vector $M(f)$ with $|P|$ columns indexed by the elements of $P$,
+  where the column $x$ entry is $f(x)$. It is not hard to verify,
+  then, that the condition
+
+  \[ f(x) = \sum_{y \le x} g(y) \]
+
+  is equivalent to the equation $M(f) = M(g)M(\zeta)$. We can then
+  multiply both sides on the right by $M(\mu)$, and because $\mu$ is
+  the inverse of $\zeta$, we obtain $M(f)M(\mu) = M(g)$. Writing this
+  matrix equation out entry-by-entry, we find that
+
+  \[ g(x) = \sum_{y \le x} f(y) \mu(y, x), \]
+
+  as desired. A similar argument proves the converse.
+\end{proof}
+
+The compactness of the equations in the preceding proof when we
+converted to matrices should not be taken as mere algebraic
+coincidence. It is sometimes fruitful to think of elements of $I(P)$
+as acting on the $|P|$-dimensional vector space $K^P$ of all functions
+from $P$ to $K$. We have just seen the right action of $I(P)$ on
+$K^P$, giving $K^P$ the structure of a right $I(P)$-module. 
+
+In fact, it is also possible to give $K^P$ the structure of a left
+$I(P)$-module by expressing the elements of $K^P$ as column vectors
+instead of row vectors. This leads us to another version of the Mobius
+inversion formula.
+
+\begin{theorem}[Mobius inversion formula (dual version)] \label{dual mobius inversion}
+  Let $P$ be a poset and $K$ a field, and let $f$ and $g$ be functions
+  from $P$ to $K$. If $f$ satisfies
+
+  \[ f(x) = \sum_{y \ge x} g(y) \]
+
+  for all $x \in P$, then $g$ is given by
+
+  \[ g(x) = \sum_{y \ge x} \mu(x, y) f(y). \]
+
+  Conversely, if the second equation holds, then so does the first.
+\end{theorem}
+\begin{proof}
+The proof follows along the same lines as the proof of Theorem
+\ref{mobius inversion}. Alternatively, setting $Q = P^*$, this follows
+from Mobius inversion on $Q$ upon noting that $\mu_Q(x, y) = \mu_P(y,
+x)$. The proof of this last statement is left as an exercise for the
+reader.
+\end{proof}
+
+\begin{example} \label{P = n}
+Let us apply Mobius inversion to the case $P = {\bf n}$. In the
+previous section, we outlined a procedure by which the inverse of an
+element $\alpha \in I(P)$ may be computed. Applying this to $\alpha =
+\zeta$, we find that $\mu(x, x) = 1$, $\mu(x, x + 1) = -1$, and
+$\mu(x, y) = 0$ for $y > x + 1$.
+
+Plugging this into the Mobius inversion formula yields
+
+\[ f(k) = g(1) + \ldots + g(k) \iff g(k) = \begin{cases} f(k) - f(k - 1) & \text{if $k \ge 2$} \\ f(1) & \text{if $k = 1$} \end{cases}, \]
+
+which expresses a familiar relationship between a series and its
+partial sums.
+\end{example}
+
+\begin{exercise}
+In the above example, compute $\mu$ instead by computing the matrix
+inverse of $M(\zeta)$. (It may be helpful to think of $M(\zeta)$ as a
+change of basis for the vector space of polynomials of degree less
+than $n$.)
+\end{exercise}
+
+It was fairly easy to compute $\mu$ in the last example, but for more
+complicated posets, it may not be so simple. However, in the case of
+products of posets, the following lemma can make the computation more
+tractable.
+
+\begin{lemma} \label{product formula}
+Let $P$ and $Q$ be posets, and consider any elements $x, x' \in P$ and
+$y, y' \in Q$, where $x \le x'$ and $y \le y'$. Then,
+
+\[ \mu_{P \times Q} \left( (x, y), (x', y') \right) = \mu_P(x, x') \mu_Q(y, y'), \]
+
+where the subscript on $\mu$ indicates which poset is being used to
+define the Mobius function.
+\end{lemma}
+
+\begin{proof}
+Let $\mu' \left( (x, y), (x', y') \right) = \mu_P(x, x') \mu_Q(y,
+y')$. We may compute
+
+\[ \sum_{(x, y) \le (u, v) \le (x', y')} \mu' \left( (x, y), (u, v) \right) \]
+\[ = \sum_{(x, y) \le (u, v) \le (x', y')} \mu_P(x, u) \mu_Q(y, v) \]
+\[ = \left( \sum_{x \le u \le x'} \mu_P(x, u) \right) \left( \sum_{y \le v \le y'} \mu_Q(y, v) \right) \]
+\[ = \delta_{xx'} \delta_{yy'} = \delta_{(x, y)(x', y')}. \]
+
+This equation says exactly that $\mu'$ is the inverse of $\zeta_{P
+  \times Q}$, so $\mu_{P \times Q} = \mu'$.
+\end{proof}
+
+It may be somewhat surprising that the above calculation worked out so
+conveniently. Whenever calculations work out nicely in mathematics,
+there is some hope that a more abstract underlying theory is at
+work. Such is the case here, and we shall take a digression to develop
+briefly the abstract viewpoint. (The uninterested reader may skip
+ahead.)
+
+\section{A digression on tensor products}
+
+Before we define the tensor product of two vector spaces, it will be
+useful to review the concept of a dual vector space. If $V$ is a
+$K$-vector space, then we define $V^*$ to be the space of all linear
+maps from $V$ to $K$, and we call $V^*$ the \emph{dual} of $V$. In the
+case that $V$ is finite-dimensional, it is not hard to check that
+$V^*$ has the same dimension as $V$.
+
+Since all vector spaces of the same finite dimension are isomorphic,
+defining $V^*$ in this way may not seem like a particularly useful
+notion. However, an isomorphism between two arbitrary vector spaces of
+the same finite dimension is not necessarily \emph{natural}: it
+requires picking a basis for each vector space, and a different choice
+of bases will result in a different isomorphism. If the definition of
+tensor product depended on a choice of basis, then it would be nothing
+more than a computational tool. Instead, we shall see that the tensor
+product can be defined in an intrinsic way; we may then specialize to
+particular bases to reap the insight gained from the abstract
+viewpoint.
+
+Suppose now that $W$ is another vector space, and $T$ is a linear map
+from $V$ to $W$. Then, we can associate to $T$ a linear map $T^* : W^*
+\to V^*$ defined by $T^*(f)(v) = f(T(v))$ for $f \in W^*$ and $v \in
+V$. The reader should think of $T$ and $T^*$ as two sides of the same
+coin. If $S$ is a map from another vector space $U$ to $V$, then it is
+not hard to check that $(ST)^* = T^*S^*$.
+
+Given vector spaces $V$ and $W$, define the \emph{tensor product} $V
+\otimes W$ to be the space of all bilinear forms on $V^* \times
+W^*$. If $S : V \to V$ and $T : W \to W$ are linear maps, we can
+define a linear map $S \otimes T : V \otimes W \to V \otimes W$ as
+follows: for $B \in V \otimes W$, we define
+
+\[ ((S \otimes T) B))(f, g) = B(S^*f, T^*g) \]
+
+for all $f \in V^*$ and $g \in W^*$. The use of dual spaces here seems
+a bit onerous, but there is a good reason for it. Suppose that we have
+two more maps $S' : V \to V$ and $T' : W \to W$. It is not hard to
+check from the definitions that
+
+\[ (S' \otimes T') \circ (S \otimes T) = (S'S \otimes T'T). \]
+
+If we had instead defined $V \otimes W$ as the space of bilinear forms
+on $V \times W$ and proceeded in an analogous way, this composition
+law would be reversed.
+
+Now that we have established some basic properties of the tensor
+product, it is useful to see what it looks like in coordinates. Let
+$v_1, \ldots , v_n$ be a basis of $V$, and let $w_1, \ldots, w_m$ be a
+basis of $W$. Let $v^*_1, \ldots , v^*_n$ be the corresponding basis
+for $V^*$, where $v^*_i(v_j) = 1$ if $j = i$ and $v^*_i(v_j) = 0$
+otherwise. Define $w^*_1, \ldots , w^*_m$ in an analogous manner, and
+let $B_{ij} \in V \otimes W$ be the bilinear form given by
+$B_{ij}(v^*_{i'}, w^*_{j'}) = 1$ if $(i, j) = (i', j')$ and
+$B_{ij}(v^*_{i'}, w^*_{j'}) = 0$ otherwise.
+
+The $B_{ij}$ form a basis of $V \otimes W$, and we will analyze $S
+\otimes T$ in the $B_{ij}$ coordinates. Note that
+
+\[ ((S \otimes T) B_{ij})(v^*_{i'}, w^*_{j'}) = B_{ij}(S^*(v^*_{i'}), T^*(w^*_{j'})) \]
+\[ = \left( S^*(v^*_{i'})(v_i) \right) \left( T^*(w^*_{j'})(w_j) \right) \]
+\[ = v^*_{i'}(Sv_i) w^*_{j'}(Tw_j) = S_{i'i}T_{j'j}. \]
+
+The first expression is the $B_{i'j'}$ component of $(S \otimes T)
+B_{ij}$, so we conclude that the matrix entries of $S \otimes T$ are
+products of matrix entries of $S$ and $T$; in particular, $(S \otimes
+T)_{(i', j')(i, j)} = S_{i'i} T_{j'j}$.
+
+We can apply the theory developed thus far to the case of the $\zeta$
+and $\mu$ functions on product posets. For posets $P$ and $Q$, it is
+trivial to check that
+
+\[ \zeta_{P \times Q} \left( (x, y), (x', y') \right) = \zeta_P(x, x') \zeta_Q(y, y'). \]
+
+Thus, $M(\zeta_{P \times Q}) = M(\zeta_P) \otimes M(\zeta_Q)$. From
+the composition properties we have shown for tensor products of maps,
+we can invert this equation to obtain
+
+\[ M(\zeta_{P \times Q})^{-1} = M(\zeta_P)^{-1} \otimes M(\zeta_Q)^{-1} \]
+\[ M(\mu_{P \times Q}) = M(\mu_P) \otimes M(\mu_Q). \]
+
+In coordinates, this is
+
+\[ \mu_{P \times Q} \left( (x, y), (x', y') \right) = \mu_P(x, x') \mu_Q(y, y'), \]
+
+which gives us another proof of Lemma \ref{product formula}. This was
+the purported purpose of our digression. Of course, it may seem rather
+anticlimactic for all the theory developed here to culminate in a
+result that can be proven by calculation within a few lines. However,
+the theory of tensor products\footnote{Note: We have only developed
+  the theory of tensor products of vector spaces. More generally, one
+  can define tensor products of modules.} is not limited to the
+context of posets and incidence algebras. Tensor products appear in
+diverse areas of mathematics and once learned, are often a useful tool
+for understanding results that may otherwise seem unmotivated.
+
+\begin{exercise}
+Let $V$ and $W$ be vector spaces. Suppose that we specify bases on $V$
+and $W$; as we saw above, these give rise naturally to corresponding
+bases for $V^*$ and $W^*$. With these bases, we can write $T : V \to
+W$ and $T^* : W^* \to V^*$ as matrices. Describe the relationship
+between these two matrices.
+\end{exercise}
+
+\begin{exercise}
+Let $T : V \to W$ be a linear map, and let $\pi : W \to W/T(V)$ be the
+projection.
+\begin{enumerate}
+\item Show that $\pi \circ T$ is the zero map, and conclude that $(\pi
+  \circ T)^*$ is also the zero map.
+\item Show that for any surjective linear map $S$, $S^*$ is
+  injective. In particular, $\pi^*$ is injective.
+\item Based on the previous two parts, compute a lower bound on the
+  dimension of the image of $T^*$ in terms of the dimensions of $V$,
+  $W$, and $W/T(V)$.
+\item Using the previous exercise and a symmetry argument, deduce that
+  the row and column ranks of a matrix are equal.
+\end{enumerate}
+\end{exercise}
+
+\begin{exercise}
+Suppose that $S : V \to V'$ and $T : W \to W'$ are linear maps between
+vector spaces. Come up with a definition of $S \otimes T$ and state a
+composition law for it.
+\end{exercise}
+
+\begin{exercise}
+We derived Lemma \ref{product formula} using the tensor product $V
+\otimes W$, which we defined as the space of bilinear forms on $V^*
+\times W^*$. Come up with an alternate proof using instead the space
+of bilinear forms on $V \times W$. (In fact, this proof is perhaps
+simpler than the one we have given, but it does not directly introduce
+the tensor product.)
+\end{exercise}
+
+\section{Returning to posets}
+
+Let us now return to our main topic, the Mobius function on
+posets. Lemma \ref{product formula} gives us a convenient way to
+compute the Mobius functions for some more complicated posets, as in
+the next example.
+
+\begin{example}
+Let $P = B_n = {\bf 2} \times \cdots \times {\bf 2}$. The poset $P$
+can be naturally thought of as subsets of $[n]$ under inclusion; a
+subset $S \subset [n]$ represents the element $(b_1, \ldots , b_n) \in
+P$, where $b_i = 2$ if $i \in S$ and $b_i = 1$ if $i \not \in S$. 
+
+If $T \subset [n]$ represents $(c_1, \ldots , c_n) \in P$, and $S
+\subset T$, then we have by Lemma \ref{product formula}
+
+\[ \mu_P(S, T) = \mu_P \left( (b_1, \ldots , b_n) , (c_1, \ldots , c_n) \right) \]
+\[ = \prod_{i = 1}^n \mu_{\bf 2}(b_i, c_i) \]
+\[ = (-1)^{|T| - |S|}, \]
+
+where we have used the formula for $\mu_{\bf 2}$ from Example \ref{P =
+  n}. Applying Mobius inversion, we find that
+
+\[ f(T) = \sum_{S \subset T} g(S) \iff g(T) = \sum_{S \subset T} (-1)^{|T| - |S|} f(S). \]
+
+This formula reminds us of the principle of inclusion-exclusion, and
+in fact, it is a generalization. To derive the principle of
+inclusion-exclusion as a special case, however, it is more convenient
+to work with Theorem \ref{dual mobius inversion}, which states that
+
+\[ f(T) = \sum_{S \supset T} g(S) \iff g(T) = \sum_{S \supset T} (-1)^{|S| - |T|} f(S). \]
+
+To enter the setting of inclusion-exclusion, suppose we have sets
+$E_1, \ldots , E_n$, and we wish to compute the cardinality of $X =
+E_1 \cup \cdots \cup E_n$. Let $g(S)$ be the number of elements in $X$
+which are contained in $E_s$ if and only if $s \in S$. If $f(T) =
+\sum_{S \supset T} g(S)$, then $f(T)$ counts the number of elements in
+$\bigcup_{t \in T} E_t$. Rearranging the inversion formula gives
+
+\[ f(\emptyset) = g(\emptyset) + \sum_{S \ne \emptyset} (-1)^{|S| + 1} f(S). \]
+
+Noting that $f(\emptyset) = |X|$ and $g(\emptyset) = 0$, this gives us
+the same formula for $|X|$ as the principle of inclusion-exclusion.
+\end{example}
+
+\begin{exercise}
+Derive the principle of inclusion-exclusion directly from the first
+Mobius inversion formula in the above example. Can you derive Theorem
+\ref{dual mobius inversion} directly from Theorem \ref{mobius
+  inversion}?
+\end{exercise}
+
+\begin{example}
+Let $P = D_n$ be the poset of divisors of an integer $n$, partially
+ordered by divisibility. If $n$ has prime factorization $p_1^{n_1}
+\cdots p_k^{n_k}$, then $P \cong ({\bf n_1 + 1}) \times \cdots \times
+({\bf n_k + 1})$. 
+
+Using Lemma \ref{product formula} and Example \ref{P = n}, we find
+that $\mu_P(1, n) = \mu(n)$, where the second $\mu$ is the familiar
+number theoretic Mobius function defined on natural numbers. For $d_1,
+d_2 \in P$ with $d_1 | d_2$, we find that $[d_1, d_2] \cong
+D_{d_2/d_1}$. Thus, $\mu_P(d_1, d_2) = \mu_{D_{d_2/d_1}}(1, d_2/d_1) =
+\mu(d_2/d_1)$.
+
+This shows the connection between the Mobius function for posets and
+the number theoretic Mobius function; in some sense, the number
+theoretic $\zeta$ and Mobius functions are the infinite versions of
+the functions of the same name we have defined on finite posets. (The
+analogy is slightly off, since the Riemann $\zeta$ function refers to
+a Dirichlet series, while the Mobius function refers to the
+coefficients on the Dirichlet series inverse of $\zeta$.)
+\end{example}
+
+These examples conclude our basic development of the Mobius function
+for posets. We end with a lemma that will be used in the next lecture
+and also revisits the chain counting results from the previous
+lecture.
+
+\begin{lemma}
+Let $P$ be a finite rank $n$ poset, and let $\widehat{P} = {\bf 1}
+\oplus P \oplus {\bf 1}$. Denote the minimal and maximal elements of
+$\widehat{P}$ by $\widehat{0}$ and $\widehat{1}$, respectively. If
+$c_i$ is the number of length $i$ chains from $\widehat{0}$ to
+$\widehat{1}$, then
+
+\[ \mu_{\widehat{P}} (\widehat{0}, \widehat{1}) = \sum_{i = 0}^{n + 1} (-1)^i c_i, \]
+
+where we define $c_0 = 1$.
+\end{lemma}
+\begin{proof}
+Recall from the previous lecture that $(\zeta_{\widehat{P}} - 1)^k(x,
+y)$ counts the number of length $k$ chains from $x$ to $y$. In
+particular, $(\zeta_{\widehat{P}} - 1)^k(\widehat{0}, \widehat{1}) =
+c_k$.
+
+This provides the connection between $\mu_{\widehat{P}}$ and the
+$c_i$. We can expand $\mu_{\widehat{P}}$ as a power series as follows.
+
+\[ \mu_{\widehat{P}} = \left( 1 + (\zeta_{\widehat{P}} - 1) \right)^{-1} \]
+\[ = \sum_{i = 0}^\infty (-1)^i (\zeta_{\widehat{P}} - 1)^i. \]
+
+The sum is actually finite, since $\zeta_{\widehat{P}} - 1$ is
+nilpotent. Evaluating both sides at $[\widehat{0}, \widehat{1}]$ and
+applying our initial observation yields the lemma.
+\end{proof}
+
+\end{document}

@@ -1,0 +1,271 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{array}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{21}{Lionel Levine}{April 28, 2011}{Jacob Bower} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{De Bruijn Sequences}
+
+Todays lecture begins with a discussion of De Bruijn sequences. We have the following definition:
+
+\begin{definition}
+A binary De Bruijn Sequence of order $n$ is a string of bits $b_i \in \{0,1\}$, $b=\{b_1,...,b_{2^n}\}$ such that ever string of lengh n,  $\{a_1,....,a_n\}\in\{0,1\}^n$, occurs exactly once consecutively in $b$. (In other words $\exists!k$ such that $b_k=a_1$, $b_{k+1}=a_2$, ..., $b_{k+n-1} = a_n$ where we take indices mod $2^n$.)
+\end{definition}
+
+This definition can perhaps best be illustrated with the example:
+	
+\begin{example}
+A De Bruijn sequence of order 3 is 00010111.
+\end{example}	
+
+One can check by examination that all possible bitstrings of length three occur once and only once in this sequence. Remarkably, it turns out that De Bruin sequences of order n exist for all n. We will shortly see a theorem that enumerates them, but before we look at this we first examine the definition of a De Bruijn graph, an object that will play an essential role in our proof of our enumeration theorem.
+
+\begin{definition}
+A De Bruijn graph is a directed graph
+	\[{DB}_n = (\{0,1\}^{n-1},\{0,1\}^n), \]
+that is, a graph with vertex set $\{0,1\}^{n-1}$ and edge set $\{0,1\}^n$ where there is an edge from $a=\{a_1,...,a_{n-1}\}$ to $a'=\{a'_1,...,a'_{n-1}\}$ iff:
+	\[a_2 = a'_1, a_3 = a'_2, ... a_{n-1}=a'_{n-2} .\]
+This is equivalent to saying there is an edge from $a$ to $a'$ iff $a$ is a prefix of some string $b_1...b_n$ and $a'$ is a suffix of the same string.	
+\end{definition}
+
+We can again look at an example to illustrate this definition.
+
+\begin{example}
+The graph of ${DB}_3$ is:
+\begin{center}
+ \includegraphics[scale=0.7]{DB_3.jpg}
+\end{center}
+\end{example}
+
+With this definition we are ready to state and prove our theorem about the enumeration of Be Bruijn sequences.
+
+\begin{theorem}
+Binary De Bruijn sequences of order n exist for all n, and there are exactly $2^{2^{n-1}}$ of them.
+\end{theorem}
+
+
+\begin{proof}
+To begin our proof we note that a De Bruijn sequence of order $n$ is just an Eulerian tour of $DB_n$. We first wish to prove that an Eulerian Tour exists. To do this we note that $DB_n$ is balanced. This is because we can take any sequence of length $n-1$ and delete the last digit, then add a 0 or 1 in front, giving us that $indeg=2$ for each vertex. Similarly we can take any sequence of length $n-1$ and delete the first digit, then add a 0 or a 1 to the end, giving us that $outdeg=2$ for each vertex. Because $indeg=outdeg=2$ our graph is balanced. As we have seen in previously an Eulerian tour exists as long as a graph is balanced, so we know that that for all $n$ there exists a binary De Bruijn sequence of order $n$.
+
+Now that we have proved the existence of De Bruijn sequences we want to prove their enumeration. From the equivalence of Eulerian Tours in $DB_n$ and De Bruijn sequences combined with results we have found from graph theory we have:
+	\[ \# \{DB \mbox{ sequences of order } n \} = \# \{ \mbox{Eulerian Tours of } DB_n \} \]
+	\[= \sum_{e\in E} \tau (DB_n,e) \]
+	\[= \sum_{e\in E} \kappa (DB_n,e) \prod_{v \in V} (outdeg(v) -1)!\]
+	\[= \sum_{e\in E} \kappa (DB_n,e) \]
+The last equation here comes from the fact that every vertex of the graph has $outdeg=2$ as we discussed before. We thus want to count the number of spanning trees of $DB_n$ in order to cound the number De Bruijn sequences. To do this we us a special trick. Consider any two vertices $v$ and $w$ in $DB_n$ and count the number of paths of length $n-1$ between $v$ and $w$. In particular let:
+	\[v = (v_1,...,v_{n-1}) \]
+	\[w = (w_1,...,w_{n-1}) \]
+Looking at these there is only 1 way to append our two sequences. In particular we must do it in the fashion:
+	\[(v_1...v_{n-1})w_1...w_{n-1} \]
+	\[(v_1 (v_2...w_1)w_2...w_{n-1}  \]
+	\[v_1 v_2 ( v_3...w_2) w_3...w_{n-1}  \]
+	\[\vdots\]
+	\[v_1...v_{n-1}(w_1...w_{n-1})  .\]
+Because we have exactly one path from $v$ to $w$ of length $n-1$ for all vertices $v$ and $w$ we must have:
+	\[ A^{n-1} =
+ \begin{pmatrix}
+  1 &  \cdots & 1 \\
+  \vdots  & \ddots & \vdots  \\
+  1 & \cdots & 1
+ \end{pmatrix} \]
+where A is the $2^{n-1} \times 2^{n-1}$ adjacency matrix of $DB_n$.
+
+We should then see the Laplacian Matrix having eigenvalues of 0 with multiplicity 1 and 2 with multiplicity $2^{n-1}$. 
+
+Finally we apply matrix-tree-theory to arrive at the result:
+	\[ \# \{DB \mbox{ sequences of order } n \} = \sum_{e\in E} \kappa (DB_n,e) \]
+	\[ = \sum_{e \in E} \frac{ \lambda_1\hdots \lambda_{(2^{n-1} - 1)}}{2^{n-1}} \]
+	\[ = \sum_{e \in E} \frac{2^{2^{n-1} - 1}}{2^{n-1}} \]
+	\[=2^n \frac{2^{2^{n-1} -1}}{2^{n-1}} \]
+	\[=2^{2^{n-1}}. \]
+\end{proof}
+
+\begin{remark}
+One may note that the number of De Bruijn sequences is:
+	\[2^{2^{n-1}} = \sqrt{2^{2^n}} \]
+where $2^{2^n}$ counts the number of all possible bitstrings of length $2^n$. This leads to the question if there is a bijection:
+	\[\{\mbox{pairs of DB sequences of order $n$} \} \leftrightarrow \{\mbox{all binary bitstrings of length } 2^n \} .\]
+It turns out there is, and this fact was proved by two MIT students, Kishore and Bidkhori, illustrating the many open and accessible problems that exist in the exciting field of combinatorics!
+\end {remark}
+
+This concludes our discussion of De Bruijn sequences.
+
+\section{P$\acute{\mbox{o}}$lya Theory}
+
+The general idea of P$\acute{\mbox{o}}$lya theory is counting things up to certain equivalence classes. Let us look at a very simple example to start.
+
+\begin{example}
+
+Let us consider the number of colorings of 5 squares in a line, one with each of $n$ colors. That is the number of colorings of:
+
+\begin{center}
+ \includegraphics[scale=0.7]{Strip.jpg}
+\end{center}
+
+It is straight forward to see that under no restrictions the number of colorings is $n^5$, because we can choose any of the $n$ colors seperately for each of the 5 squares. As a less trivial example let us impose the equivalence that two colorings are the same if they are mirror images of each other. That is, we have equivalence:
+
+\begin{center}
+ \includegraphics[scale=0.7]{StripEquivalence.jpg}.
+\end{center}
+
+Under this equivalence first let us consider the number of colorings that are equivalent to themselves. This is all colorings of the form:
+
+\begin{center}
+ \includegraphics[scale=0.7]{StripSymmetric.jpg}.
+\end{center}
+
+Because we have three relevent colors to choose and $n$ choices for each of them, there are $n^3$ such colorings. All other colorings have exactly one unique equivalent coloring, so we take the remaining $n^5 - n^3$ colorings and divide them by 2 to account for the fact each one of these is equivalent to exatly one other. We then conclude:
+	\[ \# \{\mbox{equivalence classes of colorings} \} \]
+	\[ = n^3 (\mbox{symmetric colorings}) + \frac{n^5 - n^3}{2} (\mbox{non-symmetric colorings}) \]
+	\[ =\frac{1}{2}(n^5+n^3) .\]
+\end{example}
+
+In general we have some finite set $X$ where $|X|=k$, a group $S\subseteq S_k$ (a subgroup of the group of all permutations of $X$), and a finte set of colors $C$. Then the set of colorings is $Y=C^x = \{f: X \rightarrow C\}$. We then consider some action $G$ that acts on $Y$, so that $G \times Y \rightarrow Y$. We then wish to count the orbits $|\frac{Y}{G}|$ (i.e. equivalence of colorings). As a more complex example consider the following problem.
+
+\begin{example}
+Let us consider the case where $X = [2] \times [2]$ where we color with the set $C=[n]$, so that we are looking at a square of the form:
+\begin{center}
+ \includegraphics[scale=0.7]{Square.jpg}.
+\end{center}
+We wish to count the number of colorings under the action $G=D_8$ which is equivalent to saying any two colorings are equivalent if any reflection or rotation of one produces the other. We can consider the following as examples of equivalence (where the last block is NOT equivalent to the other three):
+\begin{center}
+ \includegraphics[scale=0.7]{SquareEquivalence.jpg}.
+\end{center}
+We can then count the number of equivalence classes directly. We have the following classes occuring with the following multiplicities.
+
+\begin{center}
+\begin{tabular}{m{1.5in} m{2.5in}}
+\includegraphics[scale=0.7]{Square1.jpg} & $n$ - because we have $n$ choices for $c_1$.\\
+\includegraphics[scale=0.7]{Square2.jpg} & $n(n-1)$ - because we have $n$ choices for $c_1$ then $n-1$ choices for $c_2$.\\
+\includegraphics[scale=0.7]{Square3.jpg} & ${n \choose 2}$ - because we must choose $c_1$ and $c_2$ but we can restrict to $c_1 > c_2$ due to symmetry.\\
+\includegraphics[scale=0.7]{Square4.jpg} & ${n \choose 2}$ - because we must choose $c_1$ and $c_2$ but we can restrict to $c_1 > c_2$ due to symmetry.\\
+\includegraphics[scale=0.7]{Square5.jpg} & $n {{n-1} \choose 2}$ - because we must choose $c_1$ from $n$ colors, then choose $c_2$ and $c_3$ but we can restrict $c_2 > c_3$ by \hspace{20pt} symmetry.\\
+\includegraphics[scale=0.7]{Square6.jpg} & $n {{n-1} \choose 2}$ - because we must choose $c_1$ from $n$ colors, then choose $c_2$ and $c_3$ but we can restrict $c_2 > c_3$ by \hspace{20pt} symmetry.\\
+\includegraphics[scale=0.7]{Square7.jpg} & $3 {n \choose 4}$ - because we choose 4 colors then have to choose 1 of $\{c_2,c_3,c_4 \}$ to be opposite $c_1$.\\
+\end{tabular}
+\end{center}
+
+To count the toatl number of colorings that are not equivalent under rotation or reflection we sum up the multiplicities of the equivalences. Doing this we conclude:
+	\[\# \{ \mbox{non-equivalent colorings} \}  \]
+	\[= n + n(n-1) + {n \choose 2} + {n \choose 2} + n{{n-1} \choose 2} + n{{n-1} \choose 2} + 3{n \choose 4} \]
+	\[=\frac{1}{8} (n^4 + 2n^3 + 3n^2 + 2n) .\]
+\end{example}
+
+
+\begin{theorem}
+The number of equivalence classes of colorings with n colors equals:
+	\[\frac{1}{|G|} \sum_{\pi \in G} {n^{C(\pi)}} \]
+where
+	\[ C(\pi) = \# \mbox{ of cycles of permutation } \pi .\]
+\end{theorem}
+
+\begin{proof}
+This proof makes use of Burnside's Lemma.
+\end{proof}
+
+We may wish to generalize this theorem. Consider the vector:
+	\[ I = (i_1,...,i_n), \]
+where
+	\[\sum_{j=1}^{n} i_j = k .\]
+We may then ask how many equivalence class of colorings exist such that color $j$ occurs $i_j$ times. We will call this number $K(I)$. To study this we first present the defintion of the cycle indicator.
+
+\begin{definition}
+The cycle inicator of the pair (X,G) is the polynomial:
+	\[Z_g(z_1,...z_k) = \frac{1}{|G|} \sum_{\pi \in G} {z_{1}^{C_1(\pi)} \hdots z_k^{C_k(\pi)}}\]
+where $c_j(\pi) = \#$ \{ cycles of length $j$ in $\pi$ \}. 
+\end{definition}
+
+With this definition we then have then general, weighted version of P$\acute{\mbox{o}}$lya's Theorem.
+
+\begin{theorem}
+Suppose we are given $I=(i_1,...,i_n)$ where 
+	\[\sum_{j=1}^{n} i_j = k.	\]
+Call the number of equivalence classes of colorings such that color $j$ occurs $i_j$ times $K(I)$. Let:
+	\[ F_G (r_1,...,r_n) = \sum_{I} K(I) r^I\]
+where $r^I = r_1^{i_1}...r_n^{i_n}$. Then:
+	\[ F_g (r_1,...,r_n) = Z_G (p_1,...,p_k)\]
+where:
+	\[p_1 = r_1 + ... + r_n \]
+	\[p_2 = r_1^2 + ... + r_n^2 \]
+	\[ \vdots \]
+	\[p_k = r_1^k + ... + r_n^k. \]
+\end{theorem}
+
+\end{document}

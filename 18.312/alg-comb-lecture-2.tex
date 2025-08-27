@@ -1,0 +1,342 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{2}{Lionel Levine}{Feb 3, 2011}{Jacob Bower} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Binomial Coefficients}
+
+We begin by taking two variables $x$ and $y$ and looking at their sum to the $n^{th}$ power. We write:
+	\[(x+y)^n= {n\choose0}x^n + {n\choose1}x^{n-1}y^1 + {n\choose2}x^{n-2}y^{2} + \cdots + {n\choose n-1}x^1y^{n-1} + {n\choose n}y^{n}. \]
+
+\begin{definition}
+We call the coefficients, $n\choose k$, of this expansion the binomial coefficients.
+\end{definition}
+
+We commonly write this in summation form as:
+	\[(x+y)^n = \sum_{k=0}^n {n\choose k}x^k y^{n-k}. \]
+Examining $(x+y)^n$ using subsets gives:
+	\[(x+y)^n = \sum_{S\subseteq [n]} x^{n-|S|}y^{|S|}. \]
+This leads us to the observation that:
+	\[{n\choose k} = \mbox{\# of k-element subsets of [n]}. \]
+The value of the the binomial coefficient $n \choose k$ is:
+	\[{n\choose k} = \frac{n!}{k!(n-k)!}. \]
+
+\begin{question}
+Find the value of:
+	\[\sum^n_{k=0} {n\choose k}. \]
+\end{question}
+
+\begin{answer}
+We can write:
+	\[\sum^n_{k=0} {n\choose k} = \sum^n_{k=0} {n\choose k}(1)^k(1)^{p-k}. \]
+In this way we see the sum is simply the expansion of $(x+y)^n$ with $x=1$ and $y=1$. This means:
+	\[\sum^n_{k=0} {n\choose k} =(1+1)^n=2^n. \]
+\end{answer}
+
+\begin{question}
+Find the value of:
+	\[\sum^n_{k=0} {n\choose k}(-1)^k. \]
+\end{question}
+
+\begin{answer}
+We can write:
+	\[\sum^n_{k=0} {n\choose k}(-1)^k = \sum^n_{k=0} {n\choose k}(-1)^k(1)^{p-k}. \]
+In this way we see the sum is simply the expansion of $(x+y)^n$ with $x=-1$ and $y=1$. This means:
+	\[\sum^n_{k=0} {n\choose k} (-1)^k =(-1+1)^n=0. \]
+\end{answer}
+
+\section{Pascal's Triangle}
+An interesting topic related to the binomial coefficients is Pascal's triangle. The $n^{th}$ row of the triangle displays the $n$ binomial coefficients. The first five rows of the triangle are:
+\begin{center}
+\begin{tabular}{cccccccccc}
+&    &    &    &    &  $0\choose0$\\
+&    &    &    & $1\choose0$ &    & $1\choose1$\\
+&    &    & $2\choose0$ &    & $2\choose1$ &    & $2\choose2$\\
+&    & $3\choose0$ &    & $3\choose1$ &    & $3\choose2$ &    &  $3\choose3$\\
+& $4\choose0$ &    & $4\choose1$ &    & $4\choose2$ &    & $4\choose3$ &    &  $4\choose4$\\
+\end{tabular}
+\end{center}
+
+Putting the actual values into the triangle gives:
+\begin{center}
+\begin{tabular}{cccccccccc}
+&    &    &    &    &  1\\
+&    &    &    &  1 &    &  1\\
+&    &    &  1 &    &  2 &    &  1\\
+&    &  1 &    &  3 &    &  3 &    &  1\\
+&  1 &    &  4 &    &  6 &    &  4 &    &  1\\
+\end{tabular}
+\end{center}
+
+This picture show that for the first five rows any (non-side) entry of the triangle is equal to to the sum of the values it lies between in the row above. That is, we see that ${n\choose k} = {{n-1} \choose {k-1}} + {{n-1} \choose {k}}$ for our first 5 rows. We may wish to know if this is true in general.
+
+\begin{theorem}
+We wish to prove:
+	\[ {n\choose k} = {{n-1} \choose {k-1}} + {{n-1} \choose {k}}. \]
+\end{theorem}
+
+\begin{proof}
+For a set $X$, let:
+	\[{X \choose n}= \{S \subseteq X : |S| = n\}. \]
+With this definition we know that if $|X|=m$ then $|{X \choose n }| = {m \choose n}$. We then let $X=[n]$ and $Y=[n-1]$.
+	\[{X\choose k} = {Y\choose k} \coprod  \{S \subseteq X : |S| = k\ \mbox{and } n \in S\}.\]
+(Here $\coprod$ is the symbol for the union of two disjoint sets.) Looking at the sizes of these sets gives:
+	\[{n\choose k} = |{X\choose k}| = |{Y\choose k}| + |{Y\choose (k-1)}| = {n-1\choose k} + {n\choose k-1}.\]	
+\end{proof}
+
+\section{Inclusion/Exclusion}
+The goal of inclusion/exclusion is count the number of elements in a set that are not in some other collection of sets, where these other sets may have elements in common. To begin the discussion of inclusion/exclusion work we define the following:
+	\[n,r \in \mathbb{N}\mbox{ ,} \]
+	\[S \mbox{ is a set with } |S|=n \mbox{ ,}\]
+	\[\mbox{and } E_1,\cdots,E_r \subseteq S .\]
+In this setting the goal of inclusion/exclusion is then to count $|S-\cup^r_{i=1} E_i|$. Before we continue we define one more quantity:
+	\[n_k = \sum_{I \subseteq [r], |I|=k} |\cap_{i\in I}E_i|.\]
+
+\begin{theorem}
+We wish to prove:
+	\[|S-\cup^r_{i=1} E_i|=n-n_1+n_2-n_3+n_4-\cdots +(-1)^r n_r. \]
+\end{theorem}
+
+\begin{proof}
+To begin we write the sum of $n$'s in set notation:
+	\[n-n_i+n_2-n_3+ n_4-\cdots +(-1)^r n_r=\sum_{I\subseteq [r]}(-1)^{|I|}|\cap_{i\in I} E_i|. \]
+Next we introduce an indicator function defined as:
+ \begin{displaymath}
+   f_I(x) = \left\{
+     \begin{array}{l}
+       1 \mbox{ if } x \in \cap_I E_i\\
+       0 \mbox{ else}
+     \end{array}
+   \right.
+\end{displaymath} 
+Using this formula we write:
+	\[\sum_{I\subseteq [r]}(-1)^{|I|}|\cap_{i\in I} E_i|=\sum_{I\subseteq [r]}(-1)^{|I|}\sum_{x \in S} f_I(x). \]
+	\[=\sum_{x \in S}\sum_{I\subseteq [r]}(-1)^{|I|}f_I(x). \]
+	\[=\sum_{x \in S}\sum_{k=0}^n(-1)^{k}(\sum_{|I|=k} f_I(x)). \]
+But on examination we see:
+	\[\sum_{|I|=k} f_I(x)= \#\{I \subseteq [r] : |I|=k, x \in E_I\}=\#{J_x \choose k} = {j_x \choose k}. \]
+We then have:
+	\[n-n_i+n_2-n_3+ n_4-\cdots +(-1)^r n_r=\sum_{x \in S}\sum_{k=0}^n(-1)^{k}{j_x \choose k}. \]
+Based on the results of Question 2 we know:
+ \begin{displaymath}
+   {j_x \choose k} = \left\{
+     \begin{array}{l}
+       0 \mbox{ if } j_x\neq 0\\
+       1 \mbox{ if } j_x=0
+     \end{array}
+   \right.
+\end{displaymath} 
+This means:
+	\[n-n_i+n_2-n_3+ n_4-\cdots +(-1)^r n_r= |\{x \in S \mid x\in E_i \hspace{5 mm} \forall i\}|. \]
+\end{proof}
+
+\section{Drunken Mailman Problem}
+The first example of using Inclusion/Exclusion we look at will be the drunken mailman problem. This problem presents us with a drunken mailman who has $n$ distinct pieces of mail, one for each of $n$ distinct mailboxes. Because the mailman is drunk he does not look at the addresses on the mail but instead simply puts one random piece of mail in each mailbox. We want to figure out the probability that the mailman gets no pieces of mail in the correct mailbox. To begin we need a few definitions.
+\begin{definition}
+A bijection, $f$, is a mapping of two sets $f:X\rightarrow Y$ that is both injective/one-to-one and surjective/onto . That is, $f$ has the properties:
+	\[f(x) = f(y) \Rightarrow x=y. \mbox{ (injective)} \]
+	\[\forall y \in Y \hspace{1mm} \exists \hspace{1mm} x \in X \mbox{ st } f(x)=y. \mbox{ (surjective)}\]
+\end{definition}
+\begin{definition}
+A permutation $\pi$ of $1,2,\cdots,n$ is a bijection where $\pi: [n]\rightarrow[n]$.
+\end{definition}
+\begin{definition}
+The symmetric group, $S_n$, is the group of all permutations of $[n]$.
+\end{definition}
+\begin{definition}
+A derangement is a permutation with no fixed points ($\pi(i)\neq i \hspace{3mm} \forall i$).
+\end{definition}
+To begin our analysis of the problem let us note that $|S_n|=n!$, because if we count the total number of permutations we see that to start we can map 1 to any n, then we can map 2 to any of the remaining (n-1) elements, and so on. Now in terms of the definitions above our drunken mailman problem becomes a question about permutation and derangements. Each possible way the mailman can pass out mail is a permutation of $[n]$, so the mailman has a total of $n!$ total ways to pass out mail. If a mailman gets no pieces of mail in the correct mailbox than his permutation is a derangement. We then want to count the number of possible derangements. To do this we use inclusion/exclusion. We first define the sets:
+	\[S=S_n \mbox{ and } E_i = \{\pi : \pi(i)=i \}.\]
+Next we define:
+	\[N_k = \sum_{I \subseteq [n] , |I|=k} |\cap_i=I E_i|.\]
+Under inclusion/exclusion we then have:
+	\[d_n = \#\{\mbox{derangements of } 1,\cdots,n\}=|S-\cup_{i=1}^r E_i| = N - N_1 + N_2 + \cdots (-1)^k N_k.\]
+Because we have n! total permutations we know:
+	\[N = n! .\]
+Look at the definition of $N_1$ we see that it is the number of permutation with at least one fixed point. To count these we have $n \choose 1$ choices for which point to fix and the remaining permutation of $n-1$ values can be arranged in $(n-1)!$ ways, so:
+	\[N_1 = {n \choose 1} (n-1)! = \frac{n!}{1!(n-1)!}\cdot (n-1)! = \frac{n!}{1!}.\]
+Similarly $N_2$ is the number of permutations with at least two fixed points. We have $n \choose 2$ choices for which points to fix and the remaining $n-2$ values can be arranged in $(n-2)!$ ways, so:
+	\[N_2 = {n \choose 2} (n-2)! = \frac{n!}{2!(n-2)!}\cdot (n-2)! = \frac{n!}{2!}.\]
+Applying this same thinking we see that in general:
+	\[N_k = {n \choose k}(n-k)! = \frac{n!}{k!(n-k)!}\cdot (n-k)! = \frac{n!}{k!}.\]
+Substituting these values into our expression for the number of derangements gives:
+\[d_n = n! - \frac{n!}{1!} + \frac{n!}{2!} - \cdots \frac{n! \cdot(-1)^n}{n!}\]	
+This gives:
+	\[d_n = n! - \frac{n!}{1!} + \frac{n!}{2!} - \cdots \frac{n! \cdot(-1)^n}{n!}\]	
+	\[=n!(1 - \frac{1}{1!} + \frac{1}{2!} - \cdots \frac{(-1)^n}{n!}) .\]
+This is then the total number of derangements. To find the probability of a derangement we divide this by the total number of possible permutations, which was n!, giving:
+	\[\mbox{Probability no correct mail}=(1 - \frac{1}{1!} + \frac{1}{2!} - \cdots \frac{(-1)^n}{n!}) .\]
+One interesting observation is that is the first $n$ terms of the Taylor seres for $e^x$ about the number $x=-1$. This means as $n$ becomes large we expect this probability to be about $\frac{1}{e}$.
+
+\section{Euler's Phi Function}
+In this example we will examine Euler's phi function, defined as:
+	\[\phi(n)=\#\{ k \in [n] : \mbox{GCD}(k,n) = 1 \}. \]
+To begin let us look at a few examples of values for this function. Given $p$ a prime number:
+	\[\phi(p)=p-1 \]
+because every number from 1 to $p-1$ has a GCD of 1 with $p$. Let us again consider a prime number $p$. Then:
+	\[\phi(p^2)=p^2-p \]
+because of the numbers 1 to $p^2$ we exclude the $p$ terms of the form $p,2p,\cdots,p^2$. As a final example let us consider two numbers $p$ and $q$ where both are prime. Then:
+	\[\phi(pq)=pq-p-q+1 \]
+because of the numbers 1 to $pq$ we exclude $p$ terms of the form $q,2q,\cdots,pq$ and we exclude $q$ terms of the form $p,2p,\cdots,qp$, but in the course of doing this we have excluded $pq$ twice so we must add one to make up for this.
+
+Now consider the general case where $n$ is the product of $r$ primes, $p_i$, raised to different powers, $a_i$. That is, where:
+	\[n=\prod_{i=1}^{r} p_i^{a_i} .\] 
+To apply inclusion/exclusion begin by defining:
+	\[S=[n] \hspace{3mm} \mbox{ and } \hspace{3mm} E_i = \{k \in [n] : p \cdot i | k \} .\] 
+Then it is fairly straight forward to see:
+	\[|E_i|=\frac{n}{p_i}\] 
+	\[|E_i \cap E_j|=\frac{n}{p_{i}\cdot p_{j}}\] 
+	\[\vdots\] 
+	\[|E_I|=\frac{n}{p_{i_1}\cdots p_{i_r}}.\] 
+Apply the results of inclusion/exclusion we find:
+	\[\phi(n)=n - \sum_i\frac{n}{p_i} + \sum_{i<j} \frac{n}{p_i p_j} - \cdots + (-1)^r\frac{n}{p_1\cdots p_r} \] 
+	\begin{equation}\label{1} =n(1-\sum_i\frac{1}{p_i} + \sum_{i<j} \frac{1}{p_i p_j} - \cdots + (-1)^r\frac{1}{p_1\cdots p_r}) \end{equation} 	\[=n(1-\frac{1}{p_1})(1-\frac{1}{p_2})\cdots(1-\frac{1}{p_r})\] 
+	\[=n \prod_{j=1}^{r} (1 - \frac{1}{p_i}).\] 
+
+\section{The M$\ddot{\mbox{o}}$bius Function}
+We begin by defining the M$\ddot{\mbox{o}}$bius function, $\mu(d)$, as:
+ \begin{displaymath}
+   {\mu(d)} = \left\{
+     \begin{array}{l}
+       (-1)^r \mbox{ if } d=p_1\cdot p_2\cdots p_r \mbox{ with } p_i \mbox{ distinct primes}\\
+       0 \mbox{ else}
+     \end{array}
+   \right.
+\end{displaymath}    
+One interesting thing we can notice immediately is that:
+	\[\phi(n)=\sum_{d|n} \mu(d)\frac{n}{d}.\]
+To see note that the right side of this equation is equivalent to the equation (1) in the above section.
+This equation leads us to study the sum $\sum_{d|n} \mu(d)$. We have the following lemma to give it's value.
+
+\begin{lemma}
+For the M$\ddot{\mbox{o}}$bius function, $\mu(d)$, we have:
+ \begin{displaymath}
+   {\sum_{d|n}\mu(d)} = \left\{
+     \begin{array}{l}
+       1 \mbox{ if } n=1\\
+       0 \mbox{ if } n>1
+     \end{array}
+   \right.
+\end{displaymath}
+\end{lemma}
+
+\begin{proof}
+To begin it is easy to see the the sum takes the value 1 if $n=1$ because 1 is the only divisor of 1, giving:
+	\[\sum_{d|1} \mu(d)=\mu(1)=1.\]
+Next suppose $n \neq 1$ such that n is of the form $n={p_1}^{a_1} \cdots {p_r}^{a_r}$ for $p_i$ distinct primes. Then:
+	\[\sum_{d|n} \mu(d)=\sum_{I \subseteq [r]} \mu(p_{i_1}\cdots p_{i_r})\]
+	\[=\sum_{I \subseteq [r]} (-1)^{|I|}\]
+	\[=\sum_{i=0}^{r} {r \choose i} (-1)^i\]
+	\[=0.\]
+\end{proof}
+
+\section{M$\ddot{\mbox{o}}$bius Inversion}
+To begin the study of M$\ddot{\mbox{o}}$bius Inversion we two functions $f,g: \mathbb{N}\rightarrow A$ (for any abelian group A) that satisfy:
+	\[f(n)=\sum_{d|n}g(d) \hspace{5 mm} \forall n\geq 1.\]
+Given these definitions we have the following theorem for M$\ddot{\mbox{o}}$bius Inversion.
+	
+\begin{theorem}
+Given $f,g$ as defined above:
+	\[g(n)=\sum_{d|n} \mu(d) f(\frac{n}{d}).\]
+\end{theorem}
+
+\begin{proof}
+We have:
+	\[\sum_{d|n} \mu(d) f(\frac{n}{d})=\sum_{d|n} \mu(\frac{n}{d})f(d)\]
+	\[=\sum_{d|n} \mu(\frac{n}{d}) \sum_{d'|d}g(d')\]
+	\[=\sum_{d'|n}g(d')\cdot \sum_{d \mbox{ st } d'|d|n} \mu(\frac{n}{d})\]
+	\[=\sum_{d'|n}g(d')\cdot \sum_{m|\frac{n}{d'}} \mu(m).\]
+But we have seen $\sum_{m|\frac{n}{d'}} \mu(m)$ is 0 unless $\frac{n}{d'}=1$ in the last section. This leaves us:
+	\[=g(n).\]
+\end{proof}
+
+\begin{exercise}
+Show that the converse of this function is true.
+\end{exercise}
+
+With the converse of this theorem we can return to Euler's Phi function. Recall that we found:
+	\[\phi(n)=\sum_{d|n}\mu(d)\cdot \frac{n}{d}.\]
+But here we meet the conditions for the converse of M$\ddot{\mbox{o}}$bius Inversion with $f$ as the identity function $f(n)=n$ and $g$ as Euler's Phi Function. Apply the converse we find that:
+	\[n=\sum_{d|n}\phi(d).\]
+\ignore{This sentence won't appear in the latex output.} % neither will anything preceded by a percent sign
+% in case it's not clear, you should remove the example stuff about Catalan numbers and replace it with your notes.  Go to it, notetaker!
+
+\end{document}

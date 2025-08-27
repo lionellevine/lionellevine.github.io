@@ -1,0 +1,464 @@
+%% LyX 1.6.8 created this file.  For more info, see http://www.lyx.org/.
+
+\documentclass[11pt,english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{bbm}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+%       Misc 
+\newcommand{\Mob}[0]{M\"{o}bius }
+
+\newcommand{\ind}{1\hspace{-2.5mm}{1}} 
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{ (\mbox{mod }{#1})} %congruences
+%\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+\makeatother
+
+\usepackage{babel}
+
+\begin{document}
+\lecture{12}{Lionel Levine}{March 17, 2011}{Lou Odette}
+
+
+\section*{This lecture:}
+\begin{itemize}
+\item A continuation of the last lecture: computation of $\mu_{\Pi_{n}}$,
+the \Mob function over the incidence algebra of partition lattices.
+\item The zeta polynomial of the poset $P$.
+\item Finite Boolean algebras.
+\item A review of selected questions from the midterm.
+\end{itemize}
+
+\section{Computing $\mu_{\Pi_{n}}$, continued...}
+
+In lecture 11 we discussed partition lattices, and showed that intervals
+$\left[\sigma,\tau\right]$ of the lattice were isomorphic to a direct
+product of $k$ posets, where $k$ is the number of blocks of $\tau$.
+In particular, given an interval $\left[\sigma,\tau\right]$ of $\Pi_{n}$,
+if $\tau$ has $k$ blocks, each the (disjoint) union of $\lambda_{k}$
+blocks of $\sigma$, then\[
+\left[\sigma,\tau\right]\simeq\Pi_{\lambda_{1}}\times\cdots\times\Pi_{\lambda_{k}}\]
+Using our earlier lemma for the \Mob function of a direct product
+we can write \begin{equation}
+\mu_{\Pi_{n}}\left[\sigma,\tau\right]=\mu_{\Pi_{\lambda_{1}}}\times\cdots\times\mu_{\Pi_{\lambda_{k}}}\label{eq:L11_0}\end{equation}
+where\[
+\mu_{\Pi_{\lambda}}\equiv\mu_{\Pi_{\lambda}}\left(\hat{0},\hat{1}\right)\]
+
+
+\begin{lemma}\label{L12_lemma_1}
+
+(lattice recurrence) Let $L$ be a lattice with $\left|L\right|\ge2$,
+and recalling that a co-atom is a maximal element of $L-\left\{ \hat{1}\right\} $,
+fix a co-atom $a\in L$. Then\[
+\sum_{\substack{x\in L\\
+x\wedge a=\hat{0}}
+}\mu\left(x,\hat{1}\right)=0\]
+
+
+\end{lemma}
+
+\begin{proof}
+
+We use the following facts about the \Mob algebra $A\left(L\right)$
+which we discussed in lecture 11:\begin{eqnarray}
+x & = & \sum_{y\le x}\delta_{y}\label{eq:L11_1}\\
+\delta_{x} & = & \sum_{y\le x}\mu\left(y,x\right)y\label{eq:L11_2}\\
+\delta_{x}\delta_{y} & = & \left\{ \begin{array}{cc}
+\delta_{x} & ,\, x=y\\
+0 & ,\,\text{otherwise}\end{array}\right.\label{eq:L11_3}\end{eqnarray}
+From equations (\ref{eq:L11_1}) and (\ref{eq:L11_3}) and the assumption
+that the co-atom $a\neq\hat{1}$ \[
+a\delta_{\hat{1}}=\left(\sum_{y\le a}\delta_{y}\right)\delta_{\hat{1}}=0\Rightarrow a\delta_{\hat{1}}=\sum_{x\in L}c_{x}x=0\]
+and since $a\delta_{\hat{1}}$ is identically zero, all coefficients
+of $a\delta_{\hat{1}}$ in the natural basis of $A\left(L\right)$
+are zero, in particular the coefficient $c_{\hat{0}}$ of $\hat{0}$
+vanishes. From the multiplication rule for $A\left(L\right)$ and
+using equation (\ref{eq:L11_2}) applied to $\delta_{\hat{1}}$ we
+can also write\begin{equation}
+0=a\delta_{\hat{1}}=a\sum_{y\le\hat{1}}\mu\left(y,\hat{1}\right)y=\sum_{y\le\hat{1}}\mu\left(y,\hat{1}\right)\left(a\wedge y\right)\label{eq:L11_4}\end{equation}
+so if we restrict the sum in equation (\ref{eq:L11_4}) to $y\in L$
+such that $\left(a\wedge y\right)=\hat{0}$, then we can equate the
+sum of the \Mob functions with the coefficient $c_{\hat{0}}$, which
+is identically zero.
+
+\end{proof}
+
+Applying Lemma \ref{L12_lemma_1} to $L=\Pi_{n}$, we can pick co-atoms
+$a_{i}$ with partitions whose two blocks are $\left\{ i\right\} $
+and $\left[n\right]-\left\{ i\right\} $. The lemma condition $x\wedge a_{i}=\hat{0}$
+implies that either $x=\hat{0}$ or $x$ has a total of $n-1$ blocks,
+$n-2$ blocks that are singletons, and one block of two elements,
+one of which is $i$. Denote partitions of this sort by $x_{i}$.
+The lemma then states that for each co-atom $a\in\left\{ a_{i}\right\} _{i=1}^{n}$\[
+\sum_{\substack{x\in L\\
+x\wedge a=\hat{0}}
+}\mu_{\Pi_{n}}\left(x,\hat{1}\right)=\mu_{\Pi_{n}}\left(\hat{0},\hat{1}\right)+\sum_{i=1}^{n-1}\mu_{\Pi_{n}}\left(x_{i},\hat{1}\right)=0\]
+which after re-arranging and using the fact that $\left[x_{i},\hat{1}\right]\simeq\Pi_{n-1}$
+(so $\mu_{\Pi_{n}}\left(x_{i},\hat{1}\right)=\mu_{\Pi_{n-1}}\left(\hat{0},\hat{1}\right)\equiv\mu_{\Pi_{n-1}}$)
+gives\begin{eqnarray*}
+\mu_{\Pi_{n}}\left(\hat{0},\hat{1}\right) & = & -\sum_{i=1}^{n-1}\mu_{\Pi_{n}}\left(x_{i},\hat{1}\right)\\
+ & = & -\left(n-1\right)\mu_{\Pi_{n-1}}\\
+ & = & \left(-1\right)^{n-1}\left(n-1\right)!\end{eqnarray*}
+and so, using equation (\ref{eq:L11_0}), we see that in general\begin{eqnarray*}
+\mu_{\Pi_{n}}\left(\sigma,\tau\right) & = & \mu_{\Pi_{\lambda_{1}}}\times\cdots\times\mu_{\Pi_{\lambda_{k}}}\\
+ & = & \prod_{i\in\left[k\right]}\left(-1\right)^{\lambda_{i}-1}\left(\lambda_{i}-1\right)!\end{eqnarray*}
+
+
+\begin{example}
+
+The Hasse diagram of $\Pi_{4}$ is shown below: 
+
+\begin{center}
+\includegraphics[scale=0.45]{notes_12.png}
+\par\end{center}
+
+and the corresponding matrix of \Mob function values is {\tiny \[
+\begin{array}{c}
+\text{1\ensuremath{|}2\ensuremath{|}3\ensuremath{|}4}\\
+\text{12\ensuremath{|}3\ensuremath{|}4}\\
+\text{13\ensuremath{|}2\ensuremath{|}4}\\
+\text{14\ensuremath{|}2\ensuremath{|}3}\\
+\text{1\ensuremath{|}23\ensuremath{|}4}\\
+\text{1\ensuremath{|}24\ensuremath{|}3}\\
+\text{1\ensuremath{|}2\ensuremath{|}34}\\
+\text{123\ensuremath{|}4}\\
+\text{124\ensuremath{|}3}\\
+\text{12\ensuremath{|}34}\\
+\text{134\ensuremath{|}2}\\
+\text{13\ensuremath{|}24}\\
+\text{14\ensuremath{|}23}\\
+\text{1\ensuremath{|}234}\\
+\text{1234}\end{array}\left(\begin{array}{ccccccccccccccc}
+1 & -1 & -1 & -1 & -1 & -1 & -1 & 2 & 2 & 1 & 2 & 1 & 1 & 2 & -6\\
+0 & 1 & 0 & 0 & 0 & 0 & 0 & -1 & -1 & -1 & 0 & 0 & 0 & 0 & 2\\
+0 & 0 & 1 & 0 & 0 & 0 & 0 & -1 & 0 & 0 & -1 & -1 & 0 & 0 & 2\\
+0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & -1 & 0 & -1 & 0 & -1 & 0 & 2\\
+0 & 0 & 0 & 0 & 1 & 0 & 0 & -1 & 0 & 0 & 0 & 0 & -1 & -1 & 2\\
+0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & -1 & 0 & 0 & -1 & 0 & -1 & 2\\
+0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & -1 & -1 & 0 & 0 & -1 & 2\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & -1\\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1\end{array}\right)\]
+}{\tiny \par}
+
+where the rows of the matrix are labeled with the partition represented
+by the corresponding vertex of the Hasse diagram. 
+
+We have $\hat{0}=1|2|3|4$, i.e. the partition with four blocks, and
+the values of $\mu\left(\hat{0},\cdot\right)$ are in row $1$ of
+the matrix above, while $\hat{1}=1234$, the partition having a single
+block (row $15$ in the matrix). The co-atoms each have two blocks,
+and their \Mob function values are in rows $8$ though $14$, and
+so per Lemma \ref{L12_lemma_1}, if we choose the co-atom $a=123|4$
+(with $\mu\left(a,\cdot\right)$ values in row $8$), then the elements
+of $x\in\Pi_{4}$ such that $x\wedge a=\hat{0}$ are the vertices
+labeled $14|2|3,1|24|3,1|2|34$ (rows $4,6,7$ respectively). From
+the \Mob function we can confirm\begin{eqnarray*}
+-6=\mu\left(\hat{0},\hat{1}\right) & = & -\left(\mu\left(4,\hat{1}\right)+\mu\left(6,\hat{1}\right)+\mu\left(7,\hat{1}\right)\right)\\
+ & = & -\left(2+2+2\right)\end{eqnarray*}
+
+
+Similarly, if we choose co-atom $a=12|34$ (row $10$) then the elements
+of $x\in\Pi_{4}$ such that $x\wedge a=\hat{0}$ correspond to rows
+$3,4,5,6,12,13$. From the \Mob function values in those rows of
+the matrix we can confirm\[
+-6=\mu\left(\hat{0},\hat{1}\right)=\sum_{x\in\left\{ 3,4,5,6,12,13\right\} }\mu\left(x,\hat{1}\right)\]
+
+
+\end{example}
+
+
+\section{Zeta polynomial of a poset.}
+
+For a poset $P$ with minimum and maximum elements $\hat{0},\hat{1}$
+respectively, define a function of $n$ as follows \begin{equation}
+Z\left(P,n\right)\equiv\#\left\{ \left.\text{multichains: }\hat{0}=x_{0}\le x_{1}\le\cdots\le x_{n}=\hat{1}\right|x_{i}\in P\right\} \label{eq:L11_5}\end{equation}
+then using the ideas we developed for incidence algebras we can write
+this polynomial in $n$ in terms of the zeta function on $P$, i.e.
+as $\zeta^{n}\left(\hat{0},\hat{1}\right)$. By contrast with (\ref{eq:L11_5}),
+the zeta functions is well formed for all $n\in\mathbb{Z}$.
+
+\textbf{Claim}: $Z\left(P,n\right)$ is a polynomial in $n$ and can
+be shown to satisfy a linear recurrence.
+
+Recall that $\left(\zeta-1\right)^{r+1}=0$ if $P$ is of rank $r$,
+so let\[
+Z_{n}\equiv Z\left(P,n\right)\]
+then $Z_{n}$ satisfies the recurrence \[
+\left(E-1\right)^{r+1}Z=0\]
+which implies that $Z_{n}$ is a polynomial $q\left(\cdot\right)$
+in $n$ of degree $\le r$, and in fact, the degree of $q\left(\cdot\right)$
+is equal to $r$.
+
+This gives another way to compute \Mob functions, since $Z\left(P,-1\right)=\zeta^{-1}\left(\hat{0},\hat{1}\right)=\mu\left(\hat{0},\hat{1}\right)$.
+
+\begin{example}
+
+(zeta polynomial on the Boolean algebra of rank $r$) Let $P=B_{r}$,
+then the zeta polynomial $Z\left(B_{r},n\right)$ counts multi-chains
+of the form\[
+\textrm{ÿ}=\hat{0}\subseteq S_{0}\subseteq\cdots\subseteq S_{n}=\hat{1}=\left[r\right]\]
+and by construction, each $i\in\left[r\right]$ appears for the first
+time in some $S_{j},\, j\in\left[n\right]$, which we can choose independently.
+Thus the number of multi chains is $n^{r}$, since there are $n$
+choices for the set where $i\in\left[r\right]$ appears for the first
+time, and there are $r$ elements of $\left[r\right]$. Thus\[
+Z\left(B_{r},-1\right)=\mu_{B_{r}}\left(\hat{0},\hat{1}\right)=\left(-1\right)^{r}\]
+
+
+\end{example}
+
+
+\section{Lattice Axioms.}
+
+We assert the following lattice axioms
+
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline 
+\noalign{\vskip\doublerulesep}
+$x\vee y=x\vee y$ & $x\wedge y=x\wedge y$\tabularnewline[\doublerulesep]
+\hline 
+\noalign{\vskip\doublerulesep}
+$x\vee\left(y\vee z\right)=\left(x\vee y\right)\vee z$ & $x\wedge\left(y\wedge z\right)=\left(x\wedge y\right)\wedge z$\tabularnewline[\doublerulesep]
+\hline 
+\noalign{\vskip\doublerulesep}
+$x\wedge\left(x\vee y\right)=x$ & $x\vee\left(x\wedge y\right)=x$\tabularnewline[\doublerulesep]
+\hline
+\end{tabular}
+\par\end{center}
+
+where the axioms of the last line are referred to as \emph{absorption}
+axioms. With the identification \[
+x\le y\equiv x=x\wedge y\]
+we can check the following lattice properties: 
+\begin{enumerate}
+\item does $x\le x\Rightarrow x=x\wedge x$?\begin{eqnarray*}
+x & = & x\vee\left(x\wedge x\right)\;\text{by absorption}\\
+x\wedge\left(x\vee\left(x\wedge x\right)\right) & = & x\wedge x\;\text{by absorption again}\\
+ & = & x\end{eqnarray*}
+
+\item do $x\le y$, and $y\le x\Rightarrow x=y$?\begin{eqnarray*}
+x\le y & \equiv & x=x\wedge y\\
+y\le x & \equiv & y\wedge x=y\\
+ & \Rightarrow & x=y\end{eqnarray*}
+
+\item does transitivity hold?\begin{eqnarray*}
+x\le y\,\&\, y\le z & \Rightarrow & x=x\wedge y\,\&\, y=y\wedge z\\
+ & \Rightarrow & x\wedge\left(y\wedge z\right)=\left(x\wedge y\right)\wedge z=x\wedge z\\
+ & \Rightarrow & x\le z\end{eqnarray*}
+
+\end{enumerate}
+So, the three axioms above satisfy the requirements for a poset lattice.
+If we add the axiom\[
+x\wedge\left(y\vee z\right)=\left(x\wedge y\right)\vee\left(x\wedge z\right)\]
+we can also describe a distributive lattice axiomatically.
+
+Finally, we can add the following complement axiom. Assume $\exists\hat{0},\hat{1}$
+and $\forall x,\,\exists\neg x$ such that $\hat{0}=x\wedge\left(\neg x\right)$
+and $\hat{1}=x\vee\left(\neg x\right)$. Then we can describe the
+Boolean algebra as follows
+
+\begin{theorem}
+
+If $L$ is a finite Boolean algebra by axiomatic definition, then
+$L\simeq B_{n}$ for some $n\in\mathbb{N}$.
+
+\end{theorem}
+
+\begin{proof}
+
+By Birkhoff's Theorem, since $L$ is a distributive lattice, we have
+$L=J\left(P\right)$ for some poset $P$. If $L$ is to be isomorphic
+to $B_{n}$ then we need to show that $P$ is an antichain, i.e.\
+$P=\underline{1}+\underline{1}+\cdots+\underline{1}$ is the direct
+sum of $n$ singletons, and has no order relations (there do not exist $x,y\in P$ such that $x<y$).
+To this end, assume the complement axiom holds so that for $I\in L=J\left(P\right)$\begin{eqnarray*}
+I\wedge\left(\neg I\right)=I\cap\left(\neg I\right) & = & \emptyset =\hat{0}\\
+I\vee\left(\neg I\right)=I\cap\left(\neg I\right) & = & P=\hat{1}\end{eqnarray*}
+and so the complement operator must be set-theoretic complement in
+this instance: \[
+\neg I=P-I.\]
+However, if  $P$ has a nontrivial order relation $x<y$, then consider the principal ideal $I=\left\langle x\right\rangle =\left\{ \left.z\in P\right|z\le x\right\}$.  Its complement $P-I$ is not an order ideal, since $y\in P-I$ and $x< y$ but $x\notin\left(P-I\right)$.  Therefore $L$ does not satisfy the complement axioms unless $P$ is an antichain.
+\end{proof}
+
+In logic, if $L$ is a Boolean algebra, the elements of $L$ can be interpreted
+as \emph{propositions} or \emph{sentences} with\begin{eqnarray*}
+x\wedge y & \equiv & x\text{ and }y\\
+x\vee y & \equiv & x\text{ or }y\\
+\neg x & \equiv & \text{not }x\\
+\hat{0} & \equiv & \text{FALSE}\\
+\hat{1} & \equiv & \text{TRUE}\end{eqnarray*}
+for $x,y\in L$.
+
+\begin{example}
+
+$B_{1}\simeq\underline{2}=\left\{ \hat{0},\hat{1}\right\} $ 
+
+\end{example}
+
+\begin{example}
+
+$B_{n}\simeq\underline{2}\times\underline{2}\times\cdots\times\underline{2}$
+($n$ bits)
+
+\end{example}\pagebreak{}
+
+
+\section{Midterm review.}
+
+\begin{question}
+
+Midterm question M5.
+
+\end{question}
+
+\begin{answer}
+
+$a_{n+2}-4a_{n+1}+4a_{n}=0\Rightarrow\left(E^{2}-4E+4\right)a_{n}=\left(E-2\right)^{2}a_{n}=0$,
+which then means that \begin{eqnarray*}
+a_{n} & = & r2^{n}+ns2^{n}\\
+r & = & a_{0}\\
+s & = & \frac{a_{1}}{2}-a_{0}\end{eqnarray*}
+then
+\begin{itemize}
+\item (c) \begin{eqnarray*}
+b_{n} & = & 2^{-n}a_{n}\\
+ & = & r+ns\\
+ & = & \left(r+ns\right)(1)^{n}\\
+ & \Rightarrow & \left(E-1\right)^{2}b_{n}=0\end{eqnarray*}
+
+\item (d)\begin{eqnarray*}
+c_{n} & = & a_{n}-2\\
+ & = & r2^{n}+ns2^{n}-2(1)^{n}\\
+ & \Rightarrow & \left(E-2\right)^{2}(E-1)c_{n}=0\end{eqnarray*}
+
+\item (e)\begin{eqnarray*}
+d_{n} & = & a_{2n}=r2^{2n}+2ns2^{2n}\\
+ & = & r4^{n}+2ns4^{n}\\
+ & \Rightarrow & \left(E-4\right)^{2}d_{n}=0\end{eqnarray*}
+
+\end{itemize}
+\end{answer}\newpage{}
+
+\begin{question}
+
+Midterm question M1.
+
+\end{question}
+
+\begin{answer}
+
+We want to show that ${2p \choose p}-{2 \choose 1}$ is divisible
+by $p$, for $p$ prime. Framed as a necklace problem, consider necklaces
+$\underline{a}$ composed of $2p$ beads with $p$ red beads (say),
+and $p$ blue beads. There are ${2p \choose p}$ necklaces that fit
+this description, and since $p$ is prime, the possible stabilizers
+are $C_{1},C_{2},C_{p},C_{2p}$, and \begin{eqnarray*}
+C_{2p} & - & \text{no necklaces}\\
+C_{p} & - & 2\text{ necklaces with alternative colors}\\
+C_{2} & - & \text{no necklaces except for }p=2\\
+C_{1} & - & \left({2p \choose p}-2\right)\text{ necklaces}\end{eqnarray*}
+the last number is divisible by $2p$, and so also by $p$.
+
+\end{answer}
+
+\begin{answer}
+
+Writing the Vandermonde convolution\begin{eqnarray*}
+\sum_{k=0}^{p}{p \choose k}{p \choose p-k} & = & {2p \choose p}\\
+2+\sum_{k=1}^{p-1}{p \choose k}{p \choose p-k} & = & {2p \choose p}\\
+ & \Rightarrow & {2p \choose p}\text{ mod }p=2\end{eqnarray*}
+since \[
+{p \choose k}=\frac{p!}{k!\left(p-k\right)!}\]
+is divisible by $p$ for $k\in\left[p\right]$. Thus\[
+{2p \choose p}-2\text{ mod }p=0\]
+ 
+
+\end{answer}
+\end{document}

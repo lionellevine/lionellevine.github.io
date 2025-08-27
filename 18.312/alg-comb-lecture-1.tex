@@ -1,0 +1,343 @@
+%% LyX 1.6.8 created this file.  For more info, see http://www.lyx.org/.
+
+\documentclass[english]{article}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{textcomp}
+\usepackage{amstext}
+\usepackage{graphicx}
+\usepackage{amssymb}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% LyX specific LaTeX commands.
+\newcommand{\lyxmathsym}[1]{\ifmmode\begingroup\def\b@ld{bold}
+  \text{\ifx\math@version\b@ld\bfseries\fi#1}\endgroup\else#1\fi}
+
+%% Because html converters don't know tabularnewline
+\providecommand{\tabularnewline}{\\}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{bbm}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+\newcommand{\ind}{1\hspace{-2.5mm}{1}} 
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{ (\mbox{mod }{#1})} %congruences
+%\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+\makeatother
+
+\usepackage{babel}
+
+\begin{document}
+\lecture{1}{Lionel Levine}{February 1, 2011}{Lou Odette}
+
+
+\section{Names, places, times:}
+\begin{itemize}
+\item \textbf{Office hours} (in 2-335): \emph{Tuesdays} 12:00-13:00 \& \emph{Wednesdays}
+13:00-14:00.
+\item \textbf{Course} \textbf{info}: math.mit.edu/\textasciitilde{}levine/18.312
+(levine at math dot mit dot edu)
+\item \textbf{Grader}: Aldo Pacchiano Camacho (pacchian at mit dot edu)
+\item \textbf{Grading}: 
+
+\begin{itemize}
+\item weekly PSET worth roughly 50 {}``points'' throughout the term; turn
+in your best 30 {}``points'' to count for \emph{30\% of final grade},
+\item midterm on \textbf{March 10} worth \emph{20\% of final grade},
+\item final on \textbf{May 5} worth \emph{30\% of final grade}, and
+\item write-up of notes (1-2 lectures) worth \emph{20\% of final grade}.
+\end{itemize}
+\end{itemize}
+
+\section{Algebraic Combinatorics}
+
+While the term \emph{combinatorics} frequently is used to refer to
+counting problems (Enumerative Combinatorics), some combinatorics
+is non-enumerative and in particular Algebraic Combinatorics treats
+the relationships between discrete structures and algebraic objects,
+e.g.
+
+\begin{center}
+{\small }\begin{tabular}{|c|c|c|}
+\multicolumn{1}{c}{{\small Discrete Structures}} & \multicolumn{1}{c}{} & \multicolumn{1}{c}{{\small Algebraic Objects}}\tabularnewline
+\cline{1-1} \cline{3-3} 
+{\small graphs} &  & {\small groups}\tabularnewline
+\cline{1-1} \cline{3-3} 
+{\small partially ordered sets} & {\small $\dashleftarrow$} & {\small monoids}\tabularnewline
+\cline{1-1} \cline{3-3} 
+{\small lattices} &  & {\small vector spaces}\tabularnewline
+\cline{1-1} \cline{3-3} 
+{\small matroids} & {\small $\dashrightarrow$} & {\small rings}\tabularnewline
+\cline{1-1} \cline{3-3} 
+{\small simplicial complexes} &  & {\small algebras}\tabularnewline
+\cline{1-1} \cline{3-3} 
+\end{tabular}
+\par\end{center}{\small \par}
+
+While the connection with algebraic objects can provide more structure
+to the combinatorial objects, the connection can go the other way,
+with combinatorial objects providing concrete instances of the algebraic
+objects. The next section is an example of a combinatorial object
+helping to make an algebraic idea concrete.
+
+
+\section{Fermat's {}``little'' Theorem}
+
+Fermat's {}``little'' theorem states that if $p$ is a prime number,
+then for any $n\in\mathbb{N}$, $n^{p}\lyxmathsym{\textminus}n$ will
+be evenly divisible by $p$. To make this concrete, consider the problem
+of making a necklace of $p$ beads, choosing the beads from $n$ distinct
+colors. Let $\left[n\right]\equiv\{1,2,\ldots,n\}$, and denote the
+cardinality of a set $S$ by $\#S$ (alternatively, by $\left|S\right|$).
+
+The set of all necklaces of $p$ beads from $n$ colors has cardinality\[
+\#\left\{ f:\left[p\right]\rightarrow\left[n\right]\right\} =n^{p}\]
+and so there are $n^{p}-n$ necklaces that aren't all one color (constant).
+Let the color of bead $i$ be $f(i)=a_{i}$ and denote a necklace
+by a $p$-vector of the colors starting with the bead at 12 o'clock
+and proceeding clockwise. For example, the necklace $\underline{a}=(a_{1},a_{2},\ldots,a_{9})$
+can also be represented by the following picture
+
+\begin{center}
+\includegraphics[scale=0.35]{single_nine_2011_2_4_16_22}
+\par\end{center}
+
+Denote a counterclockwise rotation of the necklace by $i$ beads by\[
+r^{i}\left(a_{1},a_{2},\ldots.a_{p}\right)=\left(a_{i+1},\ldots.a_{p},a_{1},\ldots,a_{i}\right)\]
+so for example $r^{4}\left(a_{1},a_{2},\ldots.a_{9}\right)=\left(a_{5},\ldots.a_{9},a_{1},\ldots,a_{4}\right)$
+and the necklaces $\underline{a}$ and $r^{4}\left(\underline{a}\right)$
+are illustrated below
+
+\begin{center}
+\includegraphics[scale=0.7]{single_nine_rotated_2011_2_4_16_39}
+\par\end{center}
+
+
+
+\begin{proposition}
+
+If $\underline{a}$ is a non-constant necklace, then the necklaces
+$\underline{a},r^{1}\left(\underline{a}\right),\ldots,r^{p-1}\left(\underline{a}\right)$
+are all distinct.
+
+\end{proposition}
+
+\begin{proof}
+
+If $r^{i}\left(\underline{a}\right)=r^{j}\left(\underline{a}\right)$
+then $\left(a_{i+1},\ldots.a_{p},a_{1},\ldots,a_{i}\right)=\left(a_{j+1},\ldots.a_{p},a_{1},\ldots,a_{j}\right)$
+and so for all $k$, $a_{i+k}=a_{j+k}\,\modulo{k}$. Now let $l=j-i$,
+then $a_{i+k}=a_{j+k}\Rightarrow a_{k}=a_{k+l}$, and it follows that
+$a_{l}=a_{2l}=a_{3l}=\cdots$. However, if $i\ne j$ then $l\ne0$
+and $a_{l},a_{2l},a_{3l},\cdots$ are all distinct $\modulo{p}$.
+Thus in this case the necklace $\underline{a}$ must be constant,
+so $r^{i}\left(\underline{a}\right)=r^{j}\left(\underline{a}\right)$
+only if $i=j$. Thus there are exactly $p$ rotational classes on
+non constant necklaces, and the number of distinct non-constant necklaces
+is evenly divisible by $p$.
+
+\end{proof}
+
+
+\section{Review of group action.}
+
+Let $G$ be a group and $X$ a non-empty set, with $g,h\in G$ and
+$x\in X$.
+
+\begin{definition}
+
+The \emph{action} of $G$ on $X$ is a map\[
+G\times X\rightarrow X;\;\left(g,x\right)\mapsto gx\]
+such that (i) $\mathbf{1}x=x,\;\forall x\in X$ and (ii) $\forall g,h\in G,\;\forall x\in X$,
+$g\left(hx\right)=\left(gh\right)x$. 
+
+\end{definition} 
+
+For each $g\in G$ we also get an invertible map $\sigma(g)$ from
+the action of $g$ on $x$ \[
+\sigma\left(g\right):X\rightarrow X,\; x\mapsto gx\]
+and we can check that $\sigma\left(g\right)$ is invertible \[
+\sigma\left(g^{-1}\right)\left(\sigma\left(g\right)x\right)=g^{-1}\left(gx\right)=\left(g^{-1}g\right)x=\mathbf{1}x=x\]
+and that the map $\sigma(\cdot)$ is a group homomorphism $\sigma:G\rightarrow\text{Sym}\, X$
+(i.e. $\sigma(gh)=\sigma(g)\sigma(h)$) where $\text{Sym}\, X$ is
+the symmetric group of all invertible maps. 
+
+\begin{definition}
+
+Let $G$ be a group that acts on the set $X$. If $x\in X$ the \emph{orbit}
+of $x$ is the set $\text{Orb}\left(x\right)=\left\{ y\in X|y=gx,\,\text{for some}\, g\in G\right\} $.
+The \emph{stabilizer} of $x$ is the set $\text{Stab}\left(x\right)=\left\{ g\in G|gx=x\right\} $.
+Notice that $\text{Stab}\left(x\right)$ is a subgroup of $G$ \[
+g,h\in\text{Stab}\left(x\right)\Rightarrow gh\left(x\right)=g\left(hx\right)=g\left(x\right)=x\Rightarrow gh\in\text{Stab}\left(x\right)\]
+
+
+\end{definition}
+
+\begin{definition}
+
+If $S\subset G$, then let $\left\langle S\right\rangle $ denote
+the subgroup generated by $S$, the smallest subgroup of $G$ containing
+every element of $S$. If $G=\left\langle S\right\rangle $ then $S$
+generates $G$ and the elements in $S$ are called \emph{generators}.
+
+\end{definition}
+
+\begin{definition}
+
+A group $G$ is \emph{cyclic} if there exists an element $g\in G$
+such that $G=\left\langle g\right\rangle \equiv\left\{ g^{n}|n\in\mathbb{N}\right\} $.
+
+\end{definition}\begin{theorem}
+
+The \emph{Orbit-Stabilizer} Theorem states that $\forall x\in X$\[
+\left|\text{Orb}\left(x\right)\right|\times\left|\text{Stab}\left(x\right)\right|=\left|G\right|\]
+
+
+\end{theorem}
+
+
+\section{A generalization of Fermat's {}``little'' theorem.}
+
+We can generalize Fermat's {}``little'' theorem if $p$ is not prime
+as follows. 
+\begin{itemize}
+\item In general, $n^{k}-n$ is not evenly divisible by $k$. For example,
+consider a necklace of four beads from 2 colors ($n=2,\; k=4$). Clearly\[
+\frac{n^{k}-n}{k}=\frac{2^{4}-2}{4}=\frac{14}{4}\notin\mathbb{N}\]
+and if we count the non-constant necklaces, the fourteen necklaces
+are\[
+\underline{a},r^{1}\left(\underline{a}\right),r^{2}\left(\underline{a}\right),r^{3}\left(\underline{a}\right),\underline{b},r^{1}\left(\underline{b}\right),r^{2}\left(\underline{b}\right),r^{3}\left(\underline{b}\right),\underline{c},r^{1}\left(\underline{c}\right),r^{2}\left(\underline{c}\right),r^{3}\left(\underline{c}\right),\underline{d},r^{1}\left(\underline{d}\right)\]
+based on the necklaces $\underline{a},\underline{b},\underline{c},\underline{d}$
+shown below
+\end{itemize}
+\begin{center}
+\includegraphics{four_two_2011_2_8_17_28}
+\par\end{center}
+\begin{itemize}
+\item For general $k$, consider the set of $k$-necklaces from $n$ colors,\[
+N_{k}=\left\{ \left(a_{0},a_{1},\ldots,a_{k-1}\right)|a_{i}\in\left[n\right]\right\} .\]
+ $ $Clearly $\left|N_{k}\right|=n^{k}$, and the cyclic group $C_{k}$
+of order $k$ acts on members of the set $N_{k}$ by rotation. With
+$r^{i}\left(a_{1},a_{2},\ldots.a_{p}\right)=\left(a_{i+1},\ldots.a_{p},a_{1},\ldots,a_{i}\right)$,
+taking the indices $\text{mod}\, k$, interpret $r^{i}$ as the group
+element acting on the necklace $\underline{a}$. Then for the $k$-necklace
+problem $C_{k}=\left\langle r\right\rangle =\left\{ \mathbf{1},r,r^{2},\cdots,r^{k-1}\right\} $
+with $r^{k}=\mathbf{1}$ and $X\equiv N_{k}$. Thus\[
+r^{i}\left(r^{j}\left(\underline{a}\right)\right)=r^{i+j}\left(\underline{a}\right);\; r^{k}\left(\underline{a}\right)=\underline{a}\]
+represents two actions: rotate by $j$, then rotate by $i$. 
+\item It is apparent then that the generators of $\underline{a},\underline{b},\underline{c}$
+are the cyclic group $C_{1}=\left\langle r\right\rangle $, while
+the generator of $\underline{d}$ is the cyclic group $C_{2}=\left\langle r^{2}\right\rangle $.
+The two constant necklaces have generator $C_{4}=\left\langle r^{4}\right\rangle $.
+\item The necklaces $ $$\underline{a},b,\underline{c}$ each have the same
+stabilizer, with $\text{Stab}\left(\underline{a}\right)=\left\langle r^{4}\right\rangle =C_{1}$,
+while the stabilizer of the necklace $\underline{d}$ is $\text{Stab}\left(\underline{d}\right)=\left\langle r^{2}\right\rangle =C_{2}$.
+The necklaces $\underline{a},b,\underline{c}$ each have the same
+orbit, with $\text{Orb}\left(\underline{a}\right)=\left\{ \underline{a},r\underline{a},r^{2}\underline{a},r^{3}\underline{a}\right\} $,
+while the orbit of the necklace $\underline{d}$ is $\text{Orb}\left(\underline{d}\right)=\left\{ \underline{d},r^{1}\underline{d}\right\} $.
+An application of the Orbit-Stabilizer Theorem gives $\left|\text{Orb}\left(x\right)\right|\times\left|\text{Stab}\left(x\right)\right|=k$
+for each necklace.
+\end{itemize}
+\begin{definition}
+
+A\emph{ }necklace\emph{ }is \emph{primitive} if it has no stabilizer,
+i.e. $\text{Stab}\left(\underline{a}\right)=C_{1}$. 
+
+\end{definition}
+
+\begin{example}
+
+Consider the case $k=pq$, where $p,q$ are distinct primes. The goal
+is to count the number of \emph{primitive} necklaces. Here $C_{k}=C_{pq}$
+which has four subgroups, shown below with their corresponding generators\[
+\begin{array}{ccccc}
+\text{subgroup:} & C_{pq} & C_{p} & C_{q} & C_{1}\\
+ & | & | & | & |\\
+\text{generator:} & \left\langle r^{1}\right\rangle  & \left\langle r^{q}\right\rangle  & \left\langle r^{p}\right\rangle  & \left\langle r^{pq}\right\rangle \end{array}\]
+Let the set of necklaces $E_{\alpha}=\left\{ \text{necklaces }\underline{a}|\text{Stab}\left(\underline{a}\right)\supseteq C_{\alpha}\right\} $,
+with $\alpha\in\left\{ 1,p,q,pq\right\} $. Then the set of primitive
+necklaces is the set difference\[
+N_{k}-E_{p}-E_{q}\]
+and so the number of primitive necklaces is\[
+\left|N_{k}\right|-\left|E_{p}\right|-\left|E_{q}\right|+\left|E_{p}\cap E_{q}\right|\]
+but since $p$ and $q$ are primes, $E_{p}\cap E_{q}=E_{pq}$, the
+number of constant necklaces. So we have\begin{eqnarray*}
+\left|N_{k}\right| & = & n^{pq}\\
+\left|E_{p}\right| & = & n^{q}\\
+\left|E_{q}\right| & = & n^{p}\\
+\left|E_{p}\cap E_{q}\right| & = & n\end{eqnarray*}
+ and thus the number of \emph{primitive} necklaces is $n^{pq}-n^{q}-n^{p}+n$.
+
+\end{example}
+\end{document}

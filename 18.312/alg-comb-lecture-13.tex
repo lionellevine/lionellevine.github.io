@@ -1,0 +1,237 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\angles}[1]{\langle {#1} \rangle}
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+\newcommand{\qbinom}[2] {{#1 \brack #2}_q}
+
+
+
+\begin{document}
+\lecture{13}{Lionel Levine}{Mar 29, 2011}{Alex Arkhipov} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+\section{Introduction}
+
+Today, we're going to introduce $q$-analogues, which are a refinement of binomial coefficients. To understand $q$-analogues combinatorially, we'll show how they arise from counting problems on the lattice of vector spaces over a finite field. 
+
+\section{Review of Finite Fields}
+
+We expect you already know what a field is: an algebraic structure in which you can add, subtract, multiply, and divide, and has 0 and 1 elements that behave like you'd expect them to. You can look up the field axioms.
+
+A field may have $1+1+\dots+1 =0$ for some number of ones. In fact, for a finite field, this must be the case for some number of ones, and the minimum such number of ones is the field's \emph{characteristic}. There is exactly one finite field with $q$ elements (written $\F_q$) for each $q$ that is a power of a prime, $q=p^m$. This field has characteristic $p$. When $m=1$, the field $\F_p$ is the familiar field $\Z / p\Z$ of integers modulo $p$.
+
+\section{The Subspace Lattice and Flags}
+
+Let $\F_q^n$ be the vector space of $n$-tuples of elements of the field $\F_q$. We're going to concentrate on one combinatorial object, the lattice of linear subspaces of $\F_q^n$ ordered by inclusion. 
+
+\begin{definition} Define $L_n(q)$ to be the lattice of linear subspaces of $\F_q^n$ partially ordered by inclusion. The meet $V\wedge W$ is given by the intersection $V\cap W$ and the join $V\vee W$ by the sum $V+W = span(V\cup W)$. 
+\end{definition}
+In the definition of $L_n(q)$, we do not take the empty set to be a subspace. 
+
+\begin{definition} A \textbf{flag} (also called a \textbf{complete flag}) is a maximal chain in $L_n(q)$.
+\end{definition}
+So, a flag is a sequence of subspaces one dimension higher than and containing the previous. For the chain to be maximal, it must contain $n+1$ subspaces, whose dimensions start at $0$ and count up through $n$.
+$$ \{0\} = E_0 \subset E_1 \subset \cdots \subset E_n = \F_q^n.$$ Note that $dim(E_i) = i$.
+
+Here's the question we'd like to answer:
+
+\begin{question} How many flags of $\F_q^n$ are there (call this $f_n(q)$)?
+\end{question}
+
+Since one can specify a flag by choosing spaces $E_0, E_1, \dots, E_n$ in sequence, we will count the number of choices at each step.
+
+$E_0$: No choice, must be $\{0\}$.
+
+$E_1$: We're choosing a line through the origin. It suffices to choose any nonzero point $v \in \F_q^n - \{0\}$ and let $E_1$ be the subspace its spans $\angles{v}$, and there are $q^n-1$ ways to do this. But, since $\angles{v}=\angles{\lambda v}$ for any nonzero scalar $\lambda$ of $\F_q$, we're overcounting by a factor of $q-1$. So, there are $\frac{q^n-1}{q-1}$ choices.
+
+$E_2$: We wish to extend $E_1 = \angles{v_1}$ by adding a new vector so that $E_2 = \angles{v_1, v_2}$. Any $v_2 \in \F_q^n - \angles{v_1}$ works, of which there are $q^n - q$. But since $\angles{v_1, v_2} = \angles{v_1, \lambda v_2 + w} $ for any $\lambda \in \F_q - \{0\}$ and $w \in E_1$, there are $\frac{q^n-q}{q(q-1)}$ choices.
+
+$E_k$: In general, having chosen $E_{k-1} = \angles{v_1, v_2, \dots, v_{k-1}}$, there are $q^n-q^{k-1}$ choices of $v_k \in \F_q^n - E_{k-1}$, and since $\angles{v_1, v_2, \cdots, v_{k-1}, v_k} = \angles{v_1, v_2, \cdots, v_{k-1}, \lambda v_k + w}$ for $\lambda \in \F_q - \{0\}$ and $w \in E_{k-1}$, there are $\frac{q^n-q^{k-1}}{(q-1)q^{k-1}}$ choices at this step.
+
+Multiplying out the number of choices at each step, we find that $$f_n(q) = \frac{q^n-1}{q-1} \times \frac{q^n-q}{(q-1)q} \times \cdots \times \frac{q^n-q^{n-1}}{(q-1)q^{n-1}},$$ or simplified, $$f_n(q) = \frac{q^n-1}{q-1} \times \frac{q^{n-1}-1}{q-1} \times \cdots \times \frac{q-1}{q-1}.$$ We note that the top and bottom contain equally many factors of $q-1$, and cancelling them allows $f_n(q)$ to be expressed as a polynomial. $$f_n(q) = \left(1+q+\cdots+q^{n-1} \right)\left(1+q+\cdots+q^{n-2} \right) \cdots \left(1+q+q^2 \right) \left(1+q \right) (1).$$
+
+\section{$q$-Analogues}
+
+We'll see in this section how the notions and formulas we've derived for the lattice $L_n(q)$ look like polynomial-in-$q$ versions of the corresponding notions for the Boolean algebra $B_n$. We call these $q$-analogues.
+
+We note that plugging in $q=1$ gives $f_n(1) = n!$. Though there's no field with one element, $n!$ is the number of maximal chains of the Boolean algebra $B_n$. (There is a not fully-understood notion of $B_n$ acting like a "`field with one element'' version of $L_n(q)$) Each maximal chain of $B_n$ is given by a permutation of $[n]$, analogous to a flag being a maximal chain of $\F_q^n$. Looking at the products $$f_n(q) = \left(1+q+\cdots+q^{n-1} \right)\left(1+q+\cdots+q^{n-2} \right) \cdots \left(1+q+q^2 \right) \left(1+q \right)$$ and $$n! = n \times (n-1) \times \cdots \times 2 \times 1,$$ it makes sense to identify each number $k$ with it's $q$-analogue $1+q+\cdots+q^{k-1}$, which we abbreviate as $[k]_q$. 
+
+Here's a summary of the $q$-analogue correspondence.
+
+\begin{center}
+\begin{tabular}{ c| l } 
+Concept & $q$-analogue \\
+\hline 
+$n$ & $[n]_q = 1 + q + \cdots q^{n-1}$  \\ 
+$n!$ & $[n]_q! = [1]_q [2]_q \cdots [n]_q$  \\ 
+$B_n$ & $L_n(q)$\\
+$S_n$ & flags in $\F_q^n$ \\
+$\binom{n}{k}$ & $\qbinom{n}{k}$
+
+\end{tabular}
+\end{center}
+
+\section {$q$-binomial coefficients}
+
+The rest of today's lecture will look at the the last row of the table, the $q$-analogue of $\binom{n}{k}$, which we'll denote as $\qbinom{n}{k}$. If $\binom{n}{k}$ is the number of subsets of $n$ of size $k$, then $\qbinom{n}{k}$ should be the number of $k$-dimensional subspaces  of $\F_q^n$ ($k$-subpaces for short). We'll show that $\binom{n}{k}$ is related to $[n]!$ in the same way as $\binom{n}{k}$ to factorials.
+
+\begin{lemma} $$\qbinom{n}{k}=\frac{[n]_q!}{[k]_q![n-k]_q!}$$
+\end{lemma}
+\begin{proof}
+We'll count in two ways the pairs $(V,E)$ where $V$ is a $k$-subspace of $\F_q^n$ and $E$ is a flag $(E_0, \dots, E_n)$ of $\F_q^n$ for which $E_k=V$.
+
+For the first way, first choose a flag $E$; there are $[n]_q!$ choices. Since each $E$ has a unique subspace $V=E_k$, there are $[n]_q!$ pairs.
+
+For the second way, fix $V$, of which there are $\qbinom{n}{k}$ choices. Now, we're left to choose $(E_0, \dots, E_{k-1})$ with  $$\{0\} = E_0 \subset E_1 \subset \cdots \subset E_k = V$$ and $(E_{k+1}, \dots, E_{n})$ with  $$V = E_k \subset E_{k+1} \subset \cdots \subset E_n = \F_q^n.$$ The first choice corresponds to a flag in $\F_q^k$, of which there are $[k]_q!$. For the second, we note that the sublattice of $\F_q^n$ of subspaces containing the $k$-subspace $V$ is isomorphic to $L_{n-k}(q)$ via modding out by $V$. So, there are as many choices as flags of $L_{n-k}(q)$, of which there are $[n-k]_q!$. So, the overall number of pairs is $$\qbinom{n}{k} \times [k]_q! \times [n-k]_q!.$$ 
+
+So, $$[n]_q! = \qbinom{n}{k} \times [k]_q! \times [n-k]_q!,$$ which gives the result.
+\end{proof}
+
+Let's work through an example.
+
+\begin{example} How many $2$-subspaces are there of $\F_q^4$?
+\end{example}
+
+\begin{answer} $$\qbinom{4}{2} = \frac{[4]_q!}{[2]_q![2]_q!} = \frac{(q^4-1)(q^3-1)(q^2-1)(q-1)}{(q^2-1)(q-1)\times (q^2-1)(q-1)} = (q^2+1)(q^2+q+1) = q^4+q^3+2q^2+q+1$$ 
+\end{answer}
+
+Note how the rational functions cancel to produced a polynomial, moreover one whose coefficients are non-negative integers. This should tip you off that these coefficients are counting something. But before we get to that, let's show that this is true in general by means of a recurrence.
+
+\begin{lemma}
+$$\qbinom{n}{k} = \qbinom{n-1}{k} +  \qbinom{n-1}{k-1} q^{n-k} $$ (Note that when $q=1$, we get the usual recurrence for $\binom{n}{k}$.)
+\end{lemma}
+
+\begin{proof}
+Fix a hyperplane ($(n-1)$-subspace) $H \subset \F_q^n$. We'll split the $k$-subspaces $V$ that $\qbinom{n}{k}$ counts into two categories.
+
+If $V \subset H$, there are $\qbinom{n-1}{k}$ choices of $V$.
+
+If $V \not \subset H$, then let $W$ be the $(k-1)$-subspace $W= H \cap V$. There are $\qbinom{n-1}{k-1}$ possible $W$ within $H$. For each $W$, the $k$-subspaces $V$ with $W = H \cap V$ are exactly those $k$-subspaces $V$ with $W\subset V \subset \F_q^n$, excluding those with $W\subset V \subset H$. Modding out by $W$, these are in one-to-one correspondence with lines ($1$-subspaces) in $\F_q^n / W$ and $H / W$ respectively, so the number of eligible $V$ is $$[n-k+1]_q - [n-k]_q=q^{n-k}.$$ So, overall, there are  $\qbinom{n-1}{k-1} q^{n-k}$ $k$-subspaces $V$ with $V \not \subset H$. 
+\end{proof}
+
+From the recurrence, we see that we can build the $q$-analogue of Pascal's Triangle, where each entry is in row $i$ is the the entry above it plus $q^i$ times the entry to its left.
+
+\begin{center}
+\begin{tabular}{ llllll } 
+$1$ & $1$ & $1$ & $1$ & $1$ \\
+$1$ & $q+1$ & $q^2+q+1$ & $q^3 + q^2+q+1$ & \\ 
+$1$ & $q^2+q+1$ & $q^4+q^3+2q^2+q+1$ & & \\
+$1$ & $q^3+q^2+q+1$ &&& \\
+$1$ &&&& \\
+\end{tabular}
+\end{center}
+
+\section{Partitions}
+
+Now that we know that the coefficients of the $q$-binomial $\qbinom{n}{k}$ are non-negative integers, we'd like to understand what they count. We'll see that they count a certain type of partition. 
+
+\begin{definition}
+A \emph{partition} of $l$ is a sequence of natural numbers $\lambda_1 \geq \lambda_2 \geq \cdots \geq \lambda_l \geq 0$ whose sum is $l$. 
+\end{definition}
+
+Partitions are like the compositions we defined before, except reorderings, which is achieved by writing the parts in decreasing order. We may have fewer than $l$ parts by having all remaining parts equal zero. For example, there are five partitions of 4, which are (omitting zero parts) 4, 3+1, 2+2, 2+1+1, and 1+1+1+1.
+
+\begin{definition}
+The \textbf{Young Diagram} of a partition of $l$ is the union of $\lambda_1$ boxes in row 1, $\lambda_2$ boxes in row 2, and so on. Equivalently, it is the set of pairs $(i,j)$ with $i,j>0$ and $j\leq \lambda_i$. We say that a partition fits in an $a\times b$ box if all pairs $(i,j)$ have $i\leq a$ and $j\leq b$. 
+\end{definition}
+
+\begin{figure}
+  \begin{center}
+ \includegraphics{Partitions.png}
+   \end{center}
+   \caption{Young Diagrams of all partitions of the numbers 1 through 8. From Wikipedia.}
+\end{figure}
+
+\begin{theorem}
+$$\qbinom{n}{k} = \sum_{l=0}^{k(n-k)}{a_l q^l},$$ where $a_l$ is number of partitions of $l$ whose Young Diagram fits in a $k \times (n-k)$ box.
+\end{theorem}
+
+For example, corresponding to the polynomial $\qbinom{4}{2} = q^4 + q^3 + 2q^2 + q + 1$ is the fact that one partition of four fits in a $2\times 2$ box, as do one partition of 3, two partitions of 2, one partition of 1, and one partition of 0 (the empty partition), which can be counted from in Figure 1.
+
+We'll prove the theorem next class, but today let's note a couple of things. 
+
+First, $\qbinom{n}{k}$ has degree $k(n-k)$, which we could have checked from the degrees of the $q$-factorial terms in its definition.
+
+Second, this theorem makes clear that $\qbinom{n}{k} = \qbinom{n}{n-k}$, since the expression is symmetric with respect to $k$ and $n-k$. 
+
+Third, it exposes another symmetry, that the coefficients of each $q$-binomial are palindromic. This follows from the one-to-one correspondence in which a Young Diagram of a partition of $l$ inside a $k \times (n-k)$ box has its complement taken and is rotated 180 degrees, to produce the Young Diagram of a partition of $k (n-k) - l$ inside a $k \times (n-k)$ box. 
+
+Finally, taking $q=1$, we have the $\binom{n}{k}$ equals the total number of partitions that fit in a $k \times n-k$ box. How can we understand this combinatorially? Observe that the right and bottom boundary of the Young Diagram uniquely defines a path from the bottom left corner to the top right corner of the $k \times (n-k)$ box, made of unit steps going up or right. There are $k$ ups and $n-k$ rights, and their sequence defines a subset of $k$ of $n$. In this way, we see that $q$-binomials $\qbinom{n}{k}$ are a more refined count of subset of $n$ of size $k$, groups by how much area the corresponding path bounds.
+
+
+
+
+\end{document}
+

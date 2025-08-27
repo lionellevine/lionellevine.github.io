@@ -1,0 +1,398 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+\usepackage{multicol}%To write in several columns.
+
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics} 
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{sgeneral}{Slight generalization} %Slight Generalization
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\ 
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{17}{Lionel Levine}{April 14, 2011}{Santiago Cuellar} 
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture 
+
+Todays topics:
+\begin{enumerate}
+\item K\"onig's Theorem
+\item Kasteleyn's Theorem: Domino tilings for planar regions (matching planar graphs )
+\end{enumerate}
+
+\section{Back to K\"onig's Theorem}
+
+\begin{theorem}[Reformulation of Hall's marriage theorem]
+Given sets $I_1,I_2,\dots I_n\subseteq [n]$ suppose that:
+
+\begin{equation}\label{marriage}
+|I_{i_1}\cup I_{i_2} \cup \dots \cup I_{i_k}|\geq k \qquad \text{ for all } 1\leq i_1< i_2 < \dots < i_k\leq n.
+\end{equation}
+
+Then $\{I_1,I_2,\dots I_n\}$, has a \emph{transversal} (or a \emph{system of distinct representatives}). That is, there exists a permutation $\sigma \in S_n$ such that $\sigma(i)\in I_i$ for all $i=1,\dots, n$.
+\end{theorem}
+
+\begin{proof}
+Construct bipartite graph on vertex set $V=X\cup Y$ where $X=\{I_1,I_2,\dots I_n\}$, $Y=[n]$ and the edges $E=\{(I_i,j)| \ j\in I_i\}$. Then (\ref{marriage}) becomes:
+\[
+\Gamma(\{I_{i_1}, I_{i_2}, \dots , I_{i_k}\}) = \#(I_{i_1}\cup I_{i_2} \cup \dots \cup I_{i_k})\geq k
+\] 
+Then, by Hall's marriage theorem, there is a matching which implies a transversal.
+\end{proof}
+
+\begin{sgeneral} $I_1,I_2,\dots I_n\subseteq [m]$, If (\ref{marriage}) holds (note that this implies $n\leq m$) then there is an injective map $\sigma : [n] \rightarrow [m] $ such that $ \sigma(i)\in I_i$ for all $i=1,\dots, n$.
+\end{sgeneral}
+
+Recall the K\"onig's theorem restated as a theorem over bipartite graphs:
+\begin{theorem}[K\"onig]
+Given a bipartite graph $G=(V,E)$:
+
+\begin{equation}
+\min_{\text{vertex cover } C} |C| = \max_{\text{matchings } M} |M|
+\end{equation}
+
+\end{theorem}
+
+
+\begin{proof}[continued from last lecture] 
+
+It is easy to show $|C|\geq |M|$, because each edge of the matching, covers at least one vertex from the cover.
+
+Now we try to prove $\min |C| \leq |M|$ for some matching $M$. Given a minimal vertex cover $C$, we want to extend into a matching $M_C$. Suppose the $X$ and $Y$ are the two components of the graph then let $C_X=C\cap X$ and $C_Y=C\cap Y$.
+
+\begin{example}
+
+\
+
+\begin{center}
+ \includegraphics[scale=0.75]{Images/bipartite.png}
+\end{center}
+
+\end{example}
+
+\ignore{Need to define C_X and C_Y} 
+Consider the induced subgraph $G'=(V',E')$ with vertex set $V'=C_X  \cup (Y-C_Y)$. 
+
+\begin{claim}
+Given a subset $A\subseteq C_X$. Then $\#\Gamma'(A)\geq \#A$
+\end{claim}
+
+\begin{proof}
+For the sake of contradiction, assume $\#\Gamma'(A)< \#A$, then $(C-A) \cup \Gamma'(A)$ would be a smaller vertex cover.
+\end{proof}
+
+Likewise, $G''=(V'',E'')$, with vertex set $V''=C_Y \cup (X-C_X)$%Notice this definition doesn't match the previous one... check whoch one is correct.
+, has a matching $M''$ using all the vertices of $C_X$. Then $M=M'\cup M''$ is the matching we were looking. Since $M'\cap M''=\emptyset$, then $|M|=|M'|+|M''|=|C_X|+|C_Y|=C$
+\end{proof}
+
+\begin{example}
+Consider a $m\times n$ rectangular matrix with entries $1$ and $0$. We look for a subset of rows and columns that covers all the $1$'s. 
+
+\begin{center}
+ \includegraphics[scale=0.7]{Images/matrix.png}
+\end{center}
+
+Let $r+s$ is the min number of lines of the matrix containing all the $1$'s of $M$. Without loss of generality we can assume all the chosen columns are to the left and the rows are at the top. Consider each chosen row, it has to have a $1$ on the right (i.e. not on the chosen columns). Moreover, for two rows they have a $1$ in different columns, otherwise they could be replaced by a column covering both. Likewise, the columns satisfy a similar property which gives us a set of $r+S$ $1$'s.
+\end{example}
+
+
+\section{Kasteleyn's Theorem: Domino tilings for planar regions}
+
+\begin{definition}
+A graph $G=(V,E)$ is called \emph{planar} if there exists a function $\alpha:V\rightarrow \mathbb{R}^2$ and for all $(i,j)\in E$ there is another continuous, injective function $\gamma_{i,j}:[0,1]\rightarrow \mathbb{R}^2$ such that $\gamma_{i,j}(0)=\alpha(i)$, $\gamma_{i,j}(1)=\alpha(j)$ and $\gamma_{i,j}(0,1)\cap \gamma_{i',j'}(0,1)=\emptyset$ for different edges.
+\end{definition}
+Intuitively, a graph is planar if you can draw it on the plane with no intersection of edges.
+%Second one name
+
+Bipartite planar graphs:
+\begin{multicols}{3}
+\begin{enumerate}
+    \item Square Grid
+    \begin{center}
+ 	\includegraphics[scale=0.5]{Images/sqlat.png}
+	\end{center}
+    \item Hexagonal Lattice
+    \begin{center}
+ 	\includegraphics[scale=0.3]{Images/hexlat.png}
+	\end{center}
+    \item General
+    \begin{center}
+ 	\includegraphics[scale=0.4]{Images/generallat.png}
+	\end{center}
+
+\end{enumerate}
+\end{multicols}
+
+\begin{question}
+How many ways can you tile an $m\times n$ square grid by $2\times 1$ dominoes?
+
+    \begin{center}
+ 	\includegraphics[scale=0.5]{Images/domino.png}
+	\end{center}
+\end{question}
+We consider the problem on the dual graph:
+
+    \begin{center}
+ 	\includegraphics[scale=0.5]{Images/dual.png}
+	\end{center}
+
+So the question is equivalent to find the number of perfect matchings in the dual graph.
+
+Let $G$ be a finite induced subgraph of $\mathbb{Z}^2$.
+    \begin{center}
+ 	\includegraphics[scale=0.4]{Images/graph.png}
+	\end{center}
+	
+\begin{definition}The \emph{Kasteleyn matrix} of $G$ is the $V\times V$ matrix:
+\[
+K_{u,v}=
+\left\{\begin{array}{cc}1 & u,v \text{ is an horizontal edge} \\i=\sqrt{-1} & u,v \text{ is a vertical edge} \\0 & \text{ otherwise}\end{array}\right.
+\]
+ \end{definition}
+
+\begin{theorem}[Kasteleyn] 
+Given the graph defined above and it's Kasteleyn matrix:
+
+
+\[
+\#\{\text{perfect matchings of } G\}=\sqrt{|\det K|}
+\]
+
+\end{theorem}
+
+
+
+\begin{example}[$m=2,n=3$]
+
+\
+
+\begin{multicols}{2}
+\
+
+
+    \begin{center}
+ 	\includegraphics[scale=0.75]{Images/example23.png}
+	\end{center}
+
+\[
+K=\left[\begin{array}{cccccc}0 & 0 & 0 & i & 1 & 0 \\0 & 0 & 0 & 1 & i & 1 \\0 & 0 & 0 & 0 & 1 & i \\i & 1 & 0 & 0 & 0 & 0 \\1 & i & 1 & 0 & 0 & 0 \\0 & 1 & i & 0 & 0 & 0\end{array}\right]
+\]
+
+\end{multicols}
+
+Since we only care about the absolute value of the determinant we can swap columns to get:
+\[
+K=\left[\begin{array}{c|c}
+ A & 0 \\ \hline
+  0& A
+   \end{array}\right]
+   \text{ where } \ 
+A=\left[\begin{array}{ccc}i & 1 & 0 \\0 & i & 1 \\0 & 1 & i\end{array}\right]
+\]
+Then $|\det K|=|\det^2 A|=|i^3-i-i|^2=9$. 
+So there are 3 matchings which can be checked by looking at the match for vertex $2$, it has three possibilities and the rest of the matches are uniquely defined afterwards.
+\end{example}
+
+\begin{proof}[Kasteleyn's theorem]
+$G$ is a bipartite graph with parts $X$ and $Y$. Let
+\[
+w(u,v)=\begin{cases} 1 & \text{ if } (u,v) \text{ is a horizontal edge} \\ i & \text{ if } (u,v) \text{ is a vertical edge} \\0 & \text{ otherwise.} \end{cases}
+\]
+ So
+\[
+K=\left[\begin{array}{c|c}
+ 0 & A \\ \hline
+  A^T& 0
+   \end{array}\right]
+   \text{ where } \ 
+A_{u,v}=\left\{\begin{array}{cc}w(u,v) & \ u,v\in E \\0 & \text{otherwise}\end{array}\right.
+\]
+By swapping the columns like in the example we get, $|\det K|=|\det^2 A|=|\det A|^2$. From this, it is enough to show that $|\det A|=\#\{\text{perfect matchings of } G\}$.
+
+We have $n=|X|=|Y|$ and $X=\{u_1,u_2, \dots u_n\}$, $Y=\{v_1, v_2, \dots v_n\}$
+
+\begin{eqnarray}
+\det(A) 	&=& \sum_{\sigma\in S_n} (-1)^\sigma w(1,\sigma(1))\cdot \dots w(n,\sigma(n))\\
+ 		&=&\sum_{\sigma\in S_n} (-1)^\sigma w(u_1,v_{\sigma(1)})\cdot \dots w(u_n,v_{\sigma(n)})
+\end{eqnarray}
+Notice that in the last part, the summands are $0$ if and only if one of the $w$ are $0$. That is they are not $0$ when $\sigma$ represents a matching, so it's only left to check that some of the matchings don't cancel. In other words
+
+\begin{claim}
+Any two matchings occur with the same sign in the sum (There is no cancelation)
+\end{claim}
+
+To do this, we consider two distinct matchings $M$ and $M'$
+
+
+    \begin{center}
+
+ 	\includegraphics[scale=0.6]{Images/matchings.png}
+$ \ \ \ \ \rightarrow \ \ $
+ 	\includegraphics[scale=0.6]{Images/matchingstogether.png}
+	\end{center}
+
+Which together  can be viewed as cycles ($M\cup M' $ is a disjoint union of even cycles.)
+
+\begin{lemma}
+Let $v_1,v_2\dots v_{2k}$ be a cycel in $\mathbb{Z}^2$. Let 
+$$
+\displaystyle \pi=\big({\prod_{i \text{ odd}} w(v_i,v_{i+1})}\big) / \big({\prod_{i \text{ even}}w(v_i,v_{i+1})}\big)
+$$
+then $\pi=(-1)^{k+l-1}$, where $l$ is the number of points in $\mathbb{Z}^2$ strictly enclosed in the cycle.
+\end{lemma}
+
+\begin{proof}
+
+We prove the lemma by induction over the area enclosed by the cycle.
+\begin{itemize}
+\item The base case is when no area is enclosed.
+    \begin{center}
+ 	\includegraphics[scale=0.5]{Images/base.png}
+	\end{center}
+Notice that only this case is possible for area no area enclosed because the cycle is the union of two matchings, so every vertex has degree exactly $2$. In this case
+\[
+\frac{w(v_1,v_2)}{w(v_2,v_1)}=1=(-1)^{1+0-1}
+\]
+\item Inductive step: Without loss of generality we can assume $v_1$ is the topmost vertex in the leftmost column. According to this we consider three cases
+\begin{enumerate}
+\item  So the new variables are:
+
+\begin{multicols}{3}
+\includegraphics[scale=0.75]{Images/case1.png}
+
+$k'=k$
+
+$l'=l-1$
+
+
+$V'=V+1$ 
+
+$H'=H-1$
+
+\
+
+\
+
+$V= \#$vertical edges
+
+$H= \#$horizontal edges
+
+\end{multicols}
+
+Hence we get, using our inductive hypothesis, 
+
+\begin{eqnarray}
+\pi	&=&	\pi' \frac{-i}{i}\\
+	&=& -(-1)^{k'+l'-1}\\
+	&=& (-1)^{k+l-1}
+\end{eqnarray}
+
+
+\item      	
+	The new variables are:
+	
+\begin{multicols}{3}
+\includegraphics[scale=0.75]{Images/case2.png}
+
+$k'=k-1$
+
+$l'=l$
+
+$V'=V$ 
+
+$H'=H-2$
+\end{multicols}
+
+Hence we get, using our inductive hypothesis, 
+
+\begin{eqnarray}
+\pi	&=&	\pi' \frac{1}{i^2}\\
+	&=& -(-1)^{k'+l'-1}\\
+	&=& (-1)^{k+l-1}
+\end{eqnarray}
+
+
+\item  This last case is analogous to the second case:
+	\begin{center}
+ 	\includegraphics[scale=0.75]{Images/case3.png}
+	\end{center}
+\end{enumerate}
+
+
+\end{itemize}
+This proves the lemma.\end{proof}
+
+We will use the lemma, to prove the previous claim and finish the proof of the theorem in the next lecture.
+\end{proof}
+
+\end{document}

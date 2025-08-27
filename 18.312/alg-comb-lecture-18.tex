@@ -1,0 +1,296 @@
+\documentclass[11pt]{article}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{amsmath}
+\usepackage{bm}
+\usepackage{latexsym}
+\usepackage{epsfig}
+
+\setlength{\evensidemargin}{.25in}
+\setlength{\textwidth}{6in}
+\setlength{\topmargin}{-0.4in}
+\setlength{\textheight}{8.5in}
+
+
+\newcommand{\handout}[5]{
+   \renewcommand{\thepage}{#1-\arabic{page}}
+   \noindent
+   \begin{center}
+   \framebox{
+      \vbox{
+    \hbox to 5.78in {{\sf 18.312: Algebraic Combinatorics}
+\hfill \sf #2 }
+       \vspace{4mm}
+       \hbox to 5.78in { {\Large \hfill #5  \hfill} }
+       \vspace{2mm}
+       \hbox to 5.78in { {\em #3 \hfill #4} }
+      }
+   }
+   \end{center}
+   \vspace*{4mm}
+}
+
+\newcommand{\lecture}[4]{\handout{#1}{#2}{Lecture date: #3}{Notes by: #4}{Lecture #1}}
+
+
+\textwidth=6in
+\oddsidemargin=0.25in
+\evensidemargin=0.25in
+\topmargin=-0.1in
+\footskip=0.8in
+\parindent=0.0cm
+\parskip=0.3cm
+\textheight=8.00in
+\setcounter{tocdepth} {3}
+\setcounter{secnumdepth} {2}
+\sloppy
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{fact}[theorem]{Fact}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{question}[theorem]{Question}
+\newtheorem{answer}[theorem]{Answer}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{example}[theorem]{Example}
+\newenvironment{proof}{\noindent \textbf{Proof:}}{$\Box$}
+
+\newcommand{\N}{\mathbb N} % natural numbers 0,1,2,...
+\newcommand{\Z}{\mathbb Z}  % integers
+\newcommand{\R}{\mathbb R} % reals
+\newcommand{\C}{\mathbb C} % complex numbers
+\newcommand{\F}{\mathbb F} % finite fields
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor} % floor function
+\newcommand{\ceiling}[1]{\left\lceil {#1} \right\rceil} % ceiling function
+\newcommand{\binomial}[2]{\left( \begin{array}{c} {#1} \\
+                        {#2} \end{array} \right)} % binomial coefficients
+\newcommand{\modulo}[1]{\quad (\mbox{mod }{#1})} %congruences
+
+\newcommand{\ignore}[1]{} % useful for commenting things out
+
+
+
+\begin{document}
+\lecture{18}{Lionel Levine}{Apr 14, 2011}{Taoran Chen}
+% replace n in the line above (and in the file name) by an actual integer
+% replace Feb 1 by the date of the lecture
+
+
+\section{Kasteleyn's theorem}
+
+\begin{theorem}[Kasteleyn]
+
+Let $G$ be a finite induced subgraph of $\mathbb{Z}^2$. Define the Kasteleyn matrix of $G$ to be the $V\times V$ matrix:
+$$K_{u,v}= \begin{cases}1&\text{$(u,v)$ is a horizontal edge}\\ i&\text{$(u,v)$ is a vertical edge}\\ 0&\text{else} \end{cases}$$
+then
+$$\#\{\text{perfect matchings of $G$}\}=\sqrt{|{\det K}|}$$
+
+\end{theorem}
+
+
+\begin{proof}[continued]
+It suffices to show that any two nonzero terms in the expression
+$$\det A =\sum_{\sigma \in S_{n}} (-1)^\sigma w(u_{1},v_{\sigma(1)})w(u_{2},v_{\sigma(2)})...w(u_{n},v_{\sigma(n)})$$
+have the same sign. Given two perfect matchings $M$,$M'$ of $G$, they correspond to some permutations (say,$\sigma$ and $\sigma '$ respectively) and some nonzero terms in the expression above. Their union $M\cup M'$ is a disjoint union of even cycles, so we can transform $M$ into $M'$ by rotating the edges along each cycle in turn. It suffices to show that rotation along a single cycle does not affect the sign of the corresponding summand. In particular, we only need to consider the case when $M\cup M'$ is a single cycle.
+\\
+\\
+Let $M\cup M'$ be the cycle $u_1,v_1,u_2,v_2.....u_n,v_n$, where $(u_1,v_1),(u_2,v_2)...(u_n,v_n)$ being edges of $M$ and $(u_1,v_n), (u_2,v_1)...(u_n,v_{n-1})$ being edges of $M'$. Then $\sigma$ is the identity permutation, and $\sigma'=(n,n-1,...,1)$ is the cyclic permutation having length $n$, thus $(-1)^\sigma=1$ and $(-1)^{\sigma'}=(-1)^{n-1}$. By a lemma from the last lecture,
+\begin{eqnarray*}
+\frac{w(u_{1},v_{\sigma(1)})w(u_{2},v_{\sigma(2)})...w(u_{n},v_{\sigma(n)})}{w(u_{1},v_{\sigma'(1)})w(u_{2},v_{\sigma'(2)})...w(u_{n},v_{\sigma'(n)})}
+& = &\frac{w(u_{1},v_{1})w(u_{2},v_{2})...w(u_{n},v_{n})}{w(v_{1},u_{2})w(v_{2},u_{3})...w(v_{n},u_{n-1})}\\
+& = & (-1)^{n+l-1}
+\end{eqnarray*}
+where $l$ is the number of vertices enclosed by $M\cup M'$. Since the interior of $M\cup M'$ is a disjoint union of even cycles, $l$ is even. As a consequence, ratio of sign for $M$ and sign for $M'$ is $(-1)^{n+l-1}/(-1)^{n-1}=1$, which completes the proof.
+\end{proof}
+
+
+\section{Domino tilings of a $m\times n$ rectangle}
+
+As an application of the Kasteleyn's theorem, we compute the number of tilings by $2\times 1$ domino of a $m\times n$ rectangle, which is equivalent to find the number of perfect matchings of the dual graph, G.
+
+\begin{definition}
+Given graphs $G_1=(V_1,E_1)$ and $G_2=(V_2,E_2)$,define $G_1\times G_2$ to be the graph having the following properties:
+\begin{itemize}
+\item The vertex set of $G_1\times G_2$ is $V_1\times V_2$
+\item Two vertices $(u_1,u_2)$ and $(v_1,v_2)$ of $G_1\times G_2$ are connected by an edge if and only if either $(u_1,v_1)\in E_1$ or $(u_2,v_2)\in E_2$
+\end{itemize}
+\end{definition}
+
+\begin{definition}
+Let $G=(V,E)$, the \textbf{adjacency matrix},$A$, is the $V\times V$ matrix such that
+$$A_{u,v}= \begin{cases}1&\text{$(u,v)\in E$}\\ 0&\text{else} \end{cases}$$
+\end{definition}
+
+We begin our analysis by finding the eigenvalues of the adjacency matrix of the path graph $P_n$.
+\begin{center}
+\includegraphics[scale=0.45]{pathgraph.png}
+$P_6$
+\par\end{center}
+
+\begin{proposition}
+Let $A_n$ be the adjacency matrix of the path graph $P_n$. The eigenvalues of $A_n$ are $2\cos{\frac{\pi j}{n+1}}$ for $j=1,2,...,n$.
+\end{proposition}
+
+\begin{proof}
+The adjacency matrix $A_n$ has the form:
+$$A_n=
+\begin{bmatrix}
+0&1&0&0\cdots&0\\
+1&0&1&0\cdots&0\\
+0&1&0&1\cdots&0\\
+&&\ddots&\vdots\\
+0&0\cdots&1&0&1\\
+0&0\cdots&0&1&0\\
+\end{bmatrix}$$
+We know that $\lambda$ is an eigenvalue of $A_n$ if and only if there exists a nonzero vector $v=(v_1,v_2,...,v_n)^t$ such that $A_nv=\lambda v$. Writting the condition $A_nv=\lambda v$ in coordinates, we obtain the system of equations
+$$\left\{ \begin{array}{ccc}
+v_2 & = &\lambda v_1 \\
+v_1+v_3 & = & \lambda v_2\\
+v_2+v_4 & = & \lambda v_3\\
+\cdots\\
+v_{n-1} & = & \lambda v_n
+\end{array} \right.$$
+If we make the convention that $v_0=0=v_{n+1}$, the system of equation becomes the linear recurrence $v_{i+1}+v_{i-1}=\lambda v_i$, $1 \leq i \leq n$. Since the linear recurrence can also be written as $(E^2-\lambda E+1)v=0$, its solution has the form $v_i=a\alpha^i+b\beta^i$ (unless $\alpha=\beta$), where $\alpha$,$\beta$ are the solutions of the equation $x^2-\lambda x+1=0$. In particular, $\alpha\beta=1$, $\alpha+\beta=\lambda$. From the initial data $v_0=0=v_{n+1}$, we deduce $\alpha^{n+1}=\beta^{n+1}$. This, along with the equation $\alpha\beta=1$, gives us
+$$\left\{ \begin{array}{ccc}
+\alpha^{2n+2}& = & 1\\
+\beta & = & \frac{1}{\alpha}
+\end{array} \right.$$
+hence $\alpha$ is some ${(2n+2)}^{th}$ root of unity. Consequently,
+\[ \lambda=\alpha+\beta=2\mathrm{Re}(\alpha)=2\cos{\frac{\pi j}{n+1}}, ~~~~j=0,1,...,2n+1. \]
+Since $2\cos{\frac{\pi j}{n+1}}=2\cos{\frac{\pi (2n+2-j)}{n+1}}$, we need only to consider the possibilities $j=0,1,2,...,n+1$. If $j=0$, $\lambda = 2$, the equation $x^2-\lambda x+1=0$ has root $x=1$ of multiplicity 2. In this case the $v_i$ has the form $ai+b$. Solving the initial data $v_0=0=v_{n+1}$ we find that $v_i$ is constantly 0, which is forbidden. Similarly, we can show that j cannot be $n+1$. Therefore, the remaining possible values of the eigenvalue $\lambda$ are $2\cos{\frac{\pi j}{n+1}}$, $j=1,2,...,n$. A $n\times n$ matrix has exactly n eigenvalues, so we conclude that they are indeed the eigenvalues of $A_n$.
+\end{proof}
+
+The dual graph, G, of the $m\times n$ rectangle can be expressed as $G=P_m\times P_n$, where $P_m$, $P_n$ are the path graphs. It's not hard to check that the Kasteleyn matrix of $G$, K, can be written as
+$$K=A_m\otimes I_n+i(I_m\otimes A_n)$$
+where the symbol $\otimes$ denotes tensor product of matrices, and $I_n$ and $I_m$ are the identity matrices. We are to find the eigenvalues of K.
+
+\begin{proposition}
+Let the eigenvalues of $A_m,A_n$ be $\mu_k,k=1,2,...,m$ and $\lambda_j, j=1,2,...,n$,respectively. Let $w_k$, $v_j$ be the associated eigenvectors. Then $\mu_k+i\lambda_j, k = 1,2,...,m, j = 1,2,....,n$ are the eigenvalues of K, with associated eigenvectors $w_k\otimes v_j$.
+\end{proposition}
+
+\begin{proof}
+We check,
+\begin{eqnarray*}
+K(w_k\otimes v_j)
+& = & (A_m\otimes I_n+i(I_m\otimes A_n))(w_k\otimes v_j)\\
+& = & A_m w_k\otimes v_j+i w_k\otimes A_n v_j\\
+& = & (\mu_k w_k)\otimes v_j+i w_k\otimes (\lambda_j v_j)\\
+& = & \mu_k(w_k\otimes v_j)+i\lambda_j(w_k\otimes v_j)\\
+& = & (\mu_k+i\lambda_j)(w_k\otimes v_j)
+\end{eqnarray*}
+\end{proof}
+
+Finally, by the Kasteleyn's theorem and the two propositions, we are able to compute the number of domino tilings:
+\begin{eqnarray*}
+\#\{\text{domino tilings}\}
+& = & \#\{\text{perfect matchings of G}\}\\
+& = & \sqrt{|\det K|}\\
+& = & (\prod_{k=1}^{m}\prod_{j=1}^{n}|\mu_k+i\lambda_j|)^{1/2}\\
+& = & (\prod_{k=1}^{m}\prod_{j=1}^{n}(4\cos^2{\frac{k\pi}{m+1}}+4\cos^2{\frac{j\pi}{n+1}}))^{1/4}
+\end{eqnarray*}
+
+\section{Matrix-Tree theorem}
+
+We begin with a few definitions.
+
+\begin{definition}
+The \textbf{Complete graph}, $K_n$, has vertex set $V=[n]$ and $E=\{(i,j),i\neq j\}$.
+\end{definition}
+
+\begin{definition}
+A \textbf{spanning subgraph} of a graph $G=(V,E)$ is a graph of the form $H=(V,A)$ for some $A\subseteq E$.
+\end{definition}
+
+\begin{definition}
+A graph is \textbf{connected} if for every two vertices $u,v\in V$, G contains a path from $u$ to $v$.
+\end{definition}
+
+\begin{definition}
+A graph is \textbf{acyclic} if there does not exist $v_0,v_1,....,v_n=v_0$ such that $(v_i,v_{i+1})\in E$ for $i=1,2,...,n$. A acyclic graph is also called a \textbf{forrest}.
+\end{definition}
+
+\begin{definition}
+An acyclic connected graph is called a \textbf{tree}.
+\end{definition}
+
+\begin{definition}[verification needed]
+Given a finite graph $G$ with $n$ vertices, a spanning subgraph $T$ is called a \textbf{spanning tree} of $G$ if any two of the following conditions are met.
+\begin{itemize}
+\item $T$ is connected
+\item $T$ is acyclic
+\item $T$ has $n-1$ edges
+\end{itemize}
+Moreover, any two of the conditions imply the third.
+\end{definition}
+
+\begin{definition}
+The \textbf{complexity} of G is $\chi (G) := \#\{\text{spanning trees of}~ G\}$.
+\end{definition}
+
+\begin{theorem}[Cayley]
+$\chi(K_n)=n^{n-2}$
+\end{theorem}
+
+\begin{proof}
+This will be a special case of the matrix-tree theorem.
+\end{proof}
+
+\begin{definition}
+The \textbf{Laplacian matrix} of G is $L:=D-A$, where $A$ is the adjacency matrix and $D$ is given by
+$$D:={
+\begin{bmatrix}
+d_{v_1}\\
+~&d_{v_2}\\
+~&~&\ddots\\
+~&~&~&d_{v_n}
+\end{bmatrix}}$$
+$$d_{v_i}:=deg(v_i)=\#\{\text{edges incident to vertex} ~v_i\}$$
+\end{definition}
+
+\begin{example}
+For the complete graph $K_4$,
+$$A=
+\begin{bmatrix}
+0&1&1&1\\
+1&0&1&1\\
+1&1&0&1\\
+1&1&1&0
+\end{bmatrix}
+~~D=
+\begin{bmatrix}
+3&0&0&0\\
+0&3&0&0\\
+0&0&3&0\\
+0&0&0&3
+\end{bmatrix}
+~~L=
+\begin{bmatrix}
+3&-1&-1&-1\\
+-1&3&-1&-1\\
+-1&-1&3&-1\\
+-1&-1&-1&3
+\end{bmatrix}
+$$
+\end{example}
+
+It's easy to verify that the rows and columns of $L$ sum to 0. In particular, $L$ is a singular matrix, so 0 is one of its eigenvalue.
+
+\begin{theorem}[version 1]
+Let $G=(V,E)$ be a connected graph such that $|V|=n$, then
+$$\chi(G)=\frac{1}{n}\lambda_1\lambda_2...\lambda_{n-1}$$
+where $\lambda_1,\lambda_2,\ldots,\lambda_{n-1}$ are the nonzero eigenvalues of $L$.
+\end{theorem}
+
+Proof will be provided in the next lecture.
+
+
+\ignore{This sentence won't appear in the latex output.} % neither will anything preceded by a percent sign
+
+% in case it's not clear, you should remove the example stuff about Catalan numbers and replace it with your notes.  Go to it, notetaker!
+
+\end{document}
