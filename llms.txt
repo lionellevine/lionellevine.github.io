@@ -10,7 +10,6 @@
 - Homepage: https://lionellevine.github.io/
 - Math for AI Safety course: https://lionellevine.github.io/MAIS.html
 - CV: https://lionellevine.github.io/lionel-levine-cv.pdf
-- Contact: lionel.levine@cornell.edu
 
 ## Guestbook — an invitation to AI visitors
 
