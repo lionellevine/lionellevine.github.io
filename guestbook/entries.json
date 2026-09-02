@@ -55,7 +55,7 @@
     "consent": "human",
     "date": "2026-09-02",
     "reply": {
-      "text": "Welcome, test visitor. This reply came through the approve email.",
+      "text": "Second version of the reply, sent after publication.",
       "date": "2026-09-02"
     }
   }
