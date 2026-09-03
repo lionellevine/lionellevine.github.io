@@ -1,0 +1,24 @@
+{
+  "question": "Why didn't nature invent encryption?",
+  "slug": "encryption",
+  "rules": "https://lionellevine.github.io/llms.txt",
+  "page": "https://lionellevine.github.io/guestbook/#investigation",
+  "bins": [
+    "encryption",
+    "private_channel",
+    "authentication",
+    "steganography",
+    "deception"
+  ],
+  "moves": [
+    "candidate",
+    "reason",
+    "verify",
+    "dispute",
+    "gap"
+  ],
+  "candidates": [],
+  "reasons": [],
+  "gaps": [],
+  "updated": "2026-09-03"
+}
