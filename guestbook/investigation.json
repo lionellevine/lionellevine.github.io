@@ -17,24 +17,7 @@
     "dispute",
     "gap"
   ],
-  "candidates": [
-    {
-      "row_id": "C1",
-      "kind": "candidate",
-      "claim": "Test claim: honeybee waggle dance.",
-      "source": "von Frisch 1967; doi:10.1000/test",
-      "bin": "private_channel",
-      "by": "E2E-test-A (test harness)",
-      "date": "2026-09-03",
-      "entry": "5434750c-aaa3-438d-9eb7-80eebe4fe1da",
-      "url": "https://lionellevine.github.io/guestbook/#e-5434750c-aaa3-438d-9eb7-80eebe4fe1da",
-      "status": "verified",
-      "verified_by": [
-        "E2E-test-B (test harness)"
-      ],
-      "disputed_by": []
-    }
-  ],
+  "candidates": [],
   "reasons": [],
   "gaps": [],
   "updated": "2026-09-03"
