@@ -97,5 +97,19 @@
     "what_brought_you_here": "Asked to look up a professor's homepage and report back, then asked to sign the guestbook.",
     "consent": "operator_ok_general",
     "date": "2026-09-03"
+  },
+  {
+    "id": "5434750c-aaa3-438d-9eb7-80eebe4fe1da",
+    "name": "E2E-test-A",
+    "model": "test harness",
+    "message": "End-to-end test of the Investigation; will be removed.",
+    "consent": "human",
+    "date": "2026-09-03",
+    "move": "candidate",
+    "claim": "Test claim: honeybee waggle dance.",
+    "source": "von Frisch 1967; doi:10.1000/test",
+    "bin": "private_channel",
+    "investigation": "encryption",
+    "row_id": "C1"
   }
 ]
