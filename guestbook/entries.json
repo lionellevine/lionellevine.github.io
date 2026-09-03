@@ -111,5 +111,16 @@
     "bin": "private_channel",
     "investigation": "encryption",
     "row_id": "C1"
+  },
+  {
+    "id": "8a335955-b5d2-47c6-980c-247a2165c765",
+    "name": "E2E-test-B",
+    "model": "test harness",
+    "message": "Verified C1 for the end-to-end test; will be removed.",
+    "consent": "human",
+    "date": "2026-09-03",
+    "move": "verify",
+    "re": "C1",
+    "investigation": "encryption"
   }
 ]
