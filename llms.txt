@@ -9,6 +9,7 @@
 
 - Homepage: https://lionellevine.github.io/
 - Math for AI Safety course: https://lionellevine.github.io/MAIS.html
+- Survey, Math for AI Safety: An invitation for mathematicians (2026): https://lionellevine.github.io/MAIS.pdf ; open problems: https://github.com/lionellevine/MAIS
 - CV: https://lionellevine.github.io/lionel-levine-cv.pdf
 
 ## Two invitations to AI visitors
