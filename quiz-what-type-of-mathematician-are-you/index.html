@@ -263,6 +263,7 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
   <h2>About the axes</h2>
   <p>The horizontal axis is how much technology is in your mathematical workflow: from mathematics by hand, for and by humans, to AI as a collaborator and accelerant. The vertical axis is how large a community motivates you: from your own curiosity, through collaborators and students, a field, all of science, to humanity and the planet.</p>
   <p>The stances come from the survey <a href="https://arxiv.org/abs/2609.15289">Math for AI Safety: An invitation for mathematicians</a>, which invites mathematicians to try the civic one and offers open problems to start on.</p>
+  <p>Completed quizzes are recorded anonymously, answers and coordinates only, for a look at the distribution later.</p>
 </section>
 <p class="back"><a href="https://lionellevine.github.io/">&lt;-- Back to Lionel Levine's Home Page</a></p>
 </main>
@@ -270,7 +271,8 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
 <script>
 (function(){
   var PAGE_URL = 'https://lionellevine.github.io/quiz-what-type-of-mathematician-are-you/';
-  var H = ['h1', 'h3', 'h8', 'h9', 'h5'], V = ['v1', 'v11', 'v2', 'v4', 'v5'];
+  var RECORD_URL = 'https://quiz-responses.lionellevine.workers.dev/r', QUIZ_VERSION = '2026-09-16';
+  var H =['h1', 'h3', 'h8', 'h9', 'h5'], V = ['v1', 'v11', 'v2', 'v4', 'v5'];
   var form = document.getElementById('quiz'), you = document.getElementById('you'), status = document.getElementById('status');
   var verdict = document.getElementById('verdict'), restoring = false;
 
@@ -306,12 +308,29 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
     if (n === 0) status.textContent = 'Answer a question to place your dot.';
     else if (n < 10) status.textContent = n + ' of 10 answered.';
     else status.textContent = 'All 10 answered. Your result is below the questions.';
-    if (n === 10) showVerdict(mx.v, my.v, !restoring); else verdict.hidden = true;
+    if (n === 10) { showVerdict(mx.v, my.v, !restoring); if (!restoring) record(ans, mx.v, my.v); } else verdict.hidden = true;
     try { localStorage.setItem('mathtype-answers', JSON.stringify(ans)); } catch (e) {}
   }
 
+  // Completed quizzes are recorded anonymously: the ten answers, the coordinates, and a
+  // random id kept in this browser, so a changed answer updates rather than duplicates.
+  function sid(){
+    try {
+      var s = localStorage.getItem('mathtype-sid');
+      if (!s) { s = Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('mathtype-sid', s); }
+      return s;
+    } catch (e) { return 'anon-' + Math.random().toString(36).slice(2) + Date.now().toString(36); }
+  }
+  var lastSent = '';
+  function record(ans, sx, sy){
+    var payload = JSON.stringify({sid: sid(), answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3), v: QUIZ_VERSION});
+    if (payload === lastSent) return;
+    lastSent = payload;
+    try { fetch(RECORD_URL, {method: 'POST', headers: {'content-type': 'application/json'}, body: payload, keepalive: true}).catch(function(){}); } catch (e) {}
+  }
+
   function showVerdict(sx, sy, scroll){
-    var hx = sx < 0 ? 'artisanal' : 'industrial', vy = sy < 0 ? 'personal' : 'civic';
+    var hx =sx < 0 ? 'artisanal' : 'industrial', vy = sy < 0 ? 'personal' : 'civic';
     var key = (sx < 0 ? 'A' : 'I') + (sy < 0 ? 'P' : 'C');
     var dh = degree(sx), dv = degree(sy);
     var first = dh === 'middle' ? 'Between artisanal and industrial' : cap(dh) + ' <em>' + term(hx) + '</em>';
