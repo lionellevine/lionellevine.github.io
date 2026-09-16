@@ -14,6 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&display=swap">
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
 <style>
 :root{
   --page:#FFFFFF; --panel:#FFFFE8; --ink:#000000; --muted:#555555; --rule:#999999; --soft:#D9D9C4; --hover:#F4F4D8;
@@ -62,6 +63,8 @@ legend{font-size:21px;line-height:1.3;margin-bottom:8px;text-wrap:balance}
 .opt:hover{background:var(--hover)}
 .opt input{margin:5px 0 0;accent-color:var(--you);flex:none}
 .opt:has(input:checked){border-color:var(--you);background:var(--you-soft)}
+.consent{margin:14px 0 0;font-size:16.5px}
+.human{margin:10px 0 0;min-height:65px}
 .opt:has(input:focus-visible){outline:2px solid var(--you);outline-offset:2px}
 .opt q{quotes:"\201C" "\201D"}
 
@@ -212,6 +215,8 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
     <p id="vblurb"></p>
     <p id="vwhere"></p>
     <p class="coords" id="vcoords"></p>
+    <label class="opt consent"><input type="checkbox" id="consent"><span>Include my position, anonymously, in the heatmap of all mathematicians' responses.</span></label>
+    <div id="human" class="human" hidden></div>
     <div class="actions">
       <button type="button" id="share">Share my result</button>
       <button type="button" class="secondary" id="startover">Start over</button>
@@ -263,7 +268,7 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
   <h2>About the axes</h2>
   <p>The horizontal axis is how much technology is in your mathematical workflow: from mathematics by hand, for and by humans, to AI as a collaborator and accelerant. The vertical axis is how large a community motivates you: from your own curiosity, through collaborators and students, a field, all of science, to humanity and the planet.</p>
   <p>The stances come from the survey <a href="https://arxiv.org/abs/2609.15289">Math for AI Safety: An invitation for mathematicians</a>, which invites mathematicians to try the civic one and offers open problems to start on.</p>
-  <p>Completed quizzes are recorded anonymously, answers and coordinates only, for a look at the distribution later.</p>
+  <p>If you tick the box under your result, your ten answers and your coordinates are recorded, with no name, address, or other identifying information, for a heatmap of where mathematicians land. A quick human check keeps bots off the map.</p>
 </section>
 <p class="back"><a href="https://lionellevine.github.io/">&lt;-- Back to Lionel Levine's Home Page</a></p>
 </main>
@@ -308,12 +313,35 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
     if (n === 0) status.textContent = 'Answer a question to place your dot.';
     else if (n < 10) status.textContent = n + ' of 10 answered.';
     else status.textContent = 'All 10 answered. Your result is below the questions.';
-    if (n === 10) { showVerdict(mx.v, my.v, !restoring); if (!restoring) record(ans, mx.v, my.v); } else verdict.hidden = true;
+    if (n === 10) { showVerdict(mx.v, my.v, !restoring); if (!restoring) trySend(); } else verdict.hidden = true;
     try { localStorage.setItem('mathtype-answers', JSON.stringify(ans)); } catch (e) {}
   }
 
-  // Completed quizzes are recorded anonymously: the ten answers, the coordinates, and a
-  // random id kept in this browser, so a changed answer updates rather than duplicates.
+  // With the visitor's consent (the checkbox in the verdict) and a passed human check
+  // (Cloudflare Turnstile), a completed quiz is recorded anonymously: the ten answers, the
+  // coordinates, and a random id kept in this browser, so a changed answer updates rather
+  // than duplicates. Each Turnstile token is single use, so the widget is reset after a send.
+  var consent = document.getElementById('consent'), human = document.getElementById('human');
+  var TS_SITEKEY = '0x4AAAAAAE5P-PN5I3y__S9f', tsWidget = null, tsToken = null;
+  function trySend(){
+    if (!consent.checked || !tsToken) return;
+    var a = answers(); if (Object.keys(a).length !== 10) return;
+    record(a, mean(H, a).v, mean(V, a).v);
+  }
+  function renderHuman(){
+    if (tsWidget !== null || !window.turnstile) return;
+    tsWidget = window.turnstile.render(human, {
+      sitekey: TS_SITEKEY, theme: 'light',
+      callback: function(token){ tsToken = token; trySend(); },
+      'expired-callback': function(){ tsToken = null; },
+      'error-callback': function(){ tsToken = null; }
+    });
+  }
+  consent.addEventListener('change', function(){
+    human.hidden = !consent.checked;
+    if (consent.checked) { if (window.turnstile) renderHuman(); else { var t = setInterval(function(){ if (window.turnstile) { clearInterval(t); renderHuman(); } }, 200); } }
+    trySend();
+  });
   function sid(){
     try {
       var s = localStorage.getItem('mathtype-sid');
@@ -323,10 +351,13 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
   }
   var lastSent = '';
   function record(ans, sx, sy){
-    var payload = JSON.stringify({sid: sid(), answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3), v: QUIZ_VERSION});
-    if (payload === lastSent) return;
-    lastSent = payload;
+    var key = JSON.stringify({answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3)});
+    if (key === lastSent || !tsToken) return;
+    lastSent = key;
+    var payload = JSON.stringify({sid: sid(), answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3), v: QUIZ_VERSION, turnstile: tsToken});
+    tsToken = null;
     try { fetch(RECORD_URL, {method: 'POST', headers: {'content-type': 'application/json'}, body: payload, keepalive: true}).catch(function(){}); } catch (e) {}
+    if (tsWidget !== null && window.turnstile) { try { window.turnstile.reset(tsWidget); } catch (e) {} }
   }
 
   function showVerdict(sx, sy, scroll){
