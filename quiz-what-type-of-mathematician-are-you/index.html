@@ -1,0 +1,376 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>What Type of Mathematician Are You?</title>
+<meta name="description" content="Ten questions place you on two axes: how much technology is in your mathematics, and how large a community motivates you.">
+<meta property="og:title" content="What Type of Mathematician Are You?">
+<meta property="og:description" content="Ten questions place you on two axes: how much technology is in your mathematics, and how large a community motivates you.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lionellevine.github.io/quiz-what-type-of-mathematician-are-you/">
+<meta property="og:image" content="https://lionellevine.github.io/quiz-what-type-of-mathematician-are-you/preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@400;600&display=swap">
+<style>
+:root{
+  --page:#FFFFFF; --panel:#FFFFE8; --ink:#000000; --muted:#555555; --rule:#999999; --soft:#D9D9C4; --hover:#F4F4D8;
+  --link:#0000EE; --visited:#551A8B; --you:#1F7A3A; --you-soft:rgba(31,122,58,.12);
+  --serif:"STIX Two Text","Times New Roman",Times,serif;
+  --sans:"Source Sans 3","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--page)}
+body{margin:0;background:var(--page);color:var(--ink);font-family:var(--serif);font-size:18px;line-height:1.45;padding-inline:16px;padding-block:24px 48px}
+a{color:var(--link)}
+a:visited{color:var(--visited)}
+main{max-width:1000px;margin:0 auto;background:var(--panel);border:1px solid gray;padding:22px 28px 36px}
+header{margin:0 0 16px}
+h1{font-weight:400;font-size:clamp(32px,5vw,44px);line-height:1.1;margin:0 0 8px}
+.dek{margin:0;font-size:19px}
+.dek b{font-weight:700}
+.source{margin:8px 0 0;font-size:15.5px;color:var(--muted)}
+hr{border:0;border-top:1px solid var(--rule);margin:18px 0 24px}
+
+.layout{display:grid;grid-template-columns:minmax(0,60ch) 330px;gap:44px;align-items:start}
+.side{position:sticky;top:12px}
+.plot{width:100%;display:block;height:auto;aspect-ratio:1000/600}
+.plot text{font-family:var(--sans)}
+.plot .axislabel{font-weight:600;font-size:34px;fill:var(--ink)}
+.plot .axis{stroke:var(--muted);stroke-width:2}
+.plot .arrow{fill:var(--muted)}
+.plot .grid{stroke:var(--soft);stroke-width:1.5;stroke-dasharray:4 7}
+.you{transition:transform .55s cubic-bezier(.2,.7,.2,1);will-change:transform}
+.you .ring{fill:var(--you-soft);stroke:var(--you);stroke-width:2}
+.you .dot{fill:var(--you)}
+.you .lbl{font-family:var(--serif);font-style:italic;font-size:34px;fill:var(--you);paint-order:stroke;stroke:var(--panel);stroke-width:7;stroke-linejoin:round}
+.you.idle{opacity:.35}
+.status{font-family:var(--sans);font-size:14.5px;color:var(--muted);margin:6px 0 0;font-variant-numeric:tabular-nums;text-align:center}
+@media (prefers-reduced-motion: reduce){.you{transition:none}}
+
+.quiz{display:grid;gap:34px;min-width:0}
+.axisintro{margin:0;padding-top:10px;border-top:1px solid var(--rule)}
+.axisintro > span{display:block;font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+.axisintro b{font-weight:400;font-size:22px;display:block}
+.axisintro small{display:block;font-size:16px;color:var(--muted);margin-top:2px}
+fieldset{border:0;padding:0;margin:0;display:grid;gap:7px}
+legend{font-size:21px;line-height:1.3;margin-bottom:8px;text-wrap:balance}
+.opt{display:flex;gap:12px;align-items:flex-start;padding:9px 12px;border:1px solid var(--soft);cursor:pointer;background:var(--panel);font-size:17.5px}
+.opt:hover{background:var(--hover)}
+.opt input{margin:5px 0 0;accent-color:var(--you);flex:none}
+.opt:has(input:checked){border-color:var(--you);background:var(--you-soft)}
+.opt:has(input:focus-visible){outline:2px solid var(--you);outline-offset:2px}
+.opt q{quotes:"\201C" "\201D"}
+
+.verdict{margin:40px 0 0;padding-top:24px;border-top:1px solid var(--rule)}
+.verdict .eyebrow{font-family:var(--sans);font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0 0 8px}
+.verdict h2{font-weight:400;font-size:clamp(28px,4.5vw,40px);line-height:1.12;margin:0 0 14px;text-wrap:balance}
+.verdict h2 em{color:var(--you)}
+.verdict p{margin:0 0 12px}
+.coords{font-variant-numeric:tabular-nums}
+.actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:18px}
+button,.btn{font-family:var(--sans);font-weight:600;font-size:15.5px;padding:9px 15px;border:1.5px solid var(--ink);background:var(--ink);color:var(--panel);cursor:pointer;text-decoration:none;display:inline-block}
+a.btn:visited{color:var(--panel)}
+button.secondary,.btn.secondary,a.btn.secondary:visited{background:transparent;color:var(--ink)}
+button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-offset:2px}
+.toast{font-family:var(--sans);font-size:14.5px;color:var(--muted);min-height:1.5em}
+.legend{font-size:15.5px;text-align:center;margin:8px 0 0}
+.defs{font-size:14.5px;color:var(--muted);line-height:1.38;margin-top:10px;border-top:1px solid var(--rule);padding-top:10px}
+.defs dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 10px}
+.defs dt{font-weight:700;color:var(--ink)}
+.defs dd{margin:0}
+.social{font-family:var(--sans);font-size:15px;color:var(--muted);margin:12px 0 0}
+.about{font-size:16.5px;line-height:1.45}
+.about h2{font-weight:400;font-size:24px;margin:0 0 10px}
+.about p{margin:0 0 12px}
+.about dl{margin:0 0 14px;display:grid;grid-template-columns:auto 1fr;gap:5px 12px}
+.about dt{font-weight:700}
+.about dd{margin:0}
+.back{font-family:var(--sans);font-size:15.5px;margin:28px 0 0}
+.term{position:relative;text-decoration:underline dotted;text-decoration-thickness:1px;text-underline-offset:3px;cursor:help;outline:none}
+.term::after{content:attr(data-def);position:absolute;left:0;top:calc(100% + 6px);z-index:5;width:min(300px,80vw);padding:9px 12px;border:1px solid var(--rule);background:var(--panel);color:var(--ink);box-shadow:0 4px 16px rgba(0,0,0,.15);font-family:var(--serif);font-size:15px;font-weight:400;font-style:normal;line-height:1.35;letter-spacing:0;text-transform:none;text-decoration:none;white-space:normal;display:none}
+.term:hover::after,.term:focus::after{display:block}
+.term:focus-visible{box-shadow:0 0 0 2px var(--you-soft)}
+@media (max-width:900px){
+  main{padding:16px 16px 28px}
+  .layout{grid-template-columns:1fr;gap:18px}
+  .side{position:static;display:contents}
+  .stick{position:sticky;top:0;background:var(--panel);padding-block:4px;z-index:2;border-bottom:1px solid var(--rule);order:-1}
+  .legend{order:1}
+  .defs{order:2;max-width:62ch}
+  .plot{max-width:300px;margin:0 auto}
+  .status{margin-top:2px}
+}
+@media (max-width:640px){
+  body{font-size:17px;padding-inline:10px;padding-block:12px 36px}
+  .plot{max-width:230px}
+}
+</style>
+</head>
+<body>
+<main>
+<header>
+  <h1>What type of mathematician are you?</h1>
+  <p class="source">Quiz made by Claude Fable 5.1 to accompany <a href="https://arxiv.org/abs/2609.15289">Math for AI Safety: An invitation for mathematicians</a>, by <a href="https://lionellevine.github.io/">Lionel Levine</a>.</p>
+</header>
+<hr>
+<div class="layout">
+<form class="quiz" id="quiz" autocomplete="off">
+  <p class="axisintro"><span>Axis 1: <span class="term" tabindex="0" data-def="Mathematics by and for humans. Each theorem, definition, and proof is bespoke, valued for its beauty and for the understanding it produces.">Artisanal</span> to <span class="term" tabindex="0" data-def="AI as a collaborator and an accelerant. AI systems take part in proof and discovery, and the output often includes a machine-checkable formal proof.">industrial</span></span></p>
+
+  <fieldset>
+    <legend>It is 9 a.m. You have a lemma you believe but cannot prove. Where does it go?</legend>
+    <label class="opt"><input type="radio" name="h1" value="-2" id="h1a"><span>On the blackboard. Door closed, phone off.</span></label>
+    <label class="opt"><input type="radio" name="h1" value="-1" id="h1b"><span>Into the arXiv search box. Surely someone has done this.</span></label>
+    <label class="opt"><input type="radio" name="h1" value="1" id="h1c"><span>Into a chat with Fable, then onto a napkin.</span></label>
+    <label class="opt"><input type="radio" name="h1" value="2" id="h1d"><span>Into a terminal, where a dozen agents divide up the cases.</span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Which sentence could appear in your next acknowledgments?</legend>
+    <label class="opt"><input type="radio" name="h3" value="-2" id="h3a"><span><q>No AI was used in this work. The chalk was Hagoromo.</q></span></label>
+    <label class="opt"><input type="radio" name="h3" value="-1" id="h3b"><span><q>We thank Claude Fable 5 for catching an error in Section 3.</q></span></label>
+    <label class="opt"><input type="radio" name="h3" value="1" id="h3c"><span><q>Lemma 4 is due to GPT 6 Astra, who declined to be a coauthor.</q></span></label>
+    <label class="opt"><input type="radio" name="h3" value="2" id="h3d"><span><q>The proofs were generated by a swarm of agents and verified in Lean. The typos are ours.</q></span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>A student asks whether they may use AI on the problem set. You say:</legend>
+    <label class="opt"><input type="radio" name="h8" value="-2" id="h8a"><span><q>No. Suffering is on the syllabus.</q></span></label>
+    <label class="opt"><input type="radio" name="h8" value="-1" id="h8b"><span><q>For the LaTeX, yes. For the proofs, that's bringing a forklift to the gym.</q></span></label>
+    <label class="opt"><input type="radio" name="h8" value="1" id="h8c"><span><q>Yes, and hand in the transcript.</q></span></label>
+    <label class="opt"><input type="radio" name="h8" value="2" id="h8d"><span><q>An agent wrote the problem set. It seems only fair.</q></span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>A journal sends you a 100-page paper to referee. The acknowledgments thank an AI for everything after the introduction. You:</legend>
+    <label class="opt"><input type="radio" name="h9" value="-2" id="h9a"><span>Decline. I referee mathematics written by people.</span></label>
+    <label class="opt"><input type="radio" name="h9" value="-1" id="h9b"><span>Read it the way I read everything now: without the benefit of the doubt.</span></label>
+    <label class="opt"><input type="radio" name="h9" value="1" id="h9c"><span>Ask for the Lean file, then read only the definitions.</span></label>
+    <label class="opt"><input type="radio" name="h9" value="2" id="h9d"><span>Hand it to my own agents and referee their report.</span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>An AI proves the conjecture you have thought about for years. Your first feeling?</legend>
+    <label class="opt"><input type="radio" name="h5" value="-2" id="h5a"><span>Robbed. I go for a very long walk.</span></label>
+    <label class="opt"><input type="radio" name="h5" value="0" id="h5b"><span>Wistful, then curious. Is it a proof from The Book?</span></label>
+    <label class="opt"><input type="radio" name="h5" value="2" id="h5c"><span>Excited. I have ten more queued.</span></label>
+  </fieldset>
+
+  <p class="axisintro"><span>Axis 2: <span class="term" tabindex="0" data-def="Motivated by your own curiosity: the desire to know the truth, and to discover or create beauty.">Personal</span> to <span class="term" tabindex="0" data-def="Motivated by communities beyond mathematics, up to humanity and the planet. In particular, helping humanity steer and adapt to the disruptions caused by our own technologies.">civic</span></span></p>
+
+  <fieldset>
+    <legend>Which line moves you most?</legend>
+    <label class="opt"><input type="radio" name="v1" value="-2" id="v1a"><span>Hardy: <q>I have never done anything useful.</q> (Said with pride.)</span></label>
+    <label class="opt"><input type="radio" name="v1" value="-1" id="v1b"><span>Hilbert: <q>We must know. We will know.</q></span></label>
+    <label class="opt"><input type="radio" name="v1" value="0" id="v1c"><span>Thurston: mathematics is about human understanding.</span></label>
+    <label class="opt"><input type="radio" name="v1" value="1" id="v1d"><span>Wigner: the unreasonable effectiveness of mathematics.</span></label>
+    <label class="opt"><input type="radio" name="v1" value="2" id="v1e"><span>Sagan: <q>We are a way for the cosmos to know itself.</q></span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Your seatmate on the plane asks what you do. You say:</legend>
+    <label class="opt"><input type="radio" name="v11" value="-2" id="v11a"><span><q>Math.</q> Then I open my laptop.</span></label>
+    <label class="opt"><input type="radio" name="v11" value="-1" id="v11b"><span><q>Pure math. Nothing you'd ever use, and that's the point.</q></span></label>
+    <label class="opt"><input type="radio" name="v11" value="0" id="v11c"><span><q>I teach at the university.</q> Then we talk about their kid.</span></label>
+    <label class="opt"><input type="radio" name="v11" value="1" id="v11d"><span><q>Math, the kind that ends up in your phone.</q></span></label>
+    <label class="opt"><input type="radio" name="v11" value="2" id="v11e"><span><q>I'm trying to make sure the machines stay on our side.</q></span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>A proof works out at 2 a.m. Who do you tell?</legend>
+    <label class="opt"><input type="radio" name="v2" value="-2" id="v2a"><span>Nobody yet. In the morning it will be wrong.</span></label>
+    <label class="opt"><input type="radio" name="v2" value="-1" id="v2b"><span>My coauthor. They're awake. They're always awake.</span></label>
+    <label class="opt"><input type="radio" name="v2" value="0" id="v2c"><span>The group chat. Someone will have a counterexample by lunch.</span></label>
+    <label class="opt"><input type="radio" name="v2" value="1" id="v2d"><span>The physicist down the hall who has been waiting for this.</span></label>
+    <label class="opt"><input type="radio" name="v2" value="2" id="v2e"><span>Everyone. This one could matter beyond mathematics.</span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>A friend asks: work on the problem I love, or the one that matters more for the world? You say:</legend>
+    <label class="opt"><input type="radio" name="v4" value="-2" id="v4a"><span>The one you love. Nothing else gets you through year three.</span></label>
+    <label class="opt"><input type="radio" name="v4" value="0" id="v4c"><span>Whichever one everyone else is neglecting.</span></label>
+    <label class="opt"><input type="radio" name="v4" value="1" id="v4d"><span>The one that matters. Most problems grow on you.</span></label>
+    <label class="opt"><input type="radio" name="v4" value="2" id="v4e"><span>The one that matters. The century is short.</span></label>
+  </fieldset>
+
+  <fieldset>
+    <legend>Which line would you want in your obituary?</legend>
+    <label class="opt"><input type="radio" name="v5" value="-2" id="v5a"><span><q>Proved a beautiful theorem. Left the rest as an exercise.</q></span></label>
+    <label class="opt"><input type="radio" name="v5" value="-1" id="v5b"><span><q>Beloved teacher, friend, and collaborator. Held office hours to the end.</q></span></label>
+    <label class="opt"><input type="radio" name="v5" value="0" id="v5c"><span><q>Shaped a field. Has a lemma named after them.</q></span></label>
+    <label class="opt"><input type="radio" name="v5" value="1" id="v5d"><span><q>Brought mathematics to problems that needed it.</q></span></label>
+    <label class="opt"><input type="radio" name="v5" value="2" id="v5e"><span><q>Helped humanity through a dangerous century.</q></span></label>
+  </fieldset>
+
+  <section class="verdict" id="verdict" hidden>
+    <p class="eyebrow">Your type</p>
+    <h2 id="vtitle"></h2>
+    <p id="vblurb"></p>
+    <p id="vwhere"></p>
+    <p class="coords" id="vcoords"></p>
+    <div class="actions">
+      <button type="button" id="share">Share my result</button>
+      <button type="button" class="secondary" id="startover">Start over</button>
+      <span class="toast" id="toast" aria-live="polite"></span>
+    </div>
+    <p class="social">Post on <a id="s-x" href="#" target="_blank" rel="noopener noreferrer">X</a> · <a id="s-bsky" href="#" target="_blank" rel="noopener noreferrer">Bluesky</a> · <a id="s-masto" href="#" target="_blank" rel="noopener noreferrer">Mathstodon</a> · <a id="s-li" href="#" target="_blank" rel="noopener noreferrer">LinkedIn</a> · <a id="s-mail" href="#">email</a></p>
+  </section>
+
+</form>
+
+<aside class="side">
+  <div class="stick">
+  <svg class="plot" viewBox="0 0 1000 600" role="img" aria-label="Two axes: artisanal to industrial horizontally, personal to civic vertically. Your position is marked.">
+    <line class="grid" x1="256" y1="60" x2="256" y2="540"/>
+    <line class="grid" x1="744" y1="60" x2="744" y2="540"/>
+    <line class="grid" x1="60" y1="180" x2="940" y2="180"/>
+    <line class="grid" x1="60" y1="420" x2="940" y2="420"/>
+    <line class="axis" x1="13" y1="300" x2="987" y2="300"/>
+    <line class="axis" x1="500" y1="570" x2="500" y2="32"/>
+    <polygon class="arrow" points="987,300 976,295 976,305"/>
+    <polygon class="arrow" points="13,300 24,295 24,305"/>
+    <polygon class="arrow" points="500,32 495,43 505,43"/>
+    <polygon class="arrow" points="500,570 495,559 505,559"/>
+    <text class="axislabel" x="25" y="282">Artisanal</text>
+    <text class="axislabel" x="975" y="282" text-anchor="end">Industrial</text>
+    <text class="axislabel" x="500" y="24" text-anchor="middle">Civic</text>
+    <text class="axislabel" x="500" y="596" text-anchor="middle">Personal</text>
+    <g id="you" class="you idle" style="transform:translate(500px,300px)">
+      <circle class="ring" r="30"/>
+      <circle class="dot" r="9"/>
+      <text class="lbl" x="38" y="12">you</text>
+    </g>
+  </svg>
+  <p class="status" id="status">Answer a question to place your dot.</p>
+  </div>
+  <p class="legend">No quadrant is better than another.</p>
+  <div class="defs">
+  <dl>
+    <dt>Artisanal</dt><dd>Mathematics by and for humans. Each theorem, definition, and proof is bespoke, valued for its beauty and for the understanding it produces.</dd>
+    <dt>Industrial</dt><dd>AI as a collaborator and an accelerant. AI systems take part in proof and discovery, and the output often includes a machine-checkable formal proof.</dd>
+    <dt>Personal</dt><dd>Motivated by your own curiosity: the desire to know the truth, and to discover or create beauty.</dd>
+    <dt>Civic</dt><dd>Motivated by communities beyond mathematics, up to humanity and the planet. In particular, helping humanity steer and adapt to the disruptions caused by our own technologies.</dd>
+  </dl>
+  </div>
+</aside>
+</div>
+<hr>
+<section class="about">
+  <h2>About the axes</h2>
+  <p>The horizontal axis is how much technology is in your mathematical workflow: from mathematics by hand, for and by humans, to AI as a collaborator and accelerant. The vertical axis is how large a community motivates you: from your own curiosity, through collaborators and students, a field, all of science, to humanity and the planet.</p>
+  <p>The stances come from the survey <a href="https://arxiv.org/abs/2609.15289">Math for AI Safety: An invitation for mathematicians</a>, which invites mathematicians to try the civic one and offers open problems to start on.</p>
+</section>
+<p class="back"><a href="https://lionellevine.github.io/">&lt;-- Back to Lionel Levine's Home Page</a></p>
+</main>
+
+<script>
+(function(){
+  var PAGE_URL = 'https://lionellevine.github.io/quiz-what-type-of-mathematician-are-you/';
+  var H = ['h1', 'h3', 'h8', 'h9', 'h5'], V = ['v1', 'v11', 'v2', 'v4', 'v5'];
+  var form = document.getElementById('quiz'), you = document.getElementById('you'), status = document.getElementById('status');
+  var verdict = document.getElementById('verdict'), restoring = false;
+
+  function answers(){
+    var out = {};
+    H.concat(V).forEach(function(k){ var el = form.querySelector('input[name="'+k+'"]:checked'); if (el) out[k] = +el.value; });
+    return out;
+  }
+  function mean(keys, ans){
+    var s = 0, n = 0; keys.forEach(function(k){ if (k in ans) { s += ans[k]; n++; } });
+    return {v: s/keys.length, n: n};   // divide by all five, so the dot grows into its position rather than jumping
+  }
+  function place(sx, sy){ return {x: 500 + sx*220, y: 300 - sy*120}; }
+
+  var BLURB = {
+    AP: 'Mathematics by hand, for the joy of understanding it yourself. This is the stance most of mathematics came from, and nothing in <a href="https://arxiv.org/abs/2609.15289">the survey</a> asks you to give it up.',
+    AC: 'You keep the craft human and want it to count for something beyond the profession. The open problems in <a href="https://arxiv.org/abs/2609.15289">the survey</a> were written for this combination: small enough to start by hand, close enough to the safety question to matter.',
+    IP: 'You have taken on AI as a collaborator and pointed it at your own questions. <a href="https://arxiv.org/abs/2609.15289">The survey</a> was written the same way, and readers like you are the ones who will find out what these tools can really do.',
+    IC: 'Every tool available, aimed at the world. This is the combination <a href="https://arxiv.org/abs/2609.15289">the survey</a> most directly invites: the same craft, plus every tool, turned toward helping humanity steer its own technology.'
+  };
+  function degree(v){ var a = Math.abs(v); return a < 0.5 ? 'middle' : a < 1.25 ? 'leaning' : 'firmly'; }
+  function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+  var DEF = {"artisanal": "Mathematics by and for humans. Each theorem, definition, and proof is bespoke, valued for its beauty and for the understanding it produces.", "industrial": "AI as a collaborator and an accelerant. AI systems take part in proof and discovery, and the output often includes a machine-checkable formal proof.", "personal": "Motivated by your own curiosity: the desire to know the truth, and to discover or create beauty.", "civic": "Motivated by communities beyond mathematics, up to humanity and the planet. In particular, helping humanity steer and adapt to the disruptions caused by our own technologies."};
+  function term(w){ return '<span class="term" tabindex="0" data-def="' + DEF[w].replace(/"/g, '&quot;') + '">' + w + '</span>'; }
+
+  function update(){
+    var ans = answers(), mx = mean(H, ans), my = mean(V, ans), n = mx.n + my.n;
+    var p = place(mx.v, my.v);
+    you.style.transform = 'translate(' + p.x.toFixed(1) + 'px,' + p.y.toFixed(1) + 'px)';
+    var lbl = you.querySelector('.lbl'), flip = p.x > 800;
+    lbl.setAttribute('x', flip ? -38 : 38); lbl.setAttribute('text-anchor', flip ? 'end' : 'start');
+    you.classList.toggle('idle', n === 0);
+    if (n === 0) status.textContent = 'Answer a question to place your dot.';
+    else if (n < 10) status.textContent = n + ' of 10 answered.';
+    else status.textContent = 'All 10 answered. Your result is below the questions.';
+    if (n === 10) showVerdict(mx.v, my.v, !restoring); else verdict.hidden = true;
+    try { localStorage.setItem('mathtype-answers', JSON.stringify(ans)); } catch (e) {}
+  }
+
+  function showVerdict(sx, sy, scroll){
+    var hx = sx < 0 ? 'artisanal' : 'industrial', vy = sy < 0 ? 'personal' : 'civic';
+    var key = (sx < 0 ? 'A' : 'I') + (sy < 0 ? 'P' : 'C');
+    var dh = degree(sx), dv = degree(sy);
+    var first = dh === 'middle' ? 'Between artisanal and industrial' : cap(dh) + ' <em>' + term(hx) + '</em>';
+    var second = dv === 'middle' ? 'between personal and civic' : dv + ' <em>' + term(vy) + '</em>';
+    document.getElementById('vtitle').innerHTML = first + ', ' + second + '.';
+    document.getElementById('vblurb').innerHTML = BLURB[key];
+    var col = sx < -0.67 ? 'left' : sx > 0.67 ? 'right' : 'middle column';
+    var row = sy > 0.67 ? 'top' : sy < -0.67 ? 'bottom' : 'middle row';
+    var where = (row === 'middle row' && col === 'middle column') ? 'the center of the map'
+              : (row === 'middle row') ? 'the ' + col + ' of the map, halfway up'
+              : (col === 'middle column') ? 'the ' + row + ' of the map, near the vertical axis'
+              : 'the ' + row + ' ' + col + ' of the map';
+    document.getElementById('vwhere').textContent = 'You land in ' + where + '.';
+    document.getElementById('vcoords').textContent = 'Coordinates (' + sx.toFixed(1) + ', ' + sy.toFixed(1) + ') on a scale from \u22122 to 2 on each axis.';
+    var typeText = (dh === 'middle' ? 'between artisanal and industrial' : dh + ' ' + hx) + ', ' + (dv === 'middle' ? 'between personal and civic' : dv + ' ' + vy);
+    var text = 'I come out ' + typeText + ' (' + sx.toFixed(1) + ', ' + sy.toFixed(1) + ') on the map of mathematicians and AI. What type of mathematician are you? ' + PAGE_URL;
+    var enc = encodeURIComponent(text);
+    document.getElementById('s-x').href = 'https://twitter.com/intent/tweet?text=' + enc;
+    document.getElementById('s-bsky').href = 'https://bsky.app/intent/compose?text=' + enc;
+    document.getElementById('s-masto').href = 'https://mathstodon.xyz/share?text=' + enc;
+    document.getElementById('s-li').href = 'https://www.linkedin.com/sharing/share-offsite/?url=' + encodeURIComponent(PAGE_URL);
+    document.getElementById('s-mail').href = 'mailto:?subject=' + encodeURIComponent('What type of mathematician are you?') + '&body=' + enc;
+    document.getElementById('share').onclick = function(){
+      var toast = document.getElementById('toast');
+      function done(msg){ toast.textContent = msg; setTimeout(function(){ toast.textContent = ''; }, 3000); }
+      function copy(){
+        if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function(){ done('Copied. Paste it anywhere.'); }, function(){ done('Could not copy on this browser.'); });
+        else done('Could not copy on this browser.');
+      }
+      if (navigator.share) navigator.share({text: text}).catch(function(e){ if (e && e.name !== 'AbortError') copy(); });
+      else copy();
+    };
+    var wasHidden = verdict.hidden;
+    verdict.hidden = false;
+    if (wasHidden && scroll) verdict.scrollIntoView({behavior: 'smooth', block: 'start'});
+  }
+
+  form.addEventListener('change', update);
+  document.getElementById('startover').addEventListener('click', function(){
+    HTMLFormElement.prototype.reset.call(form); try { localStorage.removeItem('mathtype-answers'); } catch (e) {}
+    update(); window.scrollTo({top: 0, behavior: 'smooth'});
+  });
+
+  function restore(saved){
+    if (!saved) return;
+    Object.keys(saved).forEach(function(k){
+      var el = form.querySelector('input[name="' + k + '"][value="' + saved[k] + '"]'); if (el) el.checked = true;
+    });
+  }
+  function start(data){
+    var saved = data && data.answers;
+    if (!saved) { try { saved = JSON.parse(localStorage.getItem('mathtype-answers') || 'null'); } catch (e) { saved = null; } }
+    restoring = true; restore(saved); update(); restoring = false;
+  }
+  if (window.claude && window.claude.hot) {
+    if (window.claude.hot.snapshot) window.claude.hot.snapshot(function(){ return {answers: answers()}; });
+    if (window.claude.hot.ready) window.claude.hot.ready(start); else start(window.claude.hot.data || {});
+  } else start({});
+})();
+</script>
+</body>
+</html>
