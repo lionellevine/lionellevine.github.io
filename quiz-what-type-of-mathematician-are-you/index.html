@@ -277,6 +277,17 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
 (function(){
   var PAGE_URL = 'https://lionellevine.github.io/quiz-what-type-of-mathematician-are-you/';
   var RECORD_URL = 'https://quiz-responses.lionellevine.workers.dev/r', QUIZ_VERSION = '2026-09-16';
+  // Where the visitor came from: a ?src= tag on the link if there is one, plus the referring
+  // site's hostname. Remembered for the tab, since the referrer is only present on arrival.
+  var REF = (function(){
+    try {
+      var u = new URL(location.href), s = u.searchParams.get('src') || u.searchParams.get('utm_source') || '';
+      var h = document.referrer ? new URL(document.referrer).hostname : '';
+      var r = [s ? 'src:' + s : '', h].filter(Boolean).join(' ');
+      if (r) sessionStorage.setItem('mathtype-ref', r);
+      return r || sessionStorage.getItem('mathtype-ref') || '';
+    } catch (e) { return ''; }
+  })();
   var H =['h1', 'h3', 'h8', 'h9', 'h5'], V = ['v1', 'v11', 'v2', 'v4', 'v5'];
   var form = document.getElementById('quiz'), you = document.getElementById('you'), status = document.getElementById('status');
   var verdict = document.getElementById('verdict'), restoring = false;
@@ -354,7 +365,7 @@ button:focus-visible,.btn:focus-visible{outline:2px solid var(--you);outline-off
     var key = JSON.stringify({answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3)});
     if (key === lastSent || !tsToken) return;
     lastSent = key;
-    var payload = JSON.stringify({sid: sid(), answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3), v: QUIZ_VERSION, turnstile: tsToken});
+    var payload = JSON.stringify({sid: sid(), answers: ans, x: +sx.toFixed(3), y: +sy.toFixed(3), v: QUIZ_VERSION, turnstile: tsToken, ref: REF.slice(0, 120)});
     tsToken = null;
     try { fetch(RECORD_URL, {method: 'POST', headers: {'content-type': 'application/json'}, body: payload, keepalive: true}).catch(function(){}); } catch (e) {}
     if (tsWidget !== null && window.turnstile) { try { window.turnstile.reset(tsWidget); } catch (e) {} }
